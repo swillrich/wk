@@ -8,7 +8,7 @@ import de.wk.holiday.Month;
 public class Ostersonntag extends Holiday {
 
 	public Ostersonntag(int year) {
-		super(Ostersonntag.class.getSimpleName(), new FixHoliday(null, year, Month.January, 1));
+		super(new FixHoliday(null, year, Month.January, 1));
 	}
 
 	@Override

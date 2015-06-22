@@ -1,6 +1,6 @@
 package de.wk;
 
-import de.wk.holiday.WKYear;
+import de.wk.holiday.CalendarYear;
 
 /**
  * Hello world!
@@ -10,6 +10,6 @@ public class App
 {
     public static void main( String[] args )
     {
-        new WKYear(2015);
+        new CalendarYear(2015);
     }
 }

@@ -14,5 +14,4 @@ public class FixHoliday extends Holiday {
 	public DateTime dependsOn(Holiday day) {
 		return null;
 	}
-
 }
