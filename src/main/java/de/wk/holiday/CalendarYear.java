@@ -17,7 +17,7 @@ public class CalendarYear {
 		for (int i = 0; i < Month.values().length; i++) {
 			formatBuilder.append("%-10s");
 		}
-		String format = String.format(formatBuilder.toString(), Month.values());
+		String format = String.format(formatBuilder.toString(), (Object[])Month.values());
 
 		String underline = "";
 		for (int i = 0; i < format.length(); i++) {
@@ -35,7 +35,7 @@ public class CalendarYear {
 					days[currentMonthIndex] = "-";
 				}
 			}
-			System.out.println(String.format(formatBuilder.toString(), days));
+			System.out.println(String.format(formatBuilder.toString(), (Object[])days));
 		}
 	}
 }

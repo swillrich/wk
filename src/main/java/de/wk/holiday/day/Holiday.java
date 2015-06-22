@@ -6,6 +6,7 @@ import org.joda.time.format.DateTimeFormatter;
 
 import de.wk.holiday.Month;
 
+@SuppressWarnings("rawtypes")
 public abstract class Holiday<T extends Holiday> implements
 		Comparable<Holiday<?>> {
 	private DateTime date;

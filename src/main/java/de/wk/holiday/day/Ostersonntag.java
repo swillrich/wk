@@ -5,8 +5,10 @@ import org.joda.time.DateTimeFieldType;
 
 import de.wk.holiday.Month;
 
+@SuppressWarnings("rawtypes")
 public class Ostersonntag extends Holiday {
 
+	@SuppressWarnings("unchecked")
 	public Ostersonntag(int year) {
 		super(new FixHoliday(null, year, Month.January, 1));
 	}
