@@ -32,7 +32,7 @@ public abstract class Holiday<T extends Holiday> {
 
 	@Override
 	public String toString() {
-		DateTimeFormatter fmt = DateTimeFormat.forPattern("dd, MMMM, yyyy");
+		DateTimeFormatter fmt = DateTimeFormat.forPattern("dd. MMMM yyyy");
 		return name + ": " + fmt.print(date);
 	}
 }

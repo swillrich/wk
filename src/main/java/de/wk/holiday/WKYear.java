@@ -11,14 +11,13 @@ public class WKYear {
 
 	public WKYear(int year) {
 		computeHolidays(year);
-		printYear();
 	}
 
 	private void computeHolidays(int year) {
 		List<Holiday<?>> days = new ArrayList<Holiday<?>>();
 		days.add(new FixHoliday("Heiligabend", year, Month.December, 24));
 		days.add(new Ostersonntag(year));
-		
+
 		for (Holiday h : days) {
 			System.out.println(h);
 		}
