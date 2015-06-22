@@ -5,18 +5,23 @@ import java.util.List;
 
 import de.wk.holiday.day.FixHoliday;
 import de.wk.holiday.day.Holiday;
+import de.wk.holiday.day.Ostersonntag;
 
 public class WKYear {
 
-	public WKYear() {
-		computeHolidays();
+	public WKYear(int year) {
+		computeHolidays(year);
 		printYear();
 	}
 
-	private void computeHolidays() {
-		int year = 2015;
+	private void computeHolidays(int year) {
 		List<Holiday<?>> days = new ArrayList<Holiday<?>>();
 		days.add(new FixHoliday("Heiligabend", year, Month.December, 24));
+		days.add(new Ostersonntag(year));
+		
+		for (Holiday h : days) {
+			System.out.println(h);
+		}
 	}
 
 	public void printYear() {

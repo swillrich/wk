@@ -1,6 +1,8 @@
 package de.wk.holiday.day;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import de.wk.holiday.Month;
 
@@ -27,4 +29,10 @@ public abstract class Holiday<T extends Holiday> {
 	}
 
 	public abstract DateTime dependsOn(T day);
+
+	@Override
+	public String toString() {
+		DateTimeFormatter fmt = DateTimeFormat.forPattern("dd, MMMM, yyyy");
+		return name + ": " + fmt.print(date);
+	}
 }
