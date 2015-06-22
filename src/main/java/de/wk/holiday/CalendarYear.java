@@ -1,15 +1,26 @@
 package de.wk.holiday;
 
+import de.wk.holiday.day.Holiday;
 import de.wk.holiday.day.Holidays;
 
 public class CalendarYear {
 
-	Holidays holidays;
+	private Holidays holidays;
 	
 	public CalendarYear(int year) {
-		holidays = new Holidays(year);
-		String string = holidays.toString();
-		System.out.println(string);
+		this.holidays = new Holidays(year);
+	}
+	
+	public void getHolidayByMonth(Month month){
+		for(Holiday<?> h : this.holidays){
+			if(h.getDate().getMonthOfYear() == Month.numberOfMonth(month)){
+				System.out.println(h);
+			}
+		}
+	}
+	
+	public Holidays getAllHolidays(){
+		return this.holidays;
 	}
 
 	public void printYear() {
