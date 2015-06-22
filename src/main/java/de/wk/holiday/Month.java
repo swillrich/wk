@@ -9,8 +9,10 @@ public enum Month {
 	private int days;
 
 	Month(int days) {
+		int currentYear = new DateTime().getYear();
 		if (name().equalsIgnoreCase("february")
-				&& new DateTime().getYear() % 400 == 0) {
+				&& (currentYear%4 == 0 && (currentYear%100 != 0 ||
+				                           currentYear%400 == 0))) {
 			days += 1;
 		}
 		this.days = days;
