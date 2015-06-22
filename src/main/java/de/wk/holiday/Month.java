@@ -11,8 +11,7 @@ public enum Month {
 	Month(int days) {
 		int currentYear = new DateTime().getYear();
 		if (name().equalsIgnoreCase("february")
-				&& (currentYear%4 == 0 && (currentYear%100 != 0 ||
-				                           currentYear%400 == 0))) {
+				&& (currentYear % 4 == 0 && (currentYear % 100 != 0 || currentYear % 400 == 0))) {
 			days += 1;
 		}
 		this.days = days;
@@ -20,6 +19,15 @@ public enum Month {
 
 	public int getDays() {
 		return days;
+	}
+
+	public static int numberOfMonth(Month month) {
+		for (int i = 0; i < values().length; i++) {
+			if (values()[i] == month) {
+				return i + 1;
+			}
+		}
+		return -1;
 	}
 
 }

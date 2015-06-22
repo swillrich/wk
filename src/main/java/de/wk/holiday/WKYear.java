@@ -1,9 +1,22 @@
 package de.wk.holiday;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import de.wk.holiday.day.FixHoliday;
+import de.wk.holiday.day.Holiday;
+
 public class WKYear {
 
 	public WKYear() {
+		computeHolidays();
 		printYear();
+	}
+
+	private void computeHolidays() {
+		int year = 2015;
+		List<Holiday<?>> days = new ArrayList<Holiday<?>>();
+		days.add(new FixHoliday("Heiligabend", year, Month.December, 24));
 	}
 
 	public void printYear() {
