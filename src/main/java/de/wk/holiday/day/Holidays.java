@@ -27,6 +27,7 @@ public class Holidays extends ArrayList<Holiday<?>> {
 		add(new ChristiHimmelfahrt("Christi Himmelfahrt", ostersonntag));
 		add(new Pfingstmontag(ostersonntag));
 		add(new FixHoliday("Tag der Deutschen Einheit", this.year, Month.October, 3));
+		add(new BussUndBettag(this.year));
 
 		Collections.sort(this);
 	}
