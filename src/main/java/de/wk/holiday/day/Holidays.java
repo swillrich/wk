@@ -7,6 +7,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.format.DateTimeFormat;
 
+import de.wk.UserHoliday;
 import de.wk.holiday.Month;
 
 @SuppressWarnings("serial")
@@ -51,21 +52,18 @@ public class Holidays extends ArrayList<Holiday<?>> {
 		return b.toString();
 	}
 
-	public boolean containsDay(DateTime d) {
-		for (Holiday h : this) {
+	public Holiday<?> findByDate(DateTime d) {
+		for (Holiday<?> h : this) {
 			if (h.getDate().withTimeAtStartOfDay()
 					.isEqual(d.withTimeAtStartOfDay())) {
-				return true;
+				return h;
 			}
 		}
-		return false;
-	}
-
-	private String onIsHoliday(String s) {
-		return s + "*";
+		return null;
 	}
 
 	public void printWithin(DateTime from, DateTime to) {
+		int columnWidth = 6;
 		System.out.println("from:\t"
 				+ DateTimeFormat.forPattern("dd. MMM yyyy").print(from));
 		System.out.println("to:\t"
@@ -78,7 +76,7 @@ public class Holidays extends ArrayList<Holiday<?>> {
 		String[] columns = new String[32];
 		columns[0] = "month";
 		for (int i = 1; i <= 31; i++) {
-			format.append("%-5s");
+			format.append("%-" + columnWidth + "s");
 			columns[i] = String.valueOf(i);
 		}
 		String titleBar = String.format(format.toString(), (Object[]) columns);
@@ -95,10 +93,21 @@ public class Holidays extends ArrayList<Holiday<?>> {
 			}
 			columns[tmpDT.getDayOfMonth()] = DateTimeFormat.forPattern("E")
 					.print(tmpDT);
-			
-			if (containsDay(tmpDT)) {
-				columns[tmpDT.getDayOfMonth()] = onIsHoliday(columns[tmpDT.getDayOfMonth()]);
+
+			KindOf kindOf = determineKindOf(tmpDT);
+
+			String postFix = "";
+
+			if (kindOf == KindOf.HOLIDAY) {
+				postFix = "*";
 			}
+
+			if (kindOf == KindOf.VACATIONDAY) {
+				postFix = "!";
+			}
+			columns[tmpDT.getDayOfMonth()] = columns[tmpDT.getDayOfMonth()]
+					+ postFix;
+
 			if (tmpDT.getMonthOfYear() - tmpDT.plusDays(1).getMonthOfYear() != 0
 					|| dayIndex == diffDays) {
 				arrIndex++;
@@ -119,6 +128,38 @@ public class Holidays extends ArrayList<Holiday<?>> {
 				arrIndex = -1;
 			}
 			tmpDT = tmpDT.plusDays(1);
+		}
+	}
+
+	private KindOf determineKindOf(DateTime dateTime) {
+		KindOf kindOf = null;
+		Holiday<?> holiday = findByDate(dateTime);
+		if (holiday != null) {
+			if (holiday instanceof UserHoliday) {
+				kindOf = KindOf.VACATIONDAY;
+			} else {
+				kindOf = KindOf.HOLIDAY;
+			}
+
+		} else if (dateTime.getDayOfWeek() == 7 || dateTime.getDayOfWeek() == 6) {
+			kindOf = KindOf.WEEKEND;
+		} else {
+			kindOf = KindOf.WEEK;
+		}
+		return kindOf.setDateTime(dateTime);
+	}
+
+	public static enum KindOf {
+		WEEKEND, WEEK, HOLIDAY, VACATIONDAY;
+		private DateTime dateTime;
+
+		public KindOf setDateTime(DateTime dateTime) {
+			this.dateTime = dateTime;
+			return this;
+		}
+
+		public DateTime getDateTime() {
+			return dateTime;
 		}
 	}
 }
