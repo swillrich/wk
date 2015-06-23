@@ -3,6 +3,9 @@ package de.wk.holiday.day;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
+
 import de.wk.holiday.Month;
 
 @SuppressWarnings("serial")
@@ -45,5 +48,13 @@ public class Holidays extends ArrayList<Holiday<?>> {
 			b.append(h + "\n");
 		}
 		return b.toString();
+	}
+	
+	public void printWithin(DateTime from, DateTime to) {
+		System.out.println("from: " + from);
+		System.out.println("to: " + to);
+		Duration duration = new Duration(from, to);
+		long standardDays = duration.getStandardDays();
+		System.out.println(standardDays);
 	}
 }
