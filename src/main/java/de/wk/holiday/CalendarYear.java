@@ -11,7 +11,7 @@ public class CalendarYear {
 
 	public CalendarYear(int year) {
 		this.holidays = new Holidays().initializeByYear(year);
-		DateTime firstDay = new DateTime(year, 1, 1, 0, 0, 0);
+		DateTime firstDay = new DateTime(year, 5, 15, 1, 0);
 		holidays.printWithin(firstDay, firstDay.plusYears(1).minusDays(1));
 	}
 
