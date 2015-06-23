@@ -51,6 +51,20 @@ public class Holidays extends ArrayList<Holiday<?>> {
 		return b.toString();
 	}
 
+	public boolean containsDay(DateTime d) {
+		for (Holiday h : this) {
+			if (h.getDate().withTimeAtStartOfDay()
+					.isEqual(d.withTimeAtStartOfDay())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private String onIsHoliday(String s) {
+		return s + "*";
+	}
+
 	public void printWithin(DateTime from, DateTime to) {
 		System.out.println("from:\t"
 				+ DateTimeFormat.forPattern("dd. MMM yyyy").print(from));
@@ -81,6 +95,10 @@ public class Holidays extends ArrayList<Holiday<?>> {
 			}
 			columns[tmpDT.getDayOfMonth()] = DateTimeFormat.forPattern("E")
 					.print(tmpDT);
+			
+			if (containsDay(tmpDT)) {
+				columns[tmpDT.getDayOfMonth()] = onIsHoliday(columns[tmpDT.getDayOfMonth()]);
+			}
 			if (tmpDT.getMonthOfYear() - tmpDT.plusDays(1).getMonthOfYear() != 0
 					|| dayIndex == diffDays) {
 				arrIndex++;
@@ -94,7 +112,6 @@ public class Holidays extends ArrayList<Holiday<?>> {
 					} else if (columns[i] == null) {
 						columns[i] = "-";
 					}
-
 				}
 				System.out.println(String.format(format.toString(),
 						(Object[]) columns));
