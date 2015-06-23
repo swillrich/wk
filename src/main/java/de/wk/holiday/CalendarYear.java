@@ -6,20 +6,21 @@ import de.wk.holiday.day.Holidays;
 public class CalendarYear {
 
 	private Holidays holidays;
-	
+
 	public CalendarYear(int year) {
-		this.holidays = new Holidays(year);
+		this.holidays = new Holidays().initializeByYear(year);
+		printYear();
 	}
-	
-	public void getHolidayByMonth(Month month){
-		for(Holiday<?> h : this.holidays){
-			if(h.getDate().getMonthOfYear() == Month.numberOfMonth(month)){
+
+	public void getHolidayByMonth(Month month) {
+		for (Holiday<?> h : this.holidays) {
+			if (h.getDate().getMonthOfYear() == Month.numberOfMonth(month)) {
 				System.out.println(h);
 			}
 		}
 	}
-	
-	public Holidays getAllHolidays(){
+
+	public Holidays getAllHolidays() {
 		return this.holidays;
 	}
 
@@ -28,7 +29,8 @@ public class CalendarYear {
 		for (int i = 0; i < Month.values().length; i++) {
 			formatBuilder.append("%-10s");
 		}
-		String format = String.format(formatBuilder.toString(), (Object[])Month.values());
+		String format = String.format(formatBuilder.toString(),
+				(Object[]) Month.values());
 
 		String underline = "";
 		for (int i = 0; i < format.length(); i++) {
@@ -46,7 +48,8 @@ public class CalendarYear {
 					days[currentMonthIndex] = "-";
 				}
 			}
-			System.out.println(String.format(formatBuilder.toString(), (Object[])days));
+			System.out.println(String.format(formatBuilder.toString(),
+					(Object[]) days));
 		}
 	}
 }

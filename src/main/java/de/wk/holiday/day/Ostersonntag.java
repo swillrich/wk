@@ -18,7 +18,7 @@ public class Ostersonntag extends Holiday {
 		return ostertag(day.getDate().get(DateTimeFieldType.year()));
 	}
 
-	public DateTime ostertag(int jahr) {
+	private DateTime ostertag(int jahr) {
 		int a, b, c, k, p, q, M, N, d, e, ostern;
 		a = jahr % 19;
 		b = jahr % 4;
