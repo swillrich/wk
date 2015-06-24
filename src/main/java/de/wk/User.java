@@ -19,6 +19,10 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public int getNumberOfHolidays() {
+		return this.numberOfHolidays;
+	}
 
 	public void setNumberOfHolidays(int numberOfHolidays) {
 		this.numberOfHolidays = numberOfHolidays;
@@ -26,5 +30,9 @@ public class User {
 
 	public ArrayList<Holiday<?>> getHolidayList() {
 		return holidays;
+	}
+	
+	public void setHolidayList(Holidays holidays){
+		this.holidays = holidays;
 	}
 }

@@ -10,9 +10,10 @@ import de.wk.holiday.CalendarYear;
 public class App {
 	public static void main(String[] args) {
 		CalendarYear year2015 = new CalendarYear(2015);
-		User alfred = new User("alfred", 24);
+		User alfred = new User("alfred", 6);
 		HolidayCalculator calc = new HolidayCalculator(alfred, year2015);
 		calc.setAlgorithm(new SimpleAlgorithm());
 		calc.calculate();
+		System.out.println(alfred.getHolidayList());
 	}
 }
