@@ -62,7 +62,7 @@ public class Holidays extends ArrayList<Holiday<?>> {
 		return null;
 	}
 
-	public void printWithin(DateTime from, DateTime to) {
+	public void printWithin(DateTime from, DateTime to, boolean hideWeekdays) {
 		int columnWidth = 6;
 		System.out.println("from:\t"
 				+ DateTimeFormat.forPattern("dd. MMM yyyy").print(from));
@@ -96,17 +96,33 @@ public class Holidays extends ArrayList<Holiday<?>> {
 
 			KindOf kindOf = determineKindOf(tmpDT);
 
-			String postFix = "";
+			String prefix = "";
+			String postfix = "";
+			if (kindOf != KindOf.WEEK) {
+				if (determineKindOf(tmpDT.minusDays(1)) == KindOf.WEEK) {
+					prefix = "[";
+					postfix = "";
+				} else if (determineKindOf(tmpDT.plusDays(1)) == KindOf.WEEK) {
+					prefix = "";
+					postfix = "]";
+				}
+			}
+
+			String kindOfChar = "";
 
 			if (kindOf == KindOf.HOLIDAY) {
-				postFix = "*";
+				kindOfChar = "*";
 			}
 
 			if (kindOf == KindOf.VACATIONDAY) {
-				postFix = "!";
+				kindOfChar = "#";
 			}
-			columns[tmpDT.getDayOfMonth()] = columns[tmpDT.getDayOfMonth()]
-					+ postFix;
+			String columnContent = prefix + columns[tmpDT.getDayOfMonth()]
+					+ kindOfChar + postfix;
+			if (kindOf == KindOf.WEEK && hideWeekdays) {
+				columnContent = "";
+			}
+			columns[tmpDT.getDayOfMonth()] = columnContent;
 
 			if (tmpDT.getMonthOfYear() - tmpDT.plusDays(1).getMonthOfYear() != 0
 					|| dayIndex == diffDays) {
@@ -131,7 +147,7 @@ public class Holidays extends ArrayList<Holiday<?>> {
 		}
 	}
 
-	private KindOf determineKindOf(DateTime dateTime) {
+	public KindOf determineKindOf(DateTime dateTime) {
 		KindOf kindOf = null;
 		Holiday<?> holiday = findByDate(dateTime);
 		if (holiday != null) {

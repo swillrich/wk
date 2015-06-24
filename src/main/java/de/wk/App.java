@@ -1,5 +1,7 @@
 package de.wk;
 
+import org.joda.time.DateTime;
+
 import de.wk.algorithms.SimpleAlgorithm;
 import de.wk.holiday.CalendarYear;
 
@@ -14,6 +16,9 @@ public class App {
 		HolidayCalculator calc = new HolidayCalculator(alfred, year2015);
 		calc.setAlgorithm(new SimpleAlgorithm());
 		calc.calculate();
-		System.out.println(alfred.getHolidayList());
+		alfred.getHolidays().addAll(year2015.getAllHolidays());
+		alfred.getHolidays().printWithin(new DateTime(2015, 1, 1, 0, 0),
+				new DateTime(2016, 1, 1, 0, 0).minusDays(1), true);
+
 	}
 }

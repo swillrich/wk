@@ -1,8 +1,5 @@
 package de.wk;
 
-import java.util.ArrayList;
-
-import de.wk.holiday.day.Holiday;
 import de.wk.holiday.day.Holidays;
 
 public class User {
@@ -19,7 +16,7 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public int getNumberOfHolidays() {
 		return this.numberOfHolidays;
 	}
@@ -28,11 +25,11 @@ public class User {
 		this.numberOfHolidays = numberOfHolidays;
 	}
 
-	public ArrayList<Holiday<?>> getHolidayList() {
+	public Holidays getHolidays() {
 		return holidays;
 	}
-	
-	public void setHolidayList(Holidays holidays){
+
+	public void setHolidays(Holidays holidays) {
 		this.holidays = holidays;
 	}
 }

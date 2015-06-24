@@ -6,9 +6,9 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
 import de.wk.User;
+import de.wk.UserHoliday;
 import de.wk.holiday.CalendarYear;
 import de.wk.holiday.Month;
-import de.wk.holiday.day.FixHoliday;
 import de.wk.holiday.day.Holiday;
 import de.wk.holiday.day.Holidays;
 import de.wk.util.PriorityQueue;
@@ -67,8 +67,8 @@ public class SimpleAlgorithm implements Algorithm {
 	
 	private Holiday<?> addNewHoliday(Holiday<?> currentHoliday, boolean isPlusDay){
 		int x = isPlusDay ? 1 : -1;
-		DateTime tmp = currentHoliday.getDate().minusDays(x);
-		FixHoliday newHoliday = new FixHoliday("Urlaubstag",
+		DateTime tmp = currentHoliday.getDate().plusDays(x);
+		UserHoliday newHoliday = new UserHoliday("Urlaubstag",
                                                tmp.getYear(),
                                                Month.getMonthByInt(tmp.getMonthOfYear()),
                                                tmp.getDayOfMonth());

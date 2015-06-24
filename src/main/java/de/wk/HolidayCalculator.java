@@ -21,7 +21,7 @@ public class HolidayCalculator {
 
 	public void calculate() {
 		if(!this.algorithm.equals(null)){
-			this.user.setHolidayList(algorithm.calculate(this.year, this.user));
+			this.user.setHolidays(algorithm.calculate(this.year, this.user));
 		}
 	}
 }
