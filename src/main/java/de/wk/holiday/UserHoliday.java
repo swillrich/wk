@@ -1,8 +1,7 @@
-package de.wk;
+package de.wk.holiday;
 
 import org.joda.time.DateTime;
 
-import de.wk.holiday.Month;
 import de.wk.holiday.day.Holiday;
 
 @SuppressWarnings("rawtypes")

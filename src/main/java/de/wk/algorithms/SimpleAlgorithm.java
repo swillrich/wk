@@ -6,9 +6,9 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
 import de.wk.User;
-import de.wk.UserHoliday;
 import de.wk.holiday.CalendarYear;
 import de.wk.holiday.Month;
+import de.wk.holiday.UserHoliday;
 import de.wk.holiday.day.Holiday;
 import de.wk.holiday.day.Holidays;
 import de.wk.util.PriorityQueue;

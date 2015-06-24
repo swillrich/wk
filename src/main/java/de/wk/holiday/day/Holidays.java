@@ -7,8 +7,8 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.format.DateTimeFormat;
 
-import de.wk.UserHoliday;
 import de.wk.holiday.Month;
+import de.wk.holiday.UserHoliday;
 
 @SuppressWarnings("serial")
 public class Holidays extends ArrayList<Holiday<?>> {
