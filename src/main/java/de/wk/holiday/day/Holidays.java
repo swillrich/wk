@@ -107,7 +107,7 @@ public class Holidays extends ArrayList<Holiday<?>> {
 					postfix = "]";
 				}
 			}
-
+//
 			String kindOfChar = "";
 
 			if (kindOf == KindOf.HOLIDAY) {
