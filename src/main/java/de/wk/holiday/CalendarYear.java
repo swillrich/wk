@@ -1,7 +1,5 @@
 package de.wk.holiday;
 
-import org.joda.time.DateTime;
-
 import de.wk.holiday.day.Holiday;
 import de.wk.holiday.day.Holidays;
 
@@ -11,9 +9,6 @@ public class CalendarYear {
 
 	public CalendarYear(int year) {
 		this.holidays = new Holidays().initializeByYear(year);
-		DateTime firstDay = new DateTime(year, 1, 1, 1, 0);
-		holidays.printWithin(firstDay, firstDay.plusYears(1).minusDays(1),
-				false);
 	}
 
 	public void getHolidayByMonth(Month month) {

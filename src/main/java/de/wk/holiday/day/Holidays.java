@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import org.joda.time.DateTime;
-import org.joda.time.Duration;
-import org.joda.time.format.DateTimeFormat;
 
 import de.wk.holiday.Month;
 import de.wk.holiday.UserHoliday;
@@ -60,97 +58,6 @@ public class Holidays extends ArrayList<Holiday<?>> {
 			}
 		}
 		return null;
-	}
-
-	public void printWithin(DateTime from, DateTime to, boolean hideWeekdays) {
-		int columnWidth = 6;
-		System.out.println("from:\t"
-				+ DateTimeFormat.forPattern("dd. MMM yyyy").print(from));
-		System.out.println("to:\t"
-				+ DateTimeFormat.forPattern("dd. MMM yyyy").print(to));
-		System.out.println();
-		Duration duration = new Duration(from, to);
-		int diffDays = (int) duration.getStandardDays();
-		StringBuilder format = new StringBuilder();
-		format.append("%-10s");
-		String[] columns = new String[32];
-		columns[0] = "month";
-		for (int i = 1; i <= 31; i++) {
-			format.append("%-" + columnWidth + "s");
-			columns[i] = String.valueOf(i);
-		}
-		String titleBar = String.format(format.toString(), (Object[]) columns);
-		System.out.println(titleBar);
-
-		DateTime tmpDT = from;
-		columns = null;
-		for (int dayIndex = 0, arrIndex = 0; dayIndex <= diffDays; dayIndex++, arrIndex++) {
-			if (columns == null) {
-				columns = new String[32];
-				columns[arrIndex] = DateTimeFormat.forPattern("MMM YY ").print(
-						tmpDT);
-				arrIndex = arrIndex + 1;
-			}
-			columns[tmpDT.getDayOfMonth()] = DateTimeFormat.forPattern("E")
-					.print(tmpDT);
-
-			KindOf kindOf = determineKindOf(tmpDT);
-
-			String prefix = "";
-			String postfix = "";
-			if (kindOf != KindOf.WEEK) {
-				boolean pre = determineKindOf(tmpDT.minusDays(1)) == KindOf.WEEK;
-				boolean post = determineKindOf(tmpDT.plusDays(1)) == KindOf.WEEK;
-
-				if (pre && post) {
-					prefix = "[";
-					postfix = "]";
-				} else if (pre) {
-					prefix = "[";
-					postfix = "";
-				} else if (post) {
-					prefix = "";
-					postfix = "]";
-				}
-			}
-
-			String kindOfChar = "";
-
-			if (kindOf == KindOf.HOLIDAY) {
-				kindOfChar = "*";
-			}
-
-			if (kindOf == KindOf.VACATIONDAY) {
-				kindOfChar = "#";
-			}
-			String columnContent = prefix + columns[tmpDT.getDayOfMonth()]
-					+ kindOfChar + postfix;
-			if (kindOf == KindOf.WEEK && hideWeekdays) {
-				columnContent = "";
-			}
-			columns[tmpDT.getDayOfMonth()] = columnContent;
-
-			if (tmpDT.getMonthOfYear() - tmpDT.plusDays(1).getMonthOfYear() != 0
-					|| dayIndex == diffDays) {
-				arrIndex++;
-				for (int i = 1; i < columns.length; i++) {
-					if (columns[i] == null
-							&& (i < from.getDayOfMonth() || i > to
-									.getDayOfMonth())
-							&& (tmpDT.getMonthOfYear() == to.getMonthOfYear() || tmpDT
-									.getMonthOfYear() == from.getMonthOfYear())) {
-						columns[i] = "";
-					} else if (columns[i] == null) {
-						columns[i] = "-";
-					}
-				}
-				System.out.println(String.format(format.toString(),
-						(Object[]) columns));
-				columns = null;
-				arrIndex = -1;
-			}
-			tmpDT = tmpDT.plusDays(1);
-		}
 	}
 
 	public KindOf determineKindOf(DateTime dateTime) {
