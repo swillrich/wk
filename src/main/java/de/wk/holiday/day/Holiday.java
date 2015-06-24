@@ -27,6 +27,11 @@ public abstract class Holiday<T extends Holiday> implements
 		this.name = this.getClass().getSimpleName();
 	}
 
+	public Holiday(String name2, DateTime dateTime) {
+		this.date = dateTime;
+		this.name = name;
+	}
+
 	public DateTime getDate() {
 		return date;
 	}

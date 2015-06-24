@@ -3,10 +3,12 @@ package de.wk.algorithms;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
+import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
 import de.wk.User;
 import de.wk.holiday.CalendarYear;
+import de.wk.holiday.UserHoliday;
 import de.wk.holiday.day.Holiday;
 import de.wk.holiday.day.Holidays;
 
@@ -15,6 +17,20 @@ public class MostBroadlyPartitionAlgorithm implements Algorithm {
 	@Override
 	public Holidays calculate(CalendarYear year, User user) {
 		HolidayPriorityQueue queue = new HolidayPriorityQueue(year);
+
+		for (int i = user.getNumberOfHolidays(); i > 0 && !queue.isEmpty();) {
+			HolidayPriorityWrapper wrappedElement = queue.poll();
+			if (wrappedElement.getDuration() > 1) {
+				for (int dayIndex = 1; dayIndex <= wrappedElement.getDuration()
+						&& i > 0; dayIndex++) {
+					DateTime date = wrappedElement.getFirst().getDate();
+					UserHoliday userHoliday = new UserHoliday("Vactionday",
+							date.plusDays(dayIndex));
+					user.getHolidays().add(userHoliday);
+					i = i - 1;
+				}
+			}
+		}
 
 		return user.getHolidays();
 	}
@@ -42,6 +58,7 @@ public class MostBroadlyPartitionAlgorithm implements Algorithm {
 				System.out.println(h.getFirst() + " ------------------>  "
 						+ h.getSecond());
 			}
+			System.out.println();
 		}
 	}
 
