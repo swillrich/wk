@@ -99,10 +99,16 @@ public class Holidays extends ArrayList<Holiday<?>> {
 			String prefix = "";
 			String postfix = "";
 			if (kindOf != KindOf.WEEK) {
-				if (determineKindOf(tmpDT.minusDays(1)) == KindOf.WEEK) {
+				boolean pre = determineKindOf(tmpDT.minusDays(1)) == KindOf.WEEK;
+				boolean post = determineKindOf(tmpDT.plusDays(1)) == KindOf.WEEK;
+
+				if (pre && post) {
+					prefix = "[";
+					postfix = "]";
+				} else if (pre) {
 					prefix = "[";
 					postfix = "";
-				} else if (determineKindOf(tmpDT.plusDays(1)) == KindOf.WEEK) {
+				} else if (post) {
 					prefix = "";
 					postfix = "]";
 				}
