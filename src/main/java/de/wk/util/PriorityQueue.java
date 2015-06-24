@@ -35,7 +35,7 @@ public class PriorityQueue<T>{
     }
     
     /**
-     * Give all elements with a given priority.
+     * Return all elements with a given priority.
      * 
      * @param priority the priority
      * @return ArrayList<T> list of elements with given priority
