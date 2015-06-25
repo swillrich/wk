@@ -11,6 +11,7 @@ import de.wk.holiday.CalendarYear;
 import de.wk.holiday.UserHoliday;
 import de.wk.holiday.day.Holiday;
 import de.wk.holiday.day.Holidays;
+import de.wk.holiday.day.Holidays.KindOf;
 
 public class MostBroadlyPartitionAlgorithm implements Algorithm {
 
@@ -24,10 +25,15 @@ public class MostBroadlyPartitionAlgorithm implements Algorithm {
 				for (int dayIndex = 1; dayIndex <= wrappedElement.getDuration()
 						&& i > 0; dayIndex++) {
 					DateTime date = wrappedElement.getFirst().getDate();
-					UserHoliday userHoliday = new UserHoliday("Vactionday",
-							date.plusDays(dayIndex));
-					user.getHolidays().add(userHoliday);
-					i = i - 1;
+					DateTime plusDays = date.plusDays(dayIndex);
+					KindOf kindOf = year.getAllHolidays().determineKindOf(
+							plusDays);
+					if (kindOf != KindOf.WEEKEND) {
+						UserHoliday userHoliday = new UserHoliday("Vactionday",
+								plusDays);
+						user.getHolidays().add(userHoliday);
+						i = i - 1;
+					}
 				}
 			}
 		}
