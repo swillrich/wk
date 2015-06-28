@@ -14,13 +14,13 @@ public class HolidayCalculator {
 		this.year = year;
 		this.algorithm = null;
 	}
-	
-	public void setAlgorithm(Algorithm algorithm){
+
+	public void setAlgorithm(Algorithm algorithm) {
 		this.algorithm = algorithm;
 	}
 
 	public void calculate() {
-		if(!this.algorithm.equals(null)){
+		if (!this.algorithm.equals(null)) {
 			this.user.setHolidays(algorithm.calculate(this.year, this.user));
 		}
 	}

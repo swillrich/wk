@@ -13,11 +13,13 @@ import de.wk.holiday.HolidayPrinter;
 public class Main {
 	public static void main(String[] args) {
 		CalendarYear year = new CalendarYear(2015);
-		User sascha = new User("Sascha :-)", 24);
+		User sascha = new User("Sascha :-)", 24, year);
+		sascha.getDateConstraint().setStartingDay(new DateTime().now());
+		
 		HolidayCalculator calc = new HolidayCalculator(sascha, year);
 		calc.setAlgorithm(new MostBroadlyPartitionAlgorithm());
 		calc.calculate();
-		sascha.getHolidays().addAll(year.getAllHolidays());
+		
 		new HolidayPrinter(sascha.getHolidays(), true, true).print(
 				new DateTime(2015, 1, 1, 0, 0),
 				new DateTime(2016, 1, 1, 0, 0).minusDays(1));

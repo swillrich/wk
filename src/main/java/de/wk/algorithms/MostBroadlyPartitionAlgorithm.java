@@ -19,20 +19,21 @@ public class MostBroadlyPartitionAlgorithm implements Algorithm {
 	public Holidays calculate(CalendarYear year, User user) {
 		HolidayPriorityQueue queue = new HolidayPriorityQueue(year);
 
-		for (int i = user.getNumberOfHolidays(); i > 0 && !queue.isEmpty();) {
+		for (Integer remainNumberOfHolidays = user.getNumberOfHolidays(); remainNumberOfHolidays > 0
+				&& !queue.isEmpty();) {
 			HolidayPriorityWrapper wrappedElement = queue.poll();
 			if (wrappedElement.getDuration() > 1) {
 				for (int dayIndex = 1; dayIndex <= wrappedElement.getDuration()
-						&& i > 0; dayIndex++) {
+						&& remainNumberOfHolidays > 0; dayIndex++) {
 					DateTime date = wrappedElement.getFirst().getDate();
 					DateTime plusDays = date.plusDays(dayIndex);
 					KindOf kindOf = year.getAllHolidays().determineKindOf(
 							plusDays);
 					if (kindOf != KindOf.WEEKEND) {
-						UserHoliday userHoliday = new UserHoliday("Vactionday",
+						UserHoliday userHoliday = new UserHoliday("Vacation",
 								plusDays);
 						user.getHolidays().add(userHoliday);
-						i = i - 1;
+						remainNumberOfHolidays = remainNumberOfHolidays - 1;
 					}
 				}
 			}
