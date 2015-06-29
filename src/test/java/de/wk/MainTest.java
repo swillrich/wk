@@ -25,7 +25,7 @@ public class MainTest {
 		interval = new Interval(time, time.getJodaDateTime().plusYears(1)
 				.minusDays(1));
 
-		Days holidays = new HolidayProvider().provideBy(2015);
+		Days holidays = new HolidayProvider().provideBy(interval);
 		user.getHolidays().addAll(holidays);
 	}
 

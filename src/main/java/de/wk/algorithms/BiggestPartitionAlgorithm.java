@@ -25,7 +25,8 @@ public class BiggestPartitionAlgorithm implements Algorithm {
 					DateTime plusDays = date.plusDays(dayIndex);
 					KindOfDay kindOf = user.getHolidays().determineKindOf(
 							plusDays);
-					if (kindOf != KindOfDay.WEEKEND) {
+					if (kindOf != KindOfDay.WEEKEND
+							&& kindOf != KindOfDay.HOLIDAY) {
 						UserHoliday userHoliday = new UserHoliday("Vacation",
 								plusDays);
 						user.getHolidays().add(userHoliday);
@@ -34,5 +35,6 @@ public class BiggestPartitionAlgorithm implements Algorithm {
 				}
 			}
 		}
+		System.out.println(queue.size());
 	}
 }
