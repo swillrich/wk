@@ -7,8 +7,8 @@ import org.joda.time.format.DateTimeFormat;
 
 import de.wk.date.Days;
 import de.wk.date.WKDateTime;
-import de.wk.date.Days.KindOfDay;
-import de.wk.date.holiday.UserHoliday;
+import de.wk.date.WKDateTime.KindOfDay;
+import de.wk.date.holiday.VariableHoliday;
 import de.wk.user.User;
 import de.wk.util.PriorityQueue;
 
@@ -71,7 +71,7 @@ public class SimpleAlgorithm implements Algorithm {
 		DateTime tmp = currentHoliday.getJodaDateTime().plusDays(x);
 		KindOfDay kindOf = user.getHolidays().determineKindOf(tmp);
 		if (kindOf != KindOfDay.WEEKEND && kindOf != KindOfDay.HOLIDAY) {
-			UserHoliday newHoliday = new UserHoliday("Urlaubstag",
+			VariableHoliday newHoliday = new VariableHoliday("Urlaubstag",
 					tmp.getYear(), tmp.getMonthOfYear(), tmp.getDayOfMonth());
 			this.holidays.add(newHoliday);
 			this.numberOfHolidays--;

@@ -17,6 +17,20 @@ public class WKDateTime implements ReadableDateTime {
 
 	protected DateTime dateTime = null;
 
+	public static enum KindOfDay {
+		WEEKEND, WEEK, HOLIDAY, VACATIONDAY;
+		private DateTime dateTime;
+
+		public KindOfDay setDateTime(DateTime dateTime) {
+			this.dateTime = dateTime;
+			return this;
+		}
+
+		public DateTime getDateTime() {
+			return dateTime;
+		}
+	}
+
 	public WKDateTime(int year, int month, int day) {
 		dateTime = new DateTime(year, month, day, 0, 0, 0);
 	}

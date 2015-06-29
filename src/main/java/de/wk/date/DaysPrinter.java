@@ -8,7 +8,7 @@ import org.joda.time.Duration;
 import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormat;
 
-import de.wk.date.Days.KindOfDay;
+import de.wk.date.WKDateTime.KindOfDay;
 
 public class DaysPrinter {
 
@@ -109,8 +109,9 @@ public class DaysPrinter {
 	}
 
 	private static interface DayAppearanceModifier {
-		String returnAppearance(Days.KindOfDay before, Days.KindOfDay current,
-				Days.KindOfDay next, String dayAsString);
+		String returnAppearance(WKDateTime.KindOfDay before,
+				WKDateTime.KindOfDay current, WKDateTime.KindOfDay next,
+				String dayAsString);
 	}
 
 	private void setModifier() {
@@ -130,8 +131,8 @@ public class DaysPrinter {
 		dayAppearanceModifierList.add(new DayAppearanceModifier() {
 
 			@Override
-			public String returnAppearance(Days.KindOfDay before,
-					Days.KindOfDay current, Days.KindOfDay next,
+			public String returnAppearance(WKDateTime.KindOfDay before,
+					WKDateTime.KindOfDay current, WKDateTime.KindOfDay next,
 					String dayAsString) {
 
 				if (current == KindOfDay.HOLIDAY) {
@@ -147,8 +148,8 @@ public class DaysPrinter {
 		dayAppearanceModifierList.add(new DayAppearanceModifier() {
 
 			@Override
-			public String returnAppearance(Days.KindOfDay before,
-					Days.KindOfDay current, Days.KindOfDay next,
+			public String returnAppearance(WKDateTime.KindOfDay before,
+					WKDateTime.KindOfDay current, WKDateTime.KindOfDay next,
 					String dayAsString) {
 
 				String prefix = "";

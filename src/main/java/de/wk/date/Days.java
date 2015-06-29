@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 import org.joda.time.DateTime;
 
-import de.wk.date.holiday.UserHoliday;
+import de.wk.date.WKDateTime.KindOfDay;
+import de.wk.date.holiday.VariableHoliday;
 
 @SuppressWarnings("serial")
 public class Days extends ArrayList<WKDateTime> {
@@ -33,7 +34,7 @@ public class Days extends ArrayList<WKDateTime> {
 		KindOfDay kindOf = null;
 		WKDateTime holiday = findByDate(dateTime);
 		if (holiday != null) {
-			if (holiday instanceof UserHoliday) {
+			if (holiday instanceof VariableHoliday) {
 				kindOf = KindOfDay.VACATIONDAY;
 			} else {
 				kindOf = KindOfDay.HOLIDAY;
@@ -45,19 +46,5 @@ public class Days extends ArrayList<WKDateTime> {
 			kindOf = KindOfDay.WEEK;
 		}
 		return kindOf.setDateTime(dateTime);
-	}
-
-	public static enum KindOfDay {
-		WEEKEND, WEEK, HOLIDAY, VACATIONDAY;
-		private DateTime dateTime;
-
-		public KindOfDay setDateTime(DateTime dateTime) {
-			this.dateTime = dateTime;
-			return this;
-		}
-
-		public DateTime getDateTime() {
-			return dateTime;
-		}
 	}
 }

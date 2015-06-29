@@ -3,13 +3,13 @@ package de.wk.date.holiday;
 import org.joda.time.DateTime;
 
 @SuppressWarnings("rawtypes")
-public class UserHoliday extends Holiday {
+public class VariableHoliday extends Holiday {
 
-	public UserHoliday(String name, int year, int month, int day) {
+	public VariableHoliday(String name, int year, int month, int day) {
 		super(name, year, month, day);
 	}
 	
-	public UserHoliday(String name, DateTime dateTime) {
+	public VariableHoliday(String name, DateTime dateTime) {
 		super(name, dateTime);
 	}
 
