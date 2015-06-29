@@ -1,7 +1,7 @@
 package de.wk.date.holiday;
 
-import de.wk.User;
 import de.wk.algorithms.Algorithm;
+import de.wk.user.User;
 
 public class HolidayCalculator {
 

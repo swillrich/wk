@@ -11,6 +11,7 @@ import de.wk.date.DaysPrinter;
 import de.wk.date.WKDateTime;
 import de.wk.date.holiday.HolidayCalculator;
 import de.wk.date.holiday.HolidayProvider;
+import de.wk.user.User;
 
 public class MainTest {
 
@@ -40,6 +41,7 @@ public class MainTest {
 
 	@Test
 	public void testBiggestPartitionAlgorithm() {
+		user.getUserConfiguration().setMaxLengthOfHolidayPartition(7);
 		HolidayCalculator calculator = new HolidayCalculator(user);
 		calculator.setAlgorithm(new BiggestPartitionAlgorithm());
 		calculator.calculate();

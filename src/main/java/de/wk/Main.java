@@ -8,6 +8,7 @@ import de.wk.date.DaysPrinter;
 import de.wk.date.WKDateTime;
 import de.wk.date.holiday.HolidayCalculator;
 import de.wk.date.holiday.HolidayProvider;
+import de.wk.user.User;
 
 /**
  * Hello world!

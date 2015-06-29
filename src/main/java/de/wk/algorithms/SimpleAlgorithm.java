@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
-import de.wk.User;
 import de.wk.date.Days;
 import de.wk.date.WKDateTime;
 import de.wk.date.Days.KindOfDay;
 import de.wk.date.holiday.UserHoliday;
+import de.wk.user.User;
 import de.wk.util.PriorityQueue;
 
 public class SimpleAlgorithm implements Algorithm {
@@ -28,7 +28,8 @@ public class SimpleAlgorithm implements Algorithm {
 			fillGaps();
 		}
 		System.out.println(this.numberOfHolidays + " days remaining.");
-		this.user.setRemainingNumberOfHolidays(this.numberOfHolidays);
+		this.user.getUserConfiguration().setRemainingNumberOfHolidays(
+				this.numberOfHolidays);
 	}
 
 	private void fillGaps() {
@@ -43,12 +44,12 @@ public class SimpleAlgorithm implements Algorithm {
 				switch (currentHoliday.getDayOfWeek()) {
 				//case 1:
 				case 4:
-				//case 7:
+					//case 7:
 					addNewHoliday(currentHoliday, true);
 					break;
 				case 2:
-				//case 5:
-				//case 6:
+					//case 5:
+					//case 6:
 					addNewHoliday(currentHoliday, false);
 					break;
 				case 3:
@@ -68,12 +69,10 @@ public class SimpleAlgorithm implements Algorithm {
 			boolean isPlusDay) {
 		int x = isPlusDay ? 1 : -1;
 		DateTime tmp = currentHoliday.getJodaDateTime().plusDays(x);
-		KindOfDay kindOf = user.getHolidays().determineKindOf(
-				tmp);
-		if (kindOf != KindOfDay.WEEKEND
-				&& kindOf != KindOfDay.HOLIDAY) {
-			UserHoliday newHoliday = new UserHoliday("Urlaubstag", tmp.getYear(),
-					tmp.getMonthOfYear(), tmp.getDayOfMonth());
+		KindOfDay kindOf = user.getHolidays().determineKindOf(tmp);
+		if (kindOf != KindOfDay.WEEKEND && kindOf != KindOfDay.HOLIDAY) {
+			UserHoliday newHoliday = new UserHoliday("Urlaubstag",
+					tmp.getYear(), tmp.getMonthOfYear(), tmp.getDayOfMonth());
 			this.holidays.add(newHoliday);
 			this.numberOfHolidays--;
 			System.out.println("Added "
@@ -101,7 +100,8 @@ public class SimpleAlgorithm implements Algorithm {
 		this.holidaysByPriority = new PriorityQueue<WKDateTime>(
 				NUMBER_OF_PRIORITIES);
 		this.user = user;
-		this.numberOfHolidays = this.user.getNumberOfHolidays();
+		this.numberOfHolidays = this.user.getUserConfiguration()
+				.getNumberOfHolidays();
 		this.holidays = user.getHolidays();
 	}
 }
