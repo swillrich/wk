@@ -22,7 +22,7 @@ public class WKDateTime implements ReadableDateTime {
 	}
 
 	public WKDateTime() {
-		this.dateTime = new DateTime().now();
+		this.dateTime = DateTime.now();
 	}
 
 	@Override

@@ -15,7 +15,7 @@ public class BiggestPartitionAlgorithm implements Algorithm {
 		HolidayPriorityQueue queue = new HolidayPriorityQueue(
 				user.getHolidays());
 
-		for (Integer remainNumberOfHolidays = user.getNumberOfHolidays(); remainNumberOfHolidays > 0
+		for (Integer remainNumberOfHolidays = user.getRemainingNumberOfHolidays(); remainNumberOfHolidays > 0
 				&& !queue.isEmpty();) {
 			Interval interval = queue.poll();
 			if (interval.toDuration().getStandardDays() > 1) {
@@ -35,6 +35,5 @@ public class BiggestPartitionAlgorithm implements Algorithm {
 				}
 			}
 		}
-		System.out.println(queue.size());
 	}
 }

@@ -5,15 +5,15 @@ import de.wk.date.Days;
 
 public class User {
 	private String name;
-	private int numberOfHolidays;
-	private Integer remainNumberOfHolidays;
+	private final int numberOfHolidays;
+	private Integer remainingNumberOfHolidays;
 	private Days holidays;
 	private DateConstraint dateConstraint = new DateConstraint();
 
 	public User(String name, int numberOfHolidays) {
 		this.name = name;
 		this.numberOfHolidays = numberOfHolidays;
-		this.remainNumberOfHolidays = numberOfHolidays;
+		this.remainingNumberOfHolidays = numberOfHolidays;
 		this.holidays = new Days();
 	}
 
@@ -25,24 +25,21 @@ public class User {
 		return this.numberOfHolidays;
 	}
 
-	public void setNumberOfHolidays(int numberOfHolidays) {
-		this.numberOfHolidays = numberOfHolidays;
-	}
 
 	public Days getHolidays() {
-		return holidays;
+		return this.holidays;
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
-	public int getRemainNumberOfHolidays() {
-		return remainNumberOfHolidays;
+	public int getRemainingNumberOfHolidays() {
+		return this.remainingNumberOfHolidays;
 	}
 
-	public void setRemainNumberOfHolidays(int remainNumberOfHolidays) {
-		this.remainNumberOfHolidays = remainNumberOfHolidays;
+	public void setRemainingNumberOfHolidays(int remainingNumberOfHolidays) {
+		this.remainingNumberOfHolidays = remainingNumberOfHolidays;
 	}
 
 	public DateConstraint getDateConstraint() {

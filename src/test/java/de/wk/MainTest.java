@@ -46,5 +46,17 @@ public class MainTest {
 
 		new DaysPrinter(user.getHolidays(), true, true).print(interval);
 	}
+	
+	@Test
+	public void testBothAlgorithms() {
+		HolidayCalculator calculator = new HolidayCalculator(user);
+		calculator.setAlgorithm(new SimpleAlgorithm());
+		calculator.calculate();
+		new DaysPrinter(user.getHolidays(), true, true).print(interval);
+		calculator.setAlgorithm(new BiggestPartitionAlgorithm());
+		calculator.calculate();
+
+		new DaysPrinter(user.getHolidays(), true, true).print(interval);
+	}
 
 }
