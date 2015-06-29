@@ -1,16 +1,16 @@
-package de.wk.holiday.day;
+package de.wk.date.holiday.immutable;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeFieldType;
 
-import de.wk.holiday.Month;
+import de.wk.date.holiday.Holiday;
 
 @SuppressWarnings("rawtypes")
 public class Ostersonntag extends Holiday {
 
 	@SuppressWarnings("unchecked")
 	public Ostersonntag(int year) {
-		super(new FixHoliday(null, year, Month.January, 1));
+		super(new FixHoliday(null, year, 1, 1));
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class Ostersonntag extends Holiday {
 			ostern = 49;
 		else
 			ostern = 22 + d + e;
-		
+
 		if (ostern < 31) {
 			return new DateTime(jahr, 3, ostern, 0, 0, 0);
 		} else {

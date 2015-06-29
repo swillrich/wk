@@ -1,35 +1,37 @@
-package de.wk.holiday;
+package de.wk.date;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
+import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormat;
 
-import de.wk.holiday.day.Holidays;
-import de.wk.holiday.day.Holidays.KindOf;
+import de.wk.date.Days.KindOfDay;
 
-public class HolidayPrinter {
+public class DaysPrinter {
 
-	private Holidays holidays;
+	private Days days;
 	private int columnWidth = 6;
 	private List<DayAppearanceModifier> dayAppearanceModifierList = new ArrayList<DayAppearanceModifier>();
 	private boolean hideWeekdays = true;
 	private boolean hideWeekendsOnly = true;
 
-	public HolidayPrinter(Holidays holidays) {
-		this.holidays = holidays;
+	public DaysPrinter(Days days) {
+		this.days = days;
 	}
 
-	public HolidayPrinter(Holidays holidays, boolean hideWeekdays,
+	public DaysPrinter(Days holidays, boolean hideWeekdays,
 			boolean hideWeekendsOnly) {
-		this.holidays = holidays;
+		this.days = holidays;
 		this.hideWeekdays = hideWeekdays;
 		this.hideWeekendsOnly = hideWeekendsOnly;
 	}
 
-	public void print(DateTime from, DateTime to) {
+	public void print(Interval interval) {
+		DateTime from = interval.getStart();
+		DateTime to = interval.getEnd();
 		setModifier();
 		printInformation(from, to);
 		Duration duration = new Duration(from, to);
@@ -76,9 +78,9 @@ public class HolidayPrinter {
 	}
 
 	private void applyModifier(String[] columns, DateTime tmpDT) {
-		KindOf preDay = holidays.determineKindOf(tmpDT.minusDays(1));
-		KindOf postDay = holidays.determineKindOf(tmpDT.plusDays(1));
-		KindOf currentDay = holidays.determineKindOf(tmpDT);
+		KindOfDay preDay = days.determineKindOf(tmpDT.minusDays(1));
+		KindOfDay postDay = days.determineKindOf(tmpDT.plusDays(1));
+		KindOfDay currentDay = days.determineKindOf(tmpDT);
 
 		for (DayAppearanceModifier modifier : dayAppearanceModifierList) {
 			columns[tmpDT.getDayOfMonth()] = modifier.returnAppearance(preDay,
@@ -107,18 +109,17 @@ public class HolidayPrinter {
 	}
 
 	private static interface DayAppearanceModifier {
-		String returnAppearance(Holidays.KindOf before,
-				Holidays.KindOf current, Holidays.KindOf next,
-				String dayAsString);
+		String returnAppearance(Days.KindOfDay before, Days.KindOfDay current,
+				Days.KindOfDay next, String dayAsString);
 	}
 
 	private void setModifier() {
 		if (hideWeekdays) {
 			dayAppearanceModifierList.add(new DayAppearanceModifier() {
 				@Override
-				public String returnAppearance(KindOf before, KindOf current,
-						KindOf next, String dayAsString) {
-					if (current == KindOf.WEEK) {
+				public String returnAppearance(KindOfDay before,
+						KindOfDay current, KindOfDay next, String dayAsString) {
+					if (current == KindOfDay.WEEK) {
 						return "";
 					}
 					return dayAsString;
@@ -129,15 +130,15 @@ public class HolidayPrinter {
 		dayAppearanceModifierList.add(new DayAppearanceModifier() {
 
 			@Override
-			public String returnAppearance(Holidays.KindOf before,
-					Holidays.KindOf current, Holidays.KindOf next,
+			public String returnAppearance(Days.KindOfDay before,
+					Days.KindOfDay current, Days.KindOfDay next,
 					String dayAsString) {
 
-				if (current == KindOf.HOLIDAY) {
+				if (current == KindOfDay.HOLIDAY) {
 					dayAsString = dayAsString + "*";
 				}
 
-				if (current == KindOf.VACATIONDAY) {
+				if (current == KindOfDay.VACATIONDAY) {
 					dayAsString = dayAsString + "#";
 				}
 				return dayAsString;
@@ -146,15 +147,15 @@ public class HolidayPrinter {
 		dayAppearanceModifierList.add(new DayAppearanceModifier() {
 
 			@Override
-			public String returnAppearance(Holidays.KindOf before,
-					Holidays.KindOf current, Holidays.KindOf next,
+			public String returnAppearance(Days.KindOfDay before,
+					Days.KindOfDay current, Days.KindOfDay next,
 					String dayAsString) {
 
 				String prefix = "";
 				String postfix = "";
-				if (current != KindOf.WEEK) {
-					boolean isPre = before == KindOf.WEEK;
-					boolean isPost = next == KindOf.WEEK;
+				if (current != KindOfDay.WEEK) {
+					boolean isPre = before == KindOfDay.WEEK;
+					boolean isPost = next == KindOfDay.WEEK;
 
 					if (isPre && isPost) {
 						prefix = "[";
@@ -173,30 +174,31 @@ public class HolidayPrinter {
 		if (hideWeekendsOnly) {
 			dayAppearanceModifierList.add(new DayAppearanceModifier() {
 				@Override
-				public String returnAppearance(KindOf before, KindOf current,
-						KindOf next, String dayAsString) {
-					if (current == KindOf.WEEKEND) {
+				public String returnAppearance(KindOfDay before,
+						KindOfDay current, KindOfDay next, String dayAsString) {
+					if (current == KindOfDay.WEEKEND) {
 						int dayOfWeek = current.getDateTime().getDayOfWeek();
 
-						KindOf kindOfFr = dayOfWeek == 6 ? before : holidays
+						KindOfDay kindOfFr = dayOfWeek == 6 ? before : days
 								.determineKindOf(current.getDateTime()
 										.minusDays(2));
 
-						KindOf kindOfSa = dayOfWeek == 6 ? current : holidays
+						KindOfDay kindOfSa = dayOfWeek == 6 ? current : days
 								.determineKindOf(current.getDateTime()
 										.minusDays(1));
 
-						KindOf kindOfSu = dayOfWeek == 7 ? current : holidays
+						KindOfDay kindOfSu = dayOfWeek == 7 ? current : days
 								.determineKindOf(current.getDateTime()
 										.plusDays(1));
 
-						KindOf kindOfMo = dayOfWeek == 7 ? next : holidays
+						KindOfDay kindOfMo = dayOfWeek == 7 ? next : days
 								.determineKindOf(kindOfSu.getDateTime()
 										.plusDays(1));
 
-						if (kindOfFr == KindOf.WEEK && kindOfMo == KindOf.WEEK
-								&& kindOfSa == KindOf.WEEKEND
-								&& kindOfSu == KindOf.WEEKEND) {
+						if (kindOfFr == KindOfDay.WEEK
+								&& kindOfMo == KindOfDay.WEEK
+								&& kindOfSa == KindOfDay.WEEKEND
+								&& kindOfSu == KindOfDay.WEEKEND) {
 							return "";
 						}
 					}
@@ -206,12 +208,12 @@ public class HolidayPrinter {
 		}
 	}
 
-	public HolidayPrinter setHideWeekdays(boolean hideWeekdays) {
+	public DaysPrinter setHideWeekdays(boolean hideWeekdays) {
 		this.hideWeekdays = hideWeekdays;
 		return this;
 	}
 
-	public HolidayPrinter setHideWeekendsOnly(boolean hideWeekendsOnly) {
+	public DaysPrinter setHideWeekendsOnly(boolean hideWeekendsOnly) {
 		this.hideWeekendsOnly = hideWeekendsOnly;
 		return this;
 	}

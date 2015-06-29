@@ -1,6 +1,8 @@
-package de.wk.holiday.day;
+package de.wk.date.holiday.immutable;
 
 import org.joda.time.DateTime;
+
+import de.wk.date.holiday.Holiday;
 
 @SuppressWarnings("rawtypes")
 public class BussUndBettag extends Holiday {

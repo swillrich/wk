@@ -1,13 +1,13 @@
-package de.wk.holiday.day;
+package de.wk.date.holiday.immutable;
 
 import org.joda.time.DateTime;
 
-import de.wk.holiday.Month;
+import de.wk.date.holiday.Holiday;
 
 @SuppressWarnings("rawtypes")
 public class FixHoliday extends Holiday {
 
-	public FixHoliday(String name, int year, Month month, int day) {
+	public FixHoliday(String name, int year, int month, int day) {
 		super(name, year, month, day);
 	}
 

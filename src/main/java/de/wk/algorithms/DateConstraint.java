@@ -8,15 +8,15 @@ import org.joda.time.Interval;
 
 public class DateConstraint {
 	private DateTime startingDay;
-	private DateTime untilDay;
+	private DateTime endDay;
 	private List<Interval> intervalList = new ArrayList<Interval>();
 
 	public void setStartingDay(DateTime startingDay) {
 		this.startingDay = startingDay;
 	}
 
-	public void setUntilDay(DateTime untilDay) {
-		this.untilDay = untilDay;
+	public DateTime getEndDay() {
+		return endDay;
 	}
 
 	public List<Interval> getIntervalList() {
