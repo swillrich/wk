@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.joda.time.DateTime;
 
 import de.wk.date.WKDateTime.KindOfDay;
+import de.wk.date.holiday.Holiday;
 import de.wk.date.holiday.VariableHoliday;
 
 @SuppressWarnings("serial")
@@ -13,7 +14,7 @@ public class Days extends ArrayList<WKDateTime> {
 	@Override
 	public String toString() {
 		StringBuilder b = new StringBuilder();
-		b.append("Holidays:\n");
+		b.append("Days :\n");
 		for (WKDateTime h : this) {
 			b.append(h + "\n");
 		}
@@ -46,5 +47,16 @@ public class Days extends ArrayList<WKDateTime> {
 			kindOf = KindOfDay.WEEK;
 		}
 		return kindOf.setDateTime(dateTime);
+	}
+
+	public Holiday<?> findHolidayByName(String name) {
+		for (WKDateTime e : this) {
+			if (e instanceof Holiday<?>) {
+				if (((Holiday<?>) e).getName().equalsIgnoreCase(name)) {
+					return (Holiday<?>) e;
+				}
+			}
+		}
+		return null;
 	}
 }
