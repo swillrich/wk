@@ -11,6 +11,7 @@ import de.wk.date.DaysPrinter;
 import de.wk.date.WKDateTime;
 import de.wk.date.holiday.HolidayCalculator;
 import de.wk.date.holiday.HolidayProvider;
+import de.wk.date.holiday.HolidayProvider.State;
 import de.wk.user.User;
 
 public class MainTest {
@@ -20,7 +21,7 @@ public class MainTest {
 
 	@Before
 	public void initSampleData() throws Exception {
-		user = new User("Sacke :-)", 24);
+		user = new User("Sacke :-)", 24, State.BE);
 
 		WKDateTime time = new WKDateTime(2015, 1, 1);
 		interval = new Interval(time, time.getJodaDateTime().plusYears(1)

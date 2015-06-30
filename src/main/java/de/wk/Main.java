@@ -8,6 +8,7 @@ import de.wk.date.DaysPrinter;
 import de.wk.date.WKDateTime;
 import de.wk.date.holiday.HolidayCalculator;
 import de.wk.date.holiday.HolidayProvider;
+import de.wk.date.holiday.HolidayProvider.State;
 import de.wk.user.User;
 
 /**
@@ -16,7 +17,7 @@ import de.wk.user.User;
  */
 public class Main {
 	public static void main(String[] args) {
-		User sascha = new User("Sacke :-)", 24);
+		User sascha = new User("Sacke :-)", 24, State.BE);
 
 		WKDateTime time = new WKDateTime(2015, 1, 1);
 		Interval interval = new Interval(time, time.getJodaDateTime()

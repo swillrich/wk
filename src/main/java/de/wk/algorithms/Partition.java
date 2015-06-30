@@ -7,6 +7,7 @@ import de.wk.date.WKDateTime;
  * @author Sven Willrich
  * This class represents a partition with days (and inherits from days) whose interval between previous or next days is zero.
  */
+@SuppressWarnings("serial")
 public class Partition extends Days {
 	/**
 	 * Max length of this partition.
