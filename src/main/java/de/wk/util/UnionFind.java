@@ -52,7 +52,9 @@ public class UnionFind<T> {
 	 * @param set2 second set to union
 	 */
 	public void union(T set1, T set2){
-		parent.put(set2, set1);
+		T representative = find(set1);
+		T representative2 = find(set2);
+		parent.put(representative2, representative);
 	}
 	
 	/**
@@ -69,6 +71,17 @@ public class UnionFind<T> {
 			}
 		}
 		return result;
+	}
+	
+	/**
+	 * Checks whether two elements are in the same set.
+	 * 
+	 * @param element1
+	 * @param element2
+	 * @return true if the given elements are in the same set
+	 */
+	public boolean inSameSet(T element1, T element2){
+		return find(element1) == find(element2) ? true : false;
 	}
 
 }
