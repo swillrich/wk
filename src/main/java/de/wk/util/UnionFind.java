@@ -62,7 +62,7 @@ public class UnionFind<T> {
 	 * @param element
 	 * @return a list of all elements within the set (partition)
 	 */
-	public ArrayList<T> getAllValuesByKey(T element) {
+	public ArrayList<T> getAllValuesByElement(T element) {
 		ArrayList<T> result = new ArrayList<T>();
 		T representative = find(element);
 		for(Map.Entry<T, T> entry : this.parent.entrySet()){
