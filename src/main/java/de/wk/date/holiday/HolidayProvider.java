@@ -20,7 +20,7 @@ import de.wk.date.holiday.immutable.Ostersonntag;
 import de.wk.date.holiday.immutable.Pfingstmontag;
 
 /**
- * This class provides all holidays which matters.
+ * This class provides all holidays.
  */
 public class HolidayProvider {
 	private Map<State, List<WKDateTime>> stateHolidayMapping = new HashMap<State, List<WKDateTime>>();
