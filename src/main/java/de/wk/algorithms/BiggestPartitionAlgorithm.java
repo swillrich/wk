@@ -20,25 +20,23 @@ public class BiggestPartitionAlgorithm implements HolidayCalculatorAlgorithm {
 	public void calculate(User user) {
 		HolidayPriorityQueue queue = new HolidayPriorityQueue(
 				user.getHolidays());
+		Integer maxLength = user.getUserConfiguration()
+				.getMaxLengthOfHolidayPartition();
 
 		for (Integer remaining = user.getUserConfiguration()
 				.getRemainingNumberOfHolidays(); remaining > 0
 				&& !queue.isEmpty();) {
 			Interval interval = queue.poll();
-			if (interval.toDuration().getStandardDays() > 1) {
-				for (int dayIndex = 1; dayIndex <= interval.toDuration()
-						.getStandardDays() && remaining > 0; dayIndex++) {
-					DateTime date = interval.getStart();
-					DateTime plusDays = date.plusDays(dayIndex);
-					KindOfDay kindOf = user.getHolidays().determineKindOf(
-							plusDays);
-					if (kindOf != KindOfDay.WEEKEND
-							&& kindOf != KindOfDay.HOLIDAY) {
-						VariableHoliday userHoliday = new VariableHoliday(
-								"Vacation", plusDays);
-						user.getHolidays().add(userHoliday);
-						remaining = remaining - 1;
-					}
+			for (int dayIndex = 1; dayIndex <= interval.toDuration()
+					.getStandardDays() && remaining > 0; dayIndex++) {
+				DateTime startDate = interval.getStart();
+				DateTime plusDays = startDate.plusDays(dayIndex);
+				KindOfDay kindOf = user.getHolidays().determineKindOf(plusDays);
+				if (kindOf != KindOfDay.WEEKEND && kindOf != KindOfDay.HOLIDAY) {
+					VariableHoliday userHoliday = new VariableHoliday(
+							"Vacation", plusDays);
+					user.getHolidays().add(userHoliday);
+					remaining = remaining - 1;
 				}
 			}
 		}
