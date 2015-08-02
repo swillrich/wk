@@ -8,7 +8,13 @@ import de.wk.date.holiday.VariableHoliday;
 import de.wk.user.User;
 import de.wk.util.HolidayPriorityQueue;
 
-public class BiggestPartitionAlgorithm implements Algorithm {
+/**
+ * This class represents the algorithm implementation for calculating the
+ * biggest holiday partition within a given range/interval. The biggest holiday
+ * partition may be encompass an upper bound so that more than one coherent
+ * partition could be created.
+ */
+public class BiggestPartitionAlgorithm implements HolidayCalculatorAlgorithm {
 
 	@Override
 	public void calculate(User user) {

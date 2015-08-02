@@ -4,6 +4,9 @@ import org.joda.time.DateTime;
 
 import de.wk.date.holiday.Holiday;
 
+/**
+ * The holiday representation of the official holiday "Buss und Bettag"
+ */
 @SuppressWarnings("rawtypes")
 public class BussUndBettag extends Holiday {
 

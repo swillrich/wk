@@ -8,6 +8,10 @@ import de.wk.date.WKDateTime.KindOfDay;
 import de.wk.date.holiday.Holiday;
 import de.wk.date.holiday.VariableHoliday;
 
+/**
+ * This class is a WKDateTime ArrayList (and therefore implicit a collection)
+ * and represents a list of days. The day can be each kind of day.
+ */
 @SuppressWarnings("serial")
 public class Days extends ArrayList<WKDateTime> {
 
@@ -21,6 +25,17 @@ public class Days extends ArrayList<WKDateTime> {
 		return b.toString();
 	}
 
+	/**
+	 * This method returns a WkDateTime object (specific date object) containing
+	 * by this object. The methods iterates all objects the collection contains
+	 * and returns the object whose date is equal to the date of the given
+	 * DateTime object.
+	 * 
+	 * @param d
+	 *            The DateTime object which contains the date this method is
+	 *            searching for.
+	 * @return The WKDateTime object, if found. Null otherwise.
+	 */
 	public WKDateTime findByDate(DateTime d) {
 		for (WKDateTime h : this) {
 			if (h.getJodaDateTime().withTimeAtStartOfDay()
@@ -31,6 +46,18 @@ public class Days extends ArrayList<WKDateTime> {
 		return null;
 	}
 
+	/**
+	 * This method provides the kind of day of a specific day. <br>
+	 * If the day is a vacation day or a holiday, this information will
+	 * provided. <br>
+	 * If the day is not a vacation day and not a holiday, this method will
+	 * return the information, whether the day is a week oder weekend day.
+	 * 
+	 * @param dateTime
+	 *            The DateTime object which contains the date this method is
+	 *            searching for.
+	 * @return The kind of the day
+	 */
 	public KindOfDay determineKindOf(DateTime dateTime) {
 		KindOfDay kindOf = null;
 		WKDateTime holiday = findByDate(dateTime);
@@ -49,6 +76,15 @@ public class Days extends ArrayList<WKDateTime> {
 		return kindOf.setDateTime(dateTime);
 	}
 
+	/**
+	 * This method returns a specific holiday by name.
+	 * 
+	 * @param name
+	 *            The name which is equal to the holiday name which should be
+	 *            searching for
+	 * @return The holiday object if a holiday with this name is found. Null
+	 *         otherwise.
+	 */
 	public Holiday<?> findHolidayByName(String name) {
 		for (WKDateTime e : this) {
 			if (e instanceof Holiday<?>) {

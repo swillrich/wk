@@ -1,7 +1,13 @@
 package de.wk.user;
 
-import de.wk.algorithms.DateConstraint;
-
+/**
+ * The user configuration is user-specific and is a component of the user. It
+ * consists of the total number of holiday the user can take (immutable, only
+ * through initializing), the remaining number of holidays (e.g. after
+ * calculating some holidays), the date constraints (see class DateConstraint,
+ * for building a partition, in which the holidays should be located), and the
+ * information, how big the maximal partition must be.
+ */
 public class UserConfiguration {
 	private final int numberOfHolidays;
 	private Integer remainingNumberOfHolidays;

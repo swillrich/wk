@@ -12,7 +12,7 @@ import de.wk.date.holiday.VariableHoliday;
 import de.wk.user.User;
 import de.wk.util.PriorityQueue;
 
-public class SimpleAlgorithm implements Algorithm {
+public class SimpleAlgorithm implements HolidayCalculatorAlgorithm {
 
 	private final int NUMBER_OF_PRIORITIES = 3;
 	private PriorityQueue<WKDateTime> holidaysByPriority;

@@ -19,14 +19,29 @@ import de.wk.date.holiday.immutable.Ostermontag;
 import de.wk.date.holiday.immutable.Ostersonntag;
 import de.wk.date.holiday.immutable.Pfingstmontag;
 
+/**
+ * This class provides all holidays which matters.
+ */
 public class HolidayProvider {
 	private Map<State, List<WKDateTime>> stateHolidayMapping = new HashMap<State, List<WKDateTime>>();
 	private Days days;
 
+	/**
+	 * The state enumeration encompasses all states
+	 */
 	public enum State {
 		BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH;
 	}
 
+	/**
+	 * This method provides all holidays being located between the given
+	 * interval.
+	 * 
+	 * @param interval
+	 *            The interval, in which the holidays are located
+	 * @return A Days (which is a collection) with the holidays being located
+	 *         within the given interval
+	 */
 	public Days provideBy(Interval interval) {
 		this.days = new Days();
 		DateTime start = interval.getStart();
@@ -38,12 +53,23 @@ public class HolidayProvider {
 		return days;
 	}
 
+	/**
+	 * This method provides all holidays being located between the given year.
+	 * 
+	 * @param year
+	 *            The year, in which the holidays are located
+	 * @return A Days (which is a collection) with the holidays being located
+	 *         within the given year
+	 */
 	public Days provideBy(int year) {
 		WKDateTime wkDateTime = new WKDateTime(year, 1, 1);
 		return provideBy(new Interval(wkDateTime, wkDateTime.getJodaDateTime()
 				.plusYears(1).minusDays(1)));
 	}
 
+	/**
+	 * Determines all (official) holidays for the given year.
+	 */
 	private void initializeByYear(int year) {
 		FixHoliday neujahr = new FixHoliday("Neujahr", year, 1, 1);
 		FixHoliday firstCMD = new FixHoliday("Erster Weihnachtstag", year, 12,

@@ -4,7 +4,9 @@ import org.joda.time.DateTime;
 
 import de.wk.date.holiday.Holiday;
 
-
+/**
+ * The holiday representation of the official holiday "Karfreitag"
+ */
 public class Karfreitag extends Holiday<Ostersonntag> {
 
 	public Karfreitag(Ostersonntag holiday) {

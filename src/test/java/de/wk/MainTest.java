@@ -49,7 +49,7 @@ public class MainTest {
 
 		new DaysPrinter(user.getHolidays(), true, true).print(interval);
 	}
-	
+
 	@Test
 	public void testBothAlgorithms() {
 		HolidayCalculator calculator = new HolidayCalculator(user);

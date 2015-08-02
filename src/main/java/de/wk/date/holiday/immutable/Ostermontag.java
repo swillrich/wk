@@ -4,8 +4,15 @@ import org.joda.time.DateTime;
 
 import de.wk.date.holiday.Holiday;
 
+/**
+ * The holiday representation of the official holiday "Ostermontag"
+ */
 public class Ostermontag extends Holiday<Ostersonntag> {
 
+	/**
+	 * @param holiday
+	 *            The object, on which this holiday depends
+	 */
 	public Ostermontag(Ostersonntag holiday) {
 		super(holiday);
 	}

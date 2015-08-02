@@ -5,9 +5,16 @@ import org.joda.time.DateTimeFieldType;
 
 import de.wk.date.holiday.Holiday;
 
+/**
+ * The holiday representation of the official holiday "Ostersonntag"
+ */
 @SuppressWarnings("rawtypes")
 public class Ostersonntag extends Holiday {
 
+	/**
+	 * @param year
+	 *            The year, in which the holiday occurs
+	 */
 	@SuppressWarnings("unchecked")
 	public Ostersonntag(int year) {
 		super(new FixHoliday(null, year, 1, 1));

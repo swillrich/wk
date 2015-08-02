@@ -10,6 +10,13 @@ import org.joda.time.format.DateTimeFormat;
 
 import de.wk.date.WKDateTime.KindOfDay;
 
+/**
+ * This class prints a given days object (which is a collection). <br>
+ * A user-friendly output is provided.<br>
+ * As a table the days getting printed month by month. The columns are the day
+ * starting from 0 until 31.
+ *
+ */
 public class DaysPrinter {
 
 	private Days days;
@@ -18,10 +25,25 @@ public class DaysPrinter {
 	private boolean hideWeekdays = true;
 	private boolean hideWeekendsOnly = true;
 
+	/**
+	 * @param days
+	 *            The days collection containing all days.
+	 */
 	public DaysPrinter(Days days) {
 		this.days = days;
 	}
 
+	/**
+	 * @param holidays
+	 *            All given days
+	 * @param hideWeekdays
+	 *            In the output, the several weekdays (Mon, Tue, Wed, Thu, Fri)
+	 *            are omitted.
+	 * @param hideWeekendsOnly
+	 *            In the output, this weekdays are omitted whose are independent
+	 *            of holiday partitions. That means, this days which are not
+	 *            part of a holiday partition and which would be appear alone.
+	 */
 	public DaysPrinter(Days holidays, boolean hideWeekdays,
 			boolean hideWeekendsOnly) {
 		this.days = holidays;
@@ -29,6 +51,10 @@ public class DaysPrinter {
 		this.hideWeekendsOnly = hideWeekendsOnly;
 	}
 
+	/**
+	 * This methods prints the holidays which are located within the given
+	 * interval.
+	 */
 	public void print(Interval interval) {
 		DateTime from = interval.getStart();
 		DateTime to = interval.getEnd();
@@ -108,12 +134,33 @@ public class DaysPrinter {
 		System.out.println();
 	}
 
+	/**
+	 * A DayAppearanceModifier is a modifier, which modifies the appearance of
+	 * the day which is printed out within a cell from the table. There can be
+	 * come modifier: * # ] [
+	 */
 	private static interface DayAppearanceModifier {
+		/**
+		 * Returns the modified string.
+		 * 
+		 * @param before
+		 *            Is the day before the day which becomes modified
+		 * @param current
+		 *            Is the day which becomes modified
+		 * @param next
+		 *            Id the day after the day which becomes modified
+		 * @param dayAsString
+		 *            Is the day which becomes modified as string
+		 * @return The modified string
+		 */
 		String returnAppearance(WKDateTime.KindOfDay before,
 				WKDateTime.KindOfDay current, WKDateTime.KindOfDay next,
 				String dayAsString);
 	}
 
+	/**
+	 * This method adds these modifiers which should be apply.
+	 */
 	private void setModifier() {
 		if (hideWeekdays) {
 			dayAppearanceModifierList.add(new DayAppearanceModifier() {

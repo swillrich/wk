@@ -4,9 +4,10 @@ import org.joda.time.DateTime;
 
 import de.wk.date.holiday.Holiday;
 
-
+/**
+ * The holiday representation of the official holiday "Christi Himmelfahrt"
+ */
 public class ChristiHimmelfahrt extends Holiday<Ostersonntag> {
-
 
 	public ChristiHimmelfahrt(String name, Ostersonntag holiday) {
 		super(name, holiday);
