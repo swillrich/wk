@@ -3,6 +3,7 @@ package de.wk.date.holiday;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -48,6 +49,13 @@ public class HolidayProvider {
 		DateTime end = interval.getEnd();
 		for (int year = start.getYear(); year <= end.getYear(); year++) {
 			initializeByYear(year);
+		}
+		Iterator<WKDateTime> iterator = days.iterator();
+		while (iterator.hasNext()) {
+			WKDateTime next = iterator.next();
+			if (!interval.contains(next)) {
+				iterator.remove();
+			}
 		}
 		Collections.sort(days);
 		return days;

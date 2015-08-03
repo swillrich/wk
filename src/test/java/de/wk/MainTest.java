@@ -1,5 +1,6 @@
 package de.wk;
 
+import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,7 +43,24 @@ public class MainTest {
 
 	@Test
 	public void testBiggestPartitionAlgorithm() {
-		user.getUserConfiguration().setMaxLengthOfHolidayPartition(7);
+		WKDateTime currentDate = new WKDateTime();
+		DateTime endDate = new WKDateTime(2016, 1, 1).getJodaDateTime()
+				.minusDays(1);
+		user.getUserConfiguration().getDateConstraint()
+				.setStartingDay(currentDate);
+		user.getUserConfiguration().getDateConstraint().setEndDay(endDate);
+		Days days = new HolidayProvider().provideBy(new Interval(currentDate,
+				endDate));
+		user.getHolidays().clear();
+		user.getHolidays().addAll(days);
+		user.getUserConfiguration().getRemainingNumberOfHolidays().reset(15);
+
+		Interval christmasInterval = new Interval(new WKDateTime(2015, 12, 20),
+				new WKDateTime(2015, 12, 31));
+
+		user.getUserConfiguration().getDateConstraint().getIntervalList()
+				.add(christmasInterval);
+
 		HolidayCalculator calculator = new HolidayCalculator(user);
 		calculator.setAlgorithm(new BiggestPartitionAlgorithm());
 		calculator.calculate();

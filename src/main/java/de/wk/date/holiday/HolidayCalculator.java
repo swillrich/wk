@@ -1,5 +1,8 @@
 package de.wk.date.holiday;
 
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
+
 import de.wk.algorithms.HolidayCalculatorAlgorithm;
 import de.wk.user.User;
 
@@ -31,11 +34,29 @@ public class HolidayCalculator {
 
 	/**
 	 * By calling this method the algorithm compute the holidays. The determined
-	 * days are getting stored in the user object.
+	 * days are getting stored in the user object.<br>
+	 * Note that the first step will be to fill the Intervals of priority (see
+	 * class DateConstraints).
 	 */
 	public void calculate() {
+		fillPriorityIntervalsWithHolidays();
 		if (!this.algorithm.equals(null)) {
 			algorithm.calculate(this.user);
+		}
+		System.out.println("Remaining number of holidays after algorithm run: "
+				+ user.getUserConfiguration().getRemainingNumberOfHolidays()
+						.get());
+	}
+
+	private void fillPriorityIntervalsWithHolidays() {
+		for (Interval interval : this.user.getUserConfiguration()
+				.getDateConstraint().getIntervalList()) {
+			for (DateTime dateTime = interval.getStart(); interval
+					.contains(dateTime); dateTime = dateTime.plusDays(1)) {
+				VariableHoliday variableHoliday = new VariableHoliday(
+						"must be holiday", dateTime);
+				this.user.getHolidays().add(variableHoliday);
+			}
 		}
 	}
 }

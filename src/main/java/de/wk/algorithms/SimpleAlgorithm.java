@@ -28,8 +28,8 @@ public class SimpleAlgorithm implements HolidayCalculatorAlgorithm {
 			fillGaps();
 		}
 		System.out.println(this.numberOfHolidays + " days remaining.");
-		this.user.getUserConfiguration().setRemainingNumberOfHolidays(
-				this.numberOfHolidays);
+		this.user.getUserConfiguration().getRemainingNumberOfHolidays()
+				.reset(this.numberOfHolidays);
 	}
 
 	private void fillGaps() {
@@ -42,14 +42,14 @@ public class SimpleAlgorithm implements HolidayCalculatorAlgorithm {
 					break;
 				}
 				switch (currentHoliday.getDayOfWeek()) {
-				//case 1:
+				// case 1:
 				case 4:
-					//case 7:
+					// case 7:
 					addNewHoliday(currentHoliday, true);
 					break;
 				case 2:
-					//case 5:
-					//case 6:
+					// case 5:
+					// case 6:
 					addNewHoliday(currentHoliday, false);
 					break;
 				case 3:

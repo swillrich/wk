@@ -10,13 +10,55 @@ package de.wk.user;
  */
 public class UserConfiguration {
 	private final int numberOfHolidays;
-	private Integer remainingNumberOfHolidays;
+	private RemainingNumberOfHolidays remainingNumberOfHolidays;
 	private DateConstraint dateConstraint = new DateConstraint();
 	private Integer maxLengthOfHolidayPartition = null;
 
+	/**
+	 * This class handles the change of the number of holidays. A new type was
+	 * created to operate on the same reference basically / globally.
+	 */
+	public class RemainingNumberOfHolidays {
+		private int remainingNumberOfHolidays;
+
+		public RemainingNumberOfHolidays(int remainingNumberOfHolidays) {
+			this.remainingNumberOfHolidays = remainingNumberOfHolidays;
+		}
+
+		/**
+		 * Resets the number of remaining holidays.
+		 */
+		public void reset(int numberOfRemainingHolidays) {
+			this.remainingNumberOfHolidays = numberOfRemainingHolidays;
+		}
+
+		/**
+		 * Decrements the current number of remaining holidays.
+		 */
+		public void decrement() {
+			this.remainingNumberOfHolidays = remainingNumberOfHolidays - 1;
+		}
+
+		/**
+		 * Increments the current number of remaining holidays.
+		 */
+		public void increment() {
+			this.remainingNumberOfHolidays = remainingNumberOfHolidays + 1;
+		}
+
+		/**
+		 * Returns the current state (that is the current number of remaining
+		 * holidays).
+		 */
+		public int get() {
+			return remainingNumberOfHolidays;
+		}
+	}
+
 	public UserConfiguration(int numberOfHolidays) {
 		this.numberOfHolidays = numberOfHolidays;
-		this.remainingNumberOfHolidays = numberOfHolidays;
+		this.remainingNumberOfHolidays = new RemainingNumberOfHolidays(
+				numberOfHolidays);
 	}
 
 	public Integer getMaxLengthOfHolidayPartition() {
@@ -35,11 +77,7 @@ public class UserConfiguration {
 		return dateConstraint;
 	}
 
-	public Integer getRemainingNumberOfHolidays() {
+	public RemainingNumberOfHolidays getRemainingNumberOfHolidays() {
 		return remainingNumberOfHolidays;
-	}
-
-	public void setRemainingNumberOfHolidays(Integer remainingNumberOfHolidays) {
-		this.remainingNumberOfHolidays = remainingNumberOfHolidays;
 	}
 }
