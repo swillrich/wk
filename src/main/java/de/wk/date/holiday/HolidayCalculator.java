@@ -53,7 +53,9 @@ public class HolidayCalculator {
 		for (Interval interval : this.user.getUserConfiguration()
 				.getDateConstraint().getIntervalList()) {
 			for (DateTime dateTime = interval.getStart(); interval
-					.contains(dateTime); dateTime = dateTime.plusDays(1)) {
+					.contains(dateTime)
+					|| dateTime.compareTo(interval.getEnd()) == 0; dateTime = dateTime
+					.plusDays(1)) {
 				KindOfDay kindOf = this.user.getHolidays().determineKindOf(
 						dateTime);
 				if (kindOf == KindOfDay.WEEK) {
