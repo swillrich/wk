@@ -1,9 +1,10 @@
 package de.wk;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,11 +16,11 @@ public class UnionFindTest {
 
 	@Before
 	public void setUp() throws Exception {
-		List<Integer> universe = new ArrayList<Integer>();
-		for (int i = 0; i <= 6; i++) {
-			universe.add(i);
+		Integer[] universe = new Integer[6];
+		for (int i = 0; i <= universe.length; i++) {
+			universe[i] = i;
 		}
-		this.unionFind = new UnionFind<Integer>(universe);
+		this.unionFind = new UnionFind<Integer>(Arrays.asList(universe));
 	}
 
 	@Test

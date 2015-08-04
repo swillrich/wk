@@ -55,7 +55,7 @@ public class MainTest {
 		user.getHolidays().addAll(days);
 		user.getUserConfiguration().getRemainingNumberOfHolidays().reset(15);
 
-		Interval christmasInterval = new Interval(new WKDateTime(2015, 12, 20),
+		Interval christmasInterval = new Interval(new WKDateTime(2015, 12, 23),
 				new WKDateTime(2015, 12, 31));
 
 		user.getUserConfiguration().getDateConstraint().getIntervalList()
