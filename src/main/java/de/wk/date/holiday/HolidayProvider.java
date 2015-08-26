@@ -2,10 +2,7 @@ package de.wk.date.holiday;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -21,16 +18,17 @@ import de.wk.date.holiday.immutable.Ostersonntag;
 import de.wk.date.holiday.immutable.Pfingstmontag;
 
 /**
- * This class provides all holidays.
+ * This class provides all holidays. <br>
+ * In order to provide holidays depending on specific states the state must be
+ * given. Without giving the state (e.g. pass null) no state is assumed and only
+ * common holidays will provided.
  */
 public class HolidayProvider {
-	private Map<State, List<WKDateTime>> stateHolidayMapping = new HashMap<State, List<WKDateTime>>();
-	private Days days;
 
 	/**
 	 * The state enumeration encompasses all states
 	 */
-	public enum State {
+	public static enum State {
 		BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH;
 	}
 
@@ -40,15 +38,17 @@ public class HolidayProvider {
 	 * 
 	 * @param interval
 	 *            The interval, in which the holidays are located
+	 * @param state
+	 *            The state on which the holidays should based on
 	 * @return A Days (which is a collection) with the holidays being located
 	 *         within the given interval
 	 */
-	public Days provideBy(Interval interval) {
-		this.days = new Days();
+	public static Days provideBy(Interval interval, State state) {
+		Days days = new Days();
 		DateTime start = interval.getStart();
 		DateTime end = interval.getEnd();
 		for (int year = start.getYear(); year <= end.getYear(); year++) {
-			initializeByYear(year);
+			initializeByYear(days, year, state);
 		}
 		Iterator<WKDateTime> iterator = days.iterator();
 		while (iterator.hasNext()) {
@@ -66,34 +66,35 @@ public class HolidayProvider {
 	 * 
 	 * @param year
 	 *            The year, in which the holidays are located
+	 * @param state
+	 *            The state on which the holidays should based on
 	 * @return A Days (which is a collection) with the holidays being located
 	 *         within the given year
 	 */
-	public Days provideBy(int year) {
+	public static Days provideBy(int year, State state) {
 		WKDateTime wkDateTime = new WKDateTime(year, 1, 1);
-		return provideBy(new Interval(wkDateTime, wkDateTime.getJodaDateTime()
-				.plusYears(1).minusDays(1)));
+		return provideBy(new Interval(wkDateTime, wkDateTime.getJodaDateTime().plusYears(1).minusDays(1)), state);
 	}
 
 	/**
 	 * Determines all (official) holidays for the given year.
+	 * 
+	 * @param days
+	 *            The Days (as collection) which is filled.
+	 * @param state
+	 *            The state on which the holidays are based on
 	 */
-	private void initializeByYear(int year) {
+	private static void initializeByYear(Days days, int year, State state) {
 		FixHoliday neujahr = new FixHoliday("Neujahr", year, 1, 1);
-		FixHoliday firstCMD = new FixHoliday("Erster Weihnachtstag", year, 12,
-				25);
-		FixHoliday secondCMD = new FixHoliday("Zweiter Weihnachtstag", year,
-				12, 26);
+		FixHoliday firstCMD = new FixHoliday("Erster Weihnachtstag", year, 12, 25);
+		FixHoliday secondCMD = new FixHoliday("Zweiter Weihnachtstag", year, 12, 26);
 		FixHoliday maifeiertag = new FixHoliday("Maifeiertag", year, 5, 1);
-		FixHoliday tdde = new FixHoliday("Tag der Deutschen Einheit", year, 10,
-				3);
-		BussUndBettag bussUndBettag = new BussUndBettag("Buss und Bettag",
-				firstCMD);
+		FixHoliday tdde = new FixHoliday("Tag der Deutschen Einheit", year, 10, 3);
+		BussUndBettag bussUndBettag = new BussUndBettag("Buss und Bettag", firstCMD);
 		Ostersonntag ostersonntag = new Ostersonntag(year);
 		Karfreitag karfreitag = new Karfreitag(ostersonntag);
 		Ostermontag ostermontag = new Ostermontag(ostersonntag);
-		ChristiHimmelfahrt christiHimmelfahrt = new ChristiHimmelfahrt(
-				"Christi Himmelfahrt", ostersonntag);
+		ChristiHimmelfahrt christiHimmelfahrt = new ChristiHimmelfahrt("Christi Himmelfahrt", ostersonntag);
 		Pfingstmontag pfingstmontag = new Pfingstmontag(ostersonntag);
 
 		// TODO: Add missing holidays
@@ -109,9 +110,8 @@ public class HolidayProvider {
 		commonHolidays.add(christiHimmelfahrt);
 		commonHolidays.add(pfingstmontag);
 
-		for (State state : State.values()) {
-			ArrayList<WKDateTime> tmp = new ArrayList<WKDateTime>();
-			tmp.addAll(commonHolidays);
+		days.addAll(commonHolidays);
+		if (state != null) {
 			switch (state) {
 			case BW:
 			case BY:
@@ -139,7 +139,7 @@ public class HolidayProvider {
 				break;
 			case SN:
 				/* Reformationstag */
-				tmp.add(bussUndBettag);
+				days.add(bussUndBettag);
 				break;
 			case ST:
 				/* Reformationstag */
@@ -148,11 +148,6 @@ public class HolidayProvider {
 			default:
 				break;
 			}
-			this.stateHolidayMapping.put(state, tmp);
 		}
-
-		// FIXME: may obsolete when states are fully implemented
-		days.addAll(commonHolidays);
-		days.add(bussUndBettag);
 	}
 }

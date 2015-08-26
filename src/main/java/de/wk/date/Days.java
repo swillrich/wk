@@ -10,7 +10,11 @@ import de.wk.date.holiday.VariableHoliday;
 
 /**
  * This class is a WKDateTime ArrayList (and therefore implicit a collection)
- * and represents a list of days. The day can be each kind of day.
+ * and represents a list of days. The day can be each kind of day. <br>
+ * Please note that <b>not</b> all gaps between arbitrary (holy-)days has been
+ * filled. Only days being holidays are containing. So it could be that one
+ * specific day being a non-holiday is embedded between two arbitrary holidays,
+ * whereby the non-holiday is not placed explicitly.
  */
 @SuppressWarnings("serial")
 public class Days extends ArrayList<WKDateTime> {
@@ -38,8 +42,7 @@ public class Days extends ArrayList<WKDateTime> {
 	 */
 	public WKDateTime findByDate(DateTime d) {
 		for (WKDateTime h : this) {
-			if (h.getJodaDateTime().withTimeAtStartOfDay()
-					.isEqual(d.withTimeAtStartOfDay())) {
+			if (h.getJodaDateTime().withTimeAtStartOfDay().isEqual(d.withTimeAtStartOfDay())) {
 				return h;
 			}
 		}
@@ -67,7 +70,6 @@ public class Days extends ArrayList<WKDateTime> {
 			} else {
 				kindOf = KindOfDay.HOLIDAY;
 			}
-
 		} else if (dateTime.getDayOfWeek() == 7 || dateTime.getDayOfWeek() == 6) {
 			kindOf = KindOfDay.WEEKEND;
 		} else {

@@ -23,7 +23,7 @@ public class Main {
 		Interval interval = new Interval(time, time.getJodaDateTime()
 				.plusYears(1).minusDays(1));
 
-		Days holidays = new HolidayProvider().provideBy(2015);
+		Days holidays = HolidayProvider.provideBy(2015, null);
 		sascha.getHolidays().addAll(holidays);
 
 		HolidayCalculator calculator = new HolidayCalculator(sascha);
