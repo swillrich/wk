@@ -22,6 +22,11 @@ public class DateConstraint {
 	private ReadableDateTime startingDay;
 	private ReadableDateTime endDay;
 	private List<Interval> intervalList = new ArrayList<Interval>() {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		public boolean add(Interval e) {
 			if (startingDay != null) {
 				if (e.getStart().compareTo(startingDay) < 0) {

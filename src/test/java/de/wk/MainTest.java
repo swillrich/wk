@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.wk.algorithms.BiggestPartitionAlgorithm;
-import de.wk.algorithms.SimpleAlgorithm;
+import de.wk.algorithms.FillGapsAlgorithm;
 import de.wk.date.Days;
 import de.wk.date.DaysPrinter;
 import de.wk.date.WKDateTime;
@@ -34,7 +34,7 @@ public class MainTest {
 	@Test
 	public void testSimpleAlgorithm() {
 		HolidayCalculator calculator = new HolidayCalculator(user);
-		calculator.setAlgorithm(new SimpleAlgorithm());
+		calculator.setAlgorithm(new FillGapsAlgorithm());
 		calculator.calculate();
 
 		new DaysPrinter(user.getHolidays(), true, true).print(interval);
@@ -65,7 +65,7 @@ public class MainTest {
 	@Test
 	public void testBothAlgorithms() {
 		HolidayCalculator calculator = new HolidayCalculator(user);
-		calculator.setAlgorithm(new SimpleAlgorithm());
+		calculator.setAlgorithm(new FillGapsAlgorithm());
 		calculator.calculate();
 		new DaysPrinter(user.getHolidays(), true, true).print(interval);
 		calculator.setAlgorithm(new BiggestPartitionAlgorithm());

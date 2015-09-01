@@ -2,7 +2,7 @@ package de.wk;
 
 import org.joda.time.Interval;
 
-import de.wk.algorithms.SimpleAlgorithm;
+import de.wk.algorithms.FillGapsAlgorithm;
 import de.wk.date.Days;
 import de.wk.date.DaysPrinter;
 import de.wk.date.WKDateTime;
@@ -27,7 +27,7 @@ public class Main {
 		sascha.getHolidays().addAll(holidays);
 
 		HolidayCalculator calculator = new HolidayCalculator(sascha);
-		calculator.setAlgorithm(new SimpleAlgorithm());
+		calculator.setAlgorithm(new FillGapsAlgorithm());
 		calculator.calculate();
 
 		new DaysPrinter(sascha.getHolidays(), true, true)
