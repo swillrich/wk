@@ -13,7 +13,7 @@ import de.wk.user.User;
 
 /**
  * This algorithm invoked firstly. He fills the gaps between weekend days and
- * holidays. We just consider tuesdays, wednesdays and thursdays because the 
+ * holidays. We just consider tuesdays, wednesdays and thursdays because the
  * others do not cause a gap.
  *
  */
@@ -30,8 +30,7 @@ public class FillGapsAlgorithm implements HolidayCalculatorAlgorithm {
 			fillGaps();
 		}
 		System.out.println(this.numberOfHolidays + " days remaining.");
-		this.user.getUserConfiguration().getRemainingNumberOfHolidays()
-				.reset(this.numberOfHolidays);
+		this.user.setRemainingNumberOfHolidays(this.numberOfHolidays);
 	}
 
 	private void fillGaps() {
@@ -42,13 +41,13 @@ public class FillGapsAlgorithm implements HolidayCalculatorAlgorithm {
 			// TUESDAY
 			if (holiday.getDayOfWeek() == 2) {
 				addNewHoliday(holiday, false);
-			// WEDNESDAY
+				// WEDNESDAY
 			} else if (holiday.getDayOfWeek() == 3) {
 				if (this.numberOfHolidays >= 2) {
 					WKDateTime tmp = addNewHoliday(holiday, true);
 					addNewHoliday(tmp, true);
 				}
-			// THURSDAY
+				// THURSDAY
 			} else if (holiday.getDayOfWeek() == 4) {
 				addNewHoliday(holiday, true);
 			}
@@ -85,8 +84,7 @@ public class FillGapsAlgorithm implements HolidayCalculatorAlgorithm {
 
 	private void init(User user) {
 		this.user = user;
-		this.numberOfHolidays = this.user.getUserConfiguration()
-				.getNumberOfHolidays();
+		this.numberOfHolidays = this.user.getRemainingNumberOfHolidays();
 		this.holidays = user.getHolidays();
 	}
 }

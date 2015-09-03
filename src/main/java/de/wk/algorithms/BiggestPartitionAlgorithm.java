@@ -6,7 +6,6 @@ import org.joda.time.Interval;
 import de.wk.date.WKDateTime.KindOfDay;
 import de.wk.date.holiday.VariableHoliday;
 import de.wk.user.User;
-import de.wk.user.UserConfiguration.RemainingNumberOfHolidays;
 import de.wk.util.HolidayPriorityQueue;
 
 /**
@@ -22,12 +21,11 @@ public class BiggestPartitionAlgorithm implements HolidayCalculatorAlgorithm {
 		HolidayPriorityQueue queue = new HolidayPriorityQueue(
 				user.getHolidays());
 
-		for (RemainingNumberOfHolidays remaining = user.getUserConfiguration()
-				.getRemainingNumberOfHolidays(); remaining.get() > 0
+		for (Integer remaining = user.getRemainingNumberOfHolidays(); remaining > 0
 				&& !queue.isEmpty();) {
 			Interval interval = queue.poll();
 			for (int dayIndex = 1; dayIndex <= interval.toDuration()
-					.getStandardDays() && remaining.get() > 0; dayIndex++) {
+					.getStandardDays() && remaining > 0; dayIndex++) {
 				DateTime startDate = interval.getStart();
 				DateTime plusDays = startDate.plusDays(dayIndex);
 				KindOfDay kindOf = user.getHolidays().determineKindOf(plusDays);
@@ -35,7 +33,7 @@ public class BiggestPartitionAlgorithm implements HolidayCalculatorAlgorithm {
 					VariableHoliday userHoliday = new VariableHoliday(
 							"Vacation", plusDays);
 					user.getHolidays().add(userHoliday);
-					remaining.decrement();
+					remaining = remaining - 1;
 				}
 			}
 		}

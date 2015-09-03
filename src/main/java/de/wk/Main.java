@@ -17,7 +17,7 @@ import de.wk.user.User;
  */
 public class Main {
 	public static void main(String[] args) {
-		User sascha = new User("Sacke :-)", 24, State.BE);
+		User sascha = new User("Sascha :-)", 24, State.BE, 2015);
 
 		WKDateTime time = new WKDateTime(2015, 1, 1);
 		Interval interval = new Interval(time, time.getJodaDateTime()
@@ -30,7 +30,6 @@ public class Main {
 		calculator.setAlgorithm(new FillGapsAlgorithm());
 		calculator.calculate();
 
-		new DaysPrinter(sascha.getHolidays(), true, true)
-				.print(interval);
+		new DaysPrinter(sascha.getHolidays(), true, true).print(interval);
 	}
 }

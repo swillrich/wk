@@ -45,13 +45,11 @@ public class HolidayCalculator {
 			algorithm.calculate(this.user);
 		}
 		System.out.println("Remaining number of holidays after algorithm run: "
-				+ user.getUserConfiguration().getRemainingNumberOfHolidays()
-						.get());
+				+ user.getRemainingNumberOfHolidays());
 	}
 
 	private void fillPriorityIntervalsWithHolidays() {
-		for (Interval interval : this.user.getUserConfiguration()
-				.getDateConstraint().getIntervalList()) {
+		for (Interval interval : this.user.getPreferredHolidayIntervals()) {
 			for (DateTime dateTime = interval.getStart(); interval
 					.contains(dateTime)
 					|| dateTime.compareTo(interval.getEnd()) == 0; dateTime = dateTime
