@@ -13,7 +13,9 @@ import de.wk.date.WKDateTime;
 import de.wk.date.holiday.HolidayCalculator;
 import de.wk.date.holiday.HolidayProvider;
 import de.wk.date.holiday.HolidayProvider.State;
+import de.wk.date.holiday.immutable.ChristiHimmelfahrt;
 import de.wk.user.User;
+import de.wk.user.WKInterval;
 
 public class MainTest {
 
@@ -34,6 +36,10 @@ public class MainTest {
 	@Test
 	public void testWithSpecificData() {
 		User user = new User("Sven", 24, State.BE, 2015).setHolidaysByGivenConfiguration();
+		WKInterval chrismasInterval = new WKInterval(new WKDateTime(2015, 12, 23), new WKDateTime(2015, 12, 31), true);
+		chrismasInterval.setTitle("Christmas holdays");
+		user.getPreferredHolidayIntervals().add(chrismasInterval);
+
 		HolidayCalculator calculator = new HolidayCalculator(user);
 		calculator.setAlgorithm(new BiggestPartitionAlgorithm());
 		calculator.calculate();
