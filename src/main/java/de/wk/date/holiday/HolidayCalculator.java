@@ -41,23 +41,28 @@ public class HolidayCalculator {
 	 * class DateConstraints).
 	 */
 	public void calculate() {
+		System.out.println("Calculation for " + user.getName());
 		fillPriorityIntervalsWithHolidays();
+		System.out.println("After filling preferred holiday intervals, " + user.getRemainingHolidays().get()
+				+ " holiday(s) are remaining");
 		if (!this.algorithm.equals(null)) {
 			algorithm.calculate(this.user);
 		}
-		System.out.println("Algorithm processed for user: " + user.getName());
-		System.out.println("Remaining number of holidays after algorithm run: " + user.getRemainingHolidays().get());
+
+		System.out.println("After algorithm run, " + user.getRemainingHolidays().get() + " holiday(s) are remaining");
 	}
 
 	private void fillPriorityIntervalsWithHolidays() {
 		for (WKInterval wkInterval : this.user.getPreferredHolidayIntervals()) {
 			Interval interval = wkInterval.getInterval();
-			for (DateTime dateTime = interval.getStart(); interval.contains(dateTime)
-					|| dateTime.compareTo(interval.getEnd()) == 0; dateTime = dateTime.plusDays(1)) {
+			for (DateTime dateTime = interval.getStart(); (interval.contains(dateTime)
+					|| dateTime.compareTo(interval.getEnd()) == 0)
+					&& this.user.getRemainingHolidays().stillAvailable(); dateTime = dateTime.plusDays(1)) {
 				KindOfDay kindOf = this.user.getHolidays().determineKindOf(dateTime);
 				if (kindOf == KindOfDay.WEEK) {
 					VariableHoliday variableHoliday = new VariableHoliday("must be holiday", dateTime);
 					this.user.getHolidays().add(variableHoliday);
+					this.user.getRemainingHolidays().decrement();
 				}
 			}
 		}

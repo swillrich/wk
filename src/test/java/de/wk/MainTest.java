@@ -38,7 +38,11 @@ public class MainTest {
 		User user = new User("Sven", 24, State.BE, 2015).setHolidaysByGivenConfiguration();
 		WKInterval chrismasInterval = new WKInterval(new WKDateTime(2015, 12, 23), new WKDateTime(2015, 12, 31), true);
 		chrismasInterval.setTitle("Christmas holdays");
-		user.getPreferredHolidayIntervals().add(chrismasInterval);
+		WKInterval summerHolidayAtSchool = new WKInterval(new WKDateTime(2015, 7, 16), new WKDateTime(2015, 8, 1),
+				true);
+		chrismasInterval.setTitle("Christmas holdays");
+		user.addPreferredHolidayInterval(chrismasInterval);
+		user.addPreferredHolidayInterval(summerHolidayAtSchool);
 
 		HolidayCalculator calculator = new HolidayCalculator(user);
 		calculator.setAlgorithm(new BiggestPartitionAlgorithm());

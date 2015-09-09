@@ -58,12 +58,49 @@ public class User {
 		return numberOfHolidays;
 	}
 
-	public List<WKInterval> getPreferredHolidayIntervals() {
-		return preferredHolidayIntervals;
+	/**
+	 * Adds a new preferred interval as WKInterval. The method considers the
+	 * total number of available holidays with the length of all previously
+	 * added interval length.
+	 * 
+	 * @param interval
+	 * @return Is true if the current days length of already added intervals and
+	 *         the length of the new given interval, which should be added, is
+	 *         smaller than the total number of holidays. Otherwise false, that
+	 *         is the already existing intervals in sum plus the days length of
+	 *         the new interval is bigger than all holidays together the user
+	 *         could generally take.
+	 */
+	public boolean addPreferredHolidayInterval(WKInterval interval) {
+		long newIntervalDaysLength = interval.getInterval().toDuration().getStandardDays();
+		long totalNumberOfDaysLength = 0;
+		for (WKInterval wkInterval : this.preferredHolidayIntervals) {
+			long currentIntervalDaysLengte = wkInterval.getInterval().toDuration().getStandardDays();
+			totalNumberOfDaysLength = totalNumberOfDaysLength + currentIntervalDaysLengte;
+		}
+		if (totalNumberOfDaysLength + newIntervalDaysLength > this.numberOfHolidays) {
+			System.out.println("Could not add this interval, because adding "
+					+ "would lead to size exceeding of available holidays. There are " + getRemainingHolidays().get()
+					+ " holidays are remaining, " + "but this interval would take " + newIntervalDaysLength + " days.");
+			return false;
+		} else {
+			this.preferredHolidayIntervals.add(interval);
+			return true;
+		}
 	}
 
-	public List<WKInterval> getNoHolidayIntervals() {
-		return noHolidayIntervals;
+	/**
+	 * Returns all the added intervals being preferred to be filled with
+	 * holidays.<br/>
+	 * <br/>
+	 * <b>Do not use this method to add a new interval. Instead using this
+	 * method, use addPreferredHolidayInterval-Method. This is why this method
+	 * does not prove size exceeding.</b>
+	 * 
+	 * @return
+	 */
+	public List<WKInterval> getPreferredHolidayIntervals() {
+		return preferredHolidayIntervals;
 	}
 
 	/**
