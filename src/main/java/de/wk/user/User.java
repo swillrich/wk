@@ -35,7 +35,7 @@ public class User {
 	 * with the current number of holidays the user owns. Appropriate methods
 	 * allow to value changes.
 	 */
-	private RemainingNumberOfHoldiay remainingNumberOfHolidays;
+	private RemainingNumberOfHolidays remainingNumberOfHolidays;
 	/**
 	 * The state of the user.
 	 */
@@ -85,7 +85,7 @@ public class User {
 		this.holidays = new Days();
 		this.state = state;
 		this.numberOfHolidays = numberOfHolidays;
-		this.remainingNumberOfHolidays = new RemainingNumberOfHoldiay(numberOfHolidays);
+		this.remainingNumberOfHolidays = new RemainingNumberOfHolidays(numberOfHolidays);
 		this.scope = new Interval(start, end);
 	}
 
@@ -106,7 +106,7 @@ public class User {
 		this.holidays = new Days();
 		this.state = state;
 		this.numberOfHolidays = numberOfHolidays;
-		this.remainingNumberOfHolidays = new RemainingNumberOfHoldiay(numberOfHolidays);
+		this.remainingNumberOfHolidays = new RemainingNumberOfHolidays(numberOfHolidays);
 		this.scope = new Interval(new WKDateTime(year, 1, 1), new WKDateTime(year, 12, 31));
 	}
 
@@ -162,7 +162,7 @@ public class User {
 	 * 
 	 * @return The class with the current number
 	 */
-	public RemainingNumberOfHoldiay getRemainingHolidays() {
+	public RemainingNumberOfHolidays getRemainingHolidays() {
 		return remainingNumberOfHolidays;
 	}
 }

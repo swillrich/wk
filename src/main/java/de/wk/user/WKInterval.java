@@ -75,4 +75,11 @@ public class WKInterval {
 	public WKInterval(Interval interval, boolean isHoliday) {
 		this.interval = interval;
 	}
+
+	/**
+	 * @return The Soda Interval
+	 */
+	public Interval getInterval() {
+		return interval;
+	}
 }

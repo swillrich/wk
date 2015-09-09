@@ -6,6 +6,7 @@ import org.joda.time.Interval;
 import de.wk.algorithms.HolidayCalculatorAlgorithm;
 import de.wk.date.WKDateTime.KindOfDay;
 import de.wk.user.User;
+import de.wk.user.WKInterval;
 
 /**
  * This class calculated for a specific user and with a specific algorithm the
@@ -49,7 +50,8 @@ public class HolidayCalculator {
 	}
 
 	private void fillPriorityIntervalsWithHolidays() {
-		for (Interval interval : this.user.getPreferredHolidayIntervals()) {
+		for (WKInterval wkInterval : this.user.getPreferredHolidayIntervals()) {
+			Interval interval = wkInterval.getInterval();
 			for (DateTime dateTime = interval.getStart(); interval.contains(dateTime)
 					|| dateTime.compareTo(interval.getEnd()) == 0; dateTime = dateTime.plusDays(1)) {
 				KindOfDay kindOf = this.user.getHolidays().determineKindOf(dateTime);

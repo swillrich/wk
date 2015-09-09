@@ -7,11 +7,11 @@ package de.wk.user;
  * Furthermore, value changes have to lead to changes relating the contained
  * int32 representing the number of remaining holidays.
  */
-public class RemainingNumberOfHoldiay {
+public class RemainingNumberOfHolidays {
 	private int remainingNumber;
 	private final int numberOfHolidays;
 
-	public RemainingNumberOfHoldiay(int numberOfHolidays) {
+	public RemainingNumberOfHolidays(int numberOfHolidays) {
 		this.remainingNumber = numberOfHolidays;
 		this.numberOfHolidays = numberOfHolidays;
 	}
