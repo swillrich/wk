@@ -29,14 +29,11 @@ public class FillGapsAlgorithm implements HolidayCalculatorAlgorithm {
 		if (this.numberOfHolidays > 0) {
 			fillGaps();
 		}
-		System.out.println(this.numberOfHolidays + " days remaining.");
-		this.user.setRemainingNumberOfHolidays(this.numberOfHolidays);
 	}
 
 	private void fillGaps() {
 		// copy list to avoid ConcurrentModificationException
-		ArrayList<WKDateTime> copy = new ArrayList<WKDateTime>(
-				this.user.getHolidays());
+		ArrayList<WKDateTime> copy = new ArrayList<WKDateTime>(this.user.getHolidays());
 		for (WKDateTime holiday : copy) {
 			// TUESDAY
 			if (holiday.getDayOfWeek() == 2) {
@@ -63,20 +60,18 @@ public class FillGapsAlgorithm implements HolidayCalculatorAlgorithm {
 	 *            a day before the currentHoliday
 	 * @return the newly added holiday
 	 */
-	private WKDateTime addNewHoliday(WKDateTime currentHoliday,
-			boolean isPlusDay) {
+	private WKDateTime addNewHoliday(WKDateTime currentHoliday, boolean isPlusDay) {
 		int x = isPlusDay ? 1 : -1;
 		// point to new holiday to take
 		DateTime tmp = currentHoliday.getJodaDateTime().plusDays(x);
 		KindOfDay kindOf = user.getHolidays().determineKindOf(tmp);
 		// just consider days, that is neither a weekend day nor holiday
 		if (kindOf != KindOfDay.WEEKEND && kindOf != KindOfDay.HOLIDAY) {
-			VariableHoliday newHoliday = new VariableHoliday("Urlaubstag",
-					tmp.getYear(), tmp.getMonthOfYear(), tmp.getDayOfMonth());
+			VariableHoliday newHoliday = new VariableHoliday("Urlaubstag", tmp.getYear(), tmp.getMonthOfYear(),
+					tmp.getDayOfMonth());
 			this.holidays.add(newHoliday);
 			this.numberOfHolidays--;
-			System.out.println("Added "
-					+ DateTimeFormat.forPattern("dd. MMM yyyy").print(tmp));
+			System.out.println("Added " + DateTimeFormat.forPattern("dd. MMM yyyy").print(tmp));
 			return newHoliday;
 		}
 		return null;
@@ -84,7 +79,7 @@ public class FillGapsAlgorithm implements HolidayCalculatorAlgorithm {
 
 	private void init(User user) {
 		this.user = user;
-		this.numberOfHolidays = this.user.getRemainingNumberOfHolidays();
+		this.numberOfHolidays = this.user.getRemainingHolidays().get();
 		this.holidays = user.getHolidays();
 	}
 }

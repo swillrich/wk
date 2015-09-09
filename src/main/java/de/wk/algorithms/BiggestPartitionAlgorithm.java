@@ -6,6 +6,7 @@ import org.joda.time.Interval;
 import de.wk.date.WKDateTime.KindOfDay;
 import de.wk.date.holiday.VariableHoliday;
 import de.wk.user.User;
+import de.wk.user.User.RemainingNumberOfHoldiay;
 import de.wk.util.HolidayPriorityQueue;
 
 /**
@@ -18,22 +19,19 @@ public class BiggestPartitionAlgorithm implements HolidayCalculatorAlgorithm {
 
 	@Override
 	public void calculate(User user) {
-		HolidayPriorityQueue queue = new HolidayPriorityQueue(
-				user.getHolidays());
-
-		for (Integer remaining = user.getRemainingNumberOfHolidays(); remaining > 0
+		HolidayPriorityQueue queue = new HolidayPriorityQueue(user.getHolidays());
+		for (RemainingNumberOfHoldiay remaining = user.getRemainingHolidays(); remaining.stillAvailable()
 				&& !queue.isEmpty();) {
 			Interval interval = queue.poll();
-			for (int dayIndex = 1; dayIndex <= interval.toDuration()
-					.getStandardDays() && remaining > 0; dayIndex++) {
+			for (int dayIndex = 1; dayIndex <= interval.toDuration().getStandardDays()
+					&& remaining.stillAvailable(); dayIndex++) {
 				DateTime startDate = interval.getStart();
 				DateTime plusDays = startDate.plusDays(dayIndex);
 				KindOfDay kindOf = user.getHolidays().determineKindOf(plusDays);
 				if (kindOf != KindOfDay.WEEKEND && kindOf != KindOfDay.HOLIDAY) {
-					VariableHoliday userHoliday = new VariableHoliday(
-							"Vacation", plusDays);
+					VariableHoliday userHoliday = new VariableHoliday("Vacation", plusDays);
 					user.getHolidays().add(userHoliday);
-					remaining = remaining - 1;
+					remaining.decrement();
 				}
 			}
 		}

@@ -26,7 +26,27 @@ import de.wk.date.holiday.immutable.Pfingstmontag;
 public class HolidayProvider {
 
 	/**
-	 * The state enumeration encompasses all states
+	 * The state enumeration encompasses all states <br/>
+	 * <br/>
+	 * 
+	 * <ul>
+	 * <li>BW Baden-Württemberg</li>
+	 * <li>BY Bayern</li>
+	 * <li>BE Berlin</li>
+	 * <li>BB Brandenburg</li>
+	 * <li>HB Bremen</li>
+	 * <li>HH Hamburg</li>
+	 * <li>HE Hessen</li>
+	 * <li>MV Mecklenburg-Vorpommern</li>
+	 * <li>NI Niedersachsen</li>
+	 * <li>NW Nordrhein-Westfalen</li>
+	 * <li>RP Rheinland-Pfalz</li>
+	 * <li>SL Saarland</li>
+	 * <li>SN Sachsen</li>
+	 * <li>ST Sachsen-Anhalt</li>
+	 * <li>SH Schleswig-Holstein</li>
+	 * <li>TH Thüringen</li>
+	 * </ul>
 	 */
 	public static enum State {
 		BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH;

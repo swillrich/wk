@@ -7,6 +7,7 @@ import org.joda.time.Interval;
 
 import de.wk.date.Days;
 import de.wk.date.WKDateTime;
+import de.wk.date.holiday.HolidayProvider;
 import de.wk.date.holiday.HolidayProvider.State;
 
 /**
@@ -30,10 +31,11 @@ public class User {
 	 */
 	private final int numberOfHolidays;
 	/**
-	 * The remaining number of holidays. This value changed once a holiday is
-	 * taken.
+	 * The remaining number of holidays as custom type. The type holds a integer
+	 * with the current number of holidays the user owns. Appropriate methods
+	 * allow to value changes.
 	 */
-	private Integer remainingNumberOfHolidays;
+	private RemainingNumberOfHoldiay remainingNumberOfHolidays;
 	/**
 	 * The state of the user.
 	 */
@@ -56,14 +58,6 @@ public class User {
 		return numberOfHolidays;
 	}
 
-	public Integer getRemainingNumberOfHolidays() {
-		return remainingNumberOfHolidays;
-	}
-
-	public void setRemainingNumberOfHolidays(Integer remainingNumberOfHolidays) {
-		this.remainingNumberOfHolidays = remainingNumberOfHolidays;
-	}
-
 	public List<Interval> getPreferredHolidayIntervals() {
 		return preferredHolidayIntervals;
 	}
@@ -82,13 +76,12 @@ public class User {
 	 * @param end
 	 *            The last date of the scope to be considered
 	 */
-	public User(String name, int numberOfHolidays, State state,
-			WKDateTime start, WKDateTime end) {
+	public User(String name, int numberOfHolidays, State state, WKDateTime start, WKDateTime end) {
 		this.name = name;
 		this.holidays = new Days();
 		this.state = state;
 		this.numberOfHolidays = numberOfHolidays;
-		this.remainingNumberOfHolidays = numberOfHolidays;
+		this.remainingNumberOfHolidays = new RemainingNumberOfHoldiay(numberOfHolidays);
 		this.scope = new Interval(start, end);
 	}
 
@@ -109,14 +102,22 @@ public class User {
 		this.holidays = new Days();
 		this.state = state;
 		this.numberOfHolidays = numberOfHolidays;
-		this.remainingNumberOfHolidays = numberOfHolidays;
-		this.scope = new Interval(new WKDateTime(year, 1, 1), new WKDateTime(
-				year, 12, 31));
+		this.remainingNumberOfHolidays = new RemainingNumberOfHoldiay(numberOfHolidays);
+		this.scope = new Interval(new WKDateTime(year, 1, 1), new WKDateTime(year, 12, 31));
 	}
 
 	/**
-	 * Sets the name of the user
+	 * Calculates the fix holidays for this user. While the calculation is
+	 * processed, the given State is considered.
+	 * 
+	 * @return The user object on which the current method is invoked
 	 */
+	public User setHolidaysByGivenConfiguration() {
+		Days days = new HolidayProvider().provideBy(this.scope, this.state);
+		this.holidays.addAll(days);
+		return this;
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -153,5 +154,85 @@ public class User {
 	 */
 	public State getState() {
 		return this.state;
+	}
+
+	/**
+	 * Returns the current number of remaining holidays. For more information,
+	 * consider the class java-doc.
+	 * 
+	 * @return The class with the current number
+	 */
+	public RemainingNumberOfHoldiay getRemainingHolidays() {
+		return remainingNumberOfHolidays;
+	}
+
+	/**
+	 * This class handles the incrementation/decrementation of the number of
+	 * remaining holidays. The class is necessary because the number of
+	 * remaining holidays must be accessible from all over the program.
+	 * Furthermore, value changes have to lead to changes relating the contained
+	 * int32 representing the number of remaining holidays.
+	 */
+	public class RemainingNumberOfHoldiay {
+		private int remainingNumber;
+
+		public RemainingNumberOfHoldiay(int numberOfHolidays) {
+			this.remainingNumber = User.this.numberOfHolidays;
+		}
+
+		/**
+		 * Decrements the current number of remaining holidays.
+		 * 
+		 * @return Is true if the number of holidays would been smaller after
+		 *         method run. False otherwise and if the current number of
+		 *         remaining holidays has reached the smallest possible value.
+		 */
+		public boolean decrement() {
+			if (0 >= this.remainingNumber) {
+				return false;
+			} else {
+				this.remainingNumber = this.remainingNumber - 1;
+				return true;
+			}
+		}
+
+		/**
+		 * Increments the current number of remaining holidays.
+		 * 
+		 * @return Is true if the number of holidays would been bigger after
+		 *         method run. False otherwise and if the current number of
+		 *         remaining holidays has reached his maximum (that is the total
+		 *         number of holidays being initialized initially).
+		 */
+		public boolean increment() {
+			if (User.this.numberOfHolidays >= this.remainingNumber) {
+				return false;
+			} else {
+				this.remainingNumber = this.remainingNumber + 1;
+				return true;
+			}
+		}
+
+		/**
+		 * Resets the current number of holiday to the initial value referred to
+		 * as total number of holidays.
+		 */
+		public void reset() {
+			this.remainingNumber = User.this.numberOfHolidays;
+		}
+
+		/**
+		 * @return The current number of remaining holidays.
+		 */
+		public int get() {
+			return remainingNumber;
+		}
+
+		/**
+		 * @return Is true if holidays are still available to take.
+		 */
+		public boolean stillAvailable() {
+			return remainingNumber > 0;
+		}
 	}
 }

@@ -25,11 +25,19 @@ public class MainTest {
 		user = new User("Sacke :-)", 24, State.BE, 2015);
 
 		WKDateTime time = new WKDateTime(2015, 1, 1);
-		interval = new Interval(time, time.getJodaDateTime().plusYears(1)
-				.minusDays(1));
+		interval = new Interval(time, time.getJodaDateTime().plusYears(1).minusDays(1));
 
 		Days holidays = HolidayProvider.provideBy(interval, null);
 		user.getHolidays().addAll(holidays);
+	}
+
+	@Test
+	public void testWithSpecificData() {
+		User user = new User("Sven", 24, State.BE, 2015).setHolidaysByGivenConfiguration();
+		HolidayCalculator calculator = new HolidayCalculator(user);
+		calculator.setAlgorithm(new BiggestPartitionAlgorithm());
+		calculator.calculate();
+		new DaysPrinter(user.getHolidays()).print(user.getScope());
 	}
 
 	@Test
@@ -44,17 +52,14 @@ public class MainTest {
 	@Test
 	public void testBiggestPartitionAlgorithm() {
 		WKDateTime currentDate = new WKDateTime();
-		DateTime endDate = new WKDateTime(2016, 1, 1).getJodaDateTime()
-				.minusDays(1);
+		DateTime endDate = new WKDateTime(2016, 1, 1).getJodaDateTime().minusDays(1);
 		user.setScope(new Interval(currentDate, endDate));
 
 		Days days = HolidayProvider.provideBy(user.getScope(), null);
 		user.getHolidays().clear();
 		user.getHolidays().addAll(days);
-		user.setRemainingNumberOfHolidays(15);
 
-		Interval christmasInterval = new Interval(new WKDateTime(2015, 12, 23),
-				new WKDateTime(2015, 12, 31));
+		Interval christmasInterval = new Interval(new WKDateTime(2015, 12, 23), new WKDateTime(2015, 12, 31));
 
 		user.getPreferredHolidayIntervals().add(christmasInterval);
 

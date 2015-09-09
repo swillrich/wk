@@ -44,21 +44,17 @@ public class HolidayCalculator {
 		if (!this.algorithm.equals(null)) {
 			algorithm.calculate(this.user);
 		}
-		System.out.println("Remaining number of holidays after algorithm run: "
-				+ user.getRemainingNumberOfHolidays());
+		System.out.println("Algorithm processed for user: " + user.getName());
+		System.out.println("Remaining number of holidays after algorithm run: " + user.getRemainingHolidays().get());
 	}
 
 	private void fillPriorityIntervalsWithHolidays() {
 		for (Interval interval : this.user.getPreferredHolidayIntervals()) {
-			for (DateTime dateTime = interval.getStart(); interval
-					.contains(dateTime)
-					|| dateTime.compareTo(interval.getEnd()) == 0; dateTime = dateTime
-					.plusDays(1)) {
-				KindOfDay kindOf = this.user.getHolidays().determineKindOf(
-						dateTime);
+			for (DateTime dateTime = interval.getStart(); interval.contains(dateTime)
+					|| dateTime.compareTo(interval.getEnd()) == 0; dateTime = dateTime.plusDays(1)) {
+				KindOfDay kindOf = this.user.getHolidays().determineKindOf(dateTime);
 				if (kindOf == KindOfDay.WEEK) {
-					VariableHoliday variableHoliday = new VariableHoliday(
-							"must be holiday", dateTime);
+					VariableHoliday variableHoliday = new VariableHoliday("must be holiday", dateTime);
 					this.user.getHolidays().add(variableHoliday);
 				}
 			}
