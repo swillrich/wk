@@ -65,10 +65,6 @@ public class MainTest {
 		user.getHolidays().clear();
 		user.getHolidays().addAll(days);
 
-		Interval christmasInterval = new Interval(new WKDateTime(2015, 12, 23), new WKDateTime(2015, 12, 31));
-
-		user.getPreferredHolidayIntervals().add(christmasInterval);
-
 		HolidayCalculator calculator = new HolidayCalculator(user);
 		calculator.setAlgorithm(new BiggestPartitionAlgorithm());
 		calculator.calculate();
