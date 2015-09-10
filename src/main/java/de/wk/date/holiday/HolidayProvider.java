@@ -12,6 +12,7 @@ import de.wk.date.WKDateTime;
 import de.wk.date.holiday.immutable.BussUndBettag;
 import de.wk.date.holiday.immutable.ChristiHimmelfahrt;
 import de.wk.date.holiday.immutable.FixHoliday;
+import de.wk.date.holiday.immutable.Fronleichnam;
 import de.wk.date.holiday.immutable.Karfreitag;
 import de.wk.date.holiday.immutable.Ostermontag;
 import de.wk.date.holiday.immutable.Ostersonntag;
@@ -106,6 +107,7 @@ public class HolidayProvider {
 	 */
 	private static void initializeByYear(Days days, int year, State state) {
 		FixHoliday neujahr = new FixHoliday("Neujahr", year, 1, 1);
+		FixHoliday heiligeDreiKoenige = new FixHoliday("Heilige drei Könige", year, 1, 6);
 		FixHoliday firstCMD = new FixHoliday("Erster Weihnachtstag", year, 12, 25);
 		FixHoliday secondCMD = new FixHoliday("Zweiter Weihnachtstag", year, 12, 26);
 		FixHoliday maifeiertag = new FixHoliday("Maifeiertag", year, 5, 1);
@@ -113,59 +115,70 @@ public class HolidayProvider {
 		BussUndBettag bussUndBettag = new BussUndBettag("Buss und Bettag", firstCMD);
 		Ostersonntag ostersonntag = new Ostersonntag(year);
 		Karfreitag karfreitag = new Karfreitag(ostersonntag);
-		Ostermontag ostermontag = new Ostermontag(ostersonntag);
+		Ostermontag osterMontag = new Ostermontag(ostersonntag);
 		ChristiHimmelfahrt christiHimmelfahrt = new ChristiHimmelfahrt("Christi Himmelfahrt", ostersonntag);
 		Pfingstmontag pfingstmontag = new Pfingstmontag(ostersonntag);
+		Fronleichnam fronleichnam = new Fronleichnam(ostersonntag);
+		FixHoliday mariaeHimmelfahrt = new FixHoliday("Mariä Himmelfahrt", year, 8, 15);
+		FixHoliday reformationsTag = new FixHoliday("Reformationstag", year, 10, 31);
+		FixHoliday allerHeiligen = new FixHoliday("Allerheiligen", year, 11, 1);
 
 		// TODO: Add missing holidays
 		ArrayList<WKDateTime> commonHolidays = new ArrayList<WKDateTime>();
 		commonHolidays.add(neujahr);
-		commonHolidays.add(firstCMD);
-		commonHolidays.add(secondCMD);
-		commonHolidays.add(maifeiertag);
-		commonHolidays.add(tdde);
 		commonHolidays.add(karfreitag);
-		commonHolidays.add(ostersonntag);
-		commonHolidays.add(ostermontag);
+		commonHolidays.add(osterMontag);
+		commonHolidays.add(maifeiertag);
 		commonHolidays.add(christiHimmelfahrt);
 		commonHolidays.add(pfingstmontag);
+		commonHolidays.add(tdde);
+		commonHolidays.add(firstCMD);
+		commonHolidays.add(secondCMD);
 
 		days.addAll(commonHolidays);
 		if (state != null) {
 			switch (state) {
 			case BW:
 			case BY:
-				/* Heiligen drei KÃ¶nige */
-				/* Fronleichnam */
-				/* Allerheiligen */
+				commonHolidays.add(heiligeDreiKoenige);
+				commonHolidays.add(fronleichnam);
+				commonHolidays.add(allerHeiligen);
 				break;
+			case BE:
 			case BB:
-			case MV:
-			case TH:
-				/* Reformationstag */
-				break;
-			case NW:
-			case RP:
-				/* Fronleichnam */
-				/* Allerheiligen */
-				break;
+				commonHolidays.add(reformationsTag);
+			case HB:
+			case HH:
 			case HE:
-				/* Fronleichnam */
+				commonHolidays.add(fronleichnam);
+				break;
+			case MV:
+				commonHolidays.add(reformationsTag);
+				break;
+			case NI:
+			case NW:
+				commonHolidays.add(fronleichnam);
+				commonHolidays.add(allerHeiligen);
+			case RP:
+				commonHolidays.add(fronleichnam);
+				commonHolidays.add(allerHeiligen);
 				break;
 			case SL:
-				/* Fronleichnam */
-				/* MariÃ¤ Himmelfahrt */
-				/* Allerheiligen */
+				commonHolidays.add(fronleichnam);
+				commonHolidays.add(mariaeHimmelfahrt);
+				commonHolidays.add(allerHeiligen);
 				break;
 			case SN:
-				/* Reformationstag */
 				days.add(bussUndBettag);
+				commonHolidays.add(reformationsTag);
 				break;
 			case ST:
-				/* Reformationstag */
-				/* Heiligen drei KÃ¶nige */
+				commonHolidays.add(heiligeDreiKoenige);
+				commonHolidays.add(reformationsTag);
 				break;
-			default:
+			case SH:
+			case TH:
+				commonHolidays.add(reformationsTag);
 				break;
 			}
 		}
