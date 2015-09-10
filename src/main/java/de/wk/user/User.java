@@ -1,8 +1,5 @@
 package de.wk.user;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.joda.time.Interval;
 
 import de.wk.date.Days;
@@ -47,60 +44,23 @@ public class User {
 	/**
 	 * The list of intervals the user <b>want to be filled</b> with holidays.
 	 */
-	private List<WKInterval> preferredHolidayIntervals = new ArrayList<WKInterval>();
+	private IntervalSet preferreadHolidayInteralSet;
 	/**
 	 * The list of intervals the user <b>don't want to be filled</b> with
 	 * holidays.
 	 */
-	private List<WKInterval> noHolidayIntervals = new ArrayList<WKInterval>();
+	private IntervalSet nonHoliadayIntervals = new IntervalSet();
 
 	public int getNumberOfHolidays() {
 		return numberOfHolidays;
 	}
 
-	/**
-	 * Adds a new preferred interval as WKInterval. The method considers the
-	 * total number of available holidays with the length of all previously
-	 * added interval length.
-	 * 
-	 * @param interval
-	 * @return Is true if the current days length of already added intervals and
-	 *         the length of the new given interval, which should be added, is
-	 *         smaller than the total number of holidays. Otherwise false, that
-	 *         is the already existing intervals in sum plus the days length of
-	 *         the new interval is bigger than all holidays together the user
-	 *         could generally take.
-	 */
-	public boolean addPreferredHolidayInterval(WKInterval interval) {
-		long newIntervalDaysLength = interval.getInterval().toDuration().getStandardDays();
-		long totalNumberOfDaysLength = 0;
-		for (WKInterval wkInterval : this.preferredHolidayIntervals) {
-			long currentIntervalDaysLengte = wkInterval.getInterval().toDuration().getStandardDays();
-			totalNumberOfDaysLength = totalNumberOfDaysLength + currentIntervalDaysLengte;
-		}
-		if (totalNumberOfDaysLength + newIntervalDaysLength > this.numberOfHolidays) {
-			System.out.println("Could not add this interval, because adding "
-					+ "would lead to size exceeding of available holidays. There are " + getRemainingHolidays().get()
-					+ " holidays are remaining, " + "but this interval would take " + newIntervalDaysLength + " days.");
-			return false;
-		} else {
-			this.preferredHolidayIntervals.add(interval);
-			return true;
-		}
+	public IntervalSet getNonHoliadayIntervals() {
+		return nonHoliadayIntervals;
 	}
 
-	/**
-	 * Returns all the added intervals being preferred to be filled with
-	 * holidays.<br/>
-	 * <br/>
-	 * <b>Do not use this method to add a new interval. Instead using this
-	 * method, use addPreferredHolidayInterval-Method. This is why this method
-	 * does not prove size exceeding.</b>
-	 * 
-	 * @return
-	 */
-	public List<WKInterval> getPreferredHolidayIntervals() {
-		return preferredHolidayIntervals;
+	public IntervalSet getPreferreadHolidayInteralSet() {
+		return preferreadHolidayInteralSet;
 	}
 
 	/**
@@ -118,12 +78,8 @@ public class User {
 	 *            The last date of the scope to be considered
 	 */
 	public User(String name, int numberOfHolidays, State state, WKDateTime start, WKDateTime end) {
-		this.name = name;
-		this.holidays = new Days();
-		this.state = state;
 		this.numberOfHolidays = numberOfHolidays;
-		this.remainingNumberOfHolidays = new RemainingNumberOfHolidays(numberOfHolidays);
-		this.scope = new Interval(start, end);
+		init(name, state, start, end);
 	}
 
 	/**
@@ -139,12 +95,17 @@ public class User {
 	 *            The year to be considered
 	 */
 	public User(String name, int numberOfHolidays, State state, int year) {
+		this.numberOfHolidays = numberOfHolidays;
+		init(name, state, new WKDateTime(year, 1, 1), new WKDateTime(year, 12, 31));
+	}
+
+	private void init(String name, State state, WKDateTime start, WKDateTime end) {
 		this.name = name;
+		this.scope = new Interval(start, end);
 		this.holidays = new Days();
 		this.state = state;
-		this.numberOfHolidays = numberOfHolidays;
 		this.remainingNumberOfHolidays = new RemainingNumberOfHolidays(numberOfHolidays);
-		this.scope = new Interval(new WKDateTime(year, 1, 1), new WKDateTime(year, 12, 31));
+		preferreadHolidayInteralSet = new IntervalSet(numberOfHolidays);
 	}
 
 	/**

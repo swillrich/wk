@@ -1,5 +1,7 @@
 package de.wk.date.holiday;
 
+import java.util.Iterator;
+
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
@@ -53,8 +55,9 @@ public class HolidayCalculator {
 	}
 
 	private void fillPriorityIntervalsWithHolidays() {
-		for (WKInterval wkInterval : this.user.getPreferredHolidayIntervals()) {
-			Interval interval = wkInterval.getInterval();
+		Iterator<WKInterval> iterator = this.user.getPreferreadHolidayInteralSet().toIterator();
+		while (iterator.hasNext()) {
+			Interval interval = iterator.next().getInterval();
 			for (DateTime dateTime = interval.getStart(); (interval.contains(dateTime)
 					|| dateTime.compareTo(interval.getEnd()) == 0)
 					&& this.user.getRemainingHolidays().stillAvailable(); dateTime = dateTime.plusDays(1)) {
