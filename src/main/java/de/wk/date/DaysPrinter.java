@@ -44,8 +44,7 @@ public class DaysPrinter {
 	 *            of holiday partitions. That means, this days which are not
 	 *            part of a holiday partition and which would be appear alone.
 	 */
-	public DaysPrinter(Days holidays, boolean hideWeekdays,
-			boolean hideWeekendsOnly) {
+	public DaysPrinter(Days holidays, boolean hideWeekdays, boolean hideWeekendsOnly) {
 		this.days = holidays;
 		this.hideWeekdays = hideWeekdays;
 		this.hideWeekendsOnly = hideWeekendsOnly;
@@ -71,36 +70,38 @@ public class DaysPrinter {
 		for (int dayIndex = 0, arrIndex = 0; dayIndex <= diffDays; dayIndex++, arrIndex++) {
 			if (columns == null) {
 				columns = new String[32];
-				columns[arrIndex] = DateTimeFormat.forPattern("MMM YY ").print(
-						tmpDT);
+				columns[arrIndex] = DateTimeFormat.forPattern("MMM YY ").print(tmpDT);
 				arrIndex = arrIndex + 1;
 			}
-			columns[tmpDT.getDayOfMonth()] = DateTimeFormat.forPattern("E")
-					.print(tmpDT);
+			columns[tmpDT.getDayOfMonth()] = DateTimeFormat.forPattern("E").print(tmpDT);
 
 			applyModifier(columns, tmpDT);
 
-			if (tmpDT.getMonthOfYear() - tmpDT.plusDays(1).getMonthOfYear() != 0
-					|| dayIndex == diffDays) {
+			if (tmpDT.getMonthOfYear() - tmpDT.plusDays(1).getMonthOfYear() != 0 || dayIndex == diffDays) {
 				arrIndex++;
 				for (int i = 1; i < columns.length; i++) {
-					if (columns[i] == null
-							&& (i < from.getDayOfMonth() || i > to
-									.getDayOfMonth())
-							&& (tmpDT.getMonthOfYear() == to.getMonthOfYear() || tmpDT
-									.getMonthOfYear() == from.getMonthOfYear())) {
+					if (columns[i] == null && (i < from.getDayOfMonth() || i > to.getDayOfMonth())
+							&& (tmpDT.getMonthOfYear() == to.getMonthOfYear()
+									|| tmpDT.getMonthOfYear() == from.getMonthOfYear())) {
 						columns[i] = "";
 					} else if (columns[i] == null) {
 						columns[i] = "-";
 					}
 				}
-				System.out.println(String.format(format.toString(),
-						(Object[]) columns));
+				System.out.println(String.format(format.toString(), (Object[]) columns));
 				columns = null;
 				arrIndex = -1;
 			}
 			tmpDT = tmpDT.plusDays(1);
 		}
+		printLegend();
+	}
+
+	private void printLegend() {
+		System.out.println("\n>Legend:");
+		System.out.println(String.format("%-4s%-20s", "[*]", "Holiday"));
+		System.out.println(String.format("%-4s%-20s", "[#]", "Vacation day"));
+		System.out.println(String.format("%-4s%-20s", "[ ]", "non-holiday/-vacation day"));
 	}
 
 	private void applyModifier(String[] columns, DateTime tmpDT) {
@@ -109,8 +110,8 @@ public class DaysPrinter {
 		KindOfDay currentDay = days.determineKindOf(tmpDT);
 
 		for (DayAppearanceModifier modifier : dayAppearanceModifierList) {
-			columns[tmpDT.getDayOfMonth()] = modifier.returnAppearance(preDay,
-					currentDay, postDay, columns[tmpDT.getDayOfMonth()]);
+			columns[tmpDT.getDayOfMonth()] = modifier.returnAppearance(preDay, currentDay, postDay,
+					columns[tmpDT.getDayOfMonth()]);
 		}
 	}
 
@@ -127,10 +128,8 @@ public class DaysPrinter {
 	}
 
 	private void printInformation(DateTime from, DateTime to) {
-		System.out.println("from:\t"
-				+ DateTimeFormat.forPattern("dd. MMM yyyy").print(from));
-		System.out.println("to:\t"
-				+ DateTimeFormat.forPattern("dd. MMM yyyy").print(to));
+		System.out.println("from:\t" + DateTimeFormat.forPattern("dd. MMM yyyy").print(from));
+		System.out.println("to:\t" + DateTimeFormat.forPattern("dd. MMM yyyy").print(to));
 		System.out.println();
 	}
 
@@ -153,8 +152,7 @@ public class DaysPrinter {
 		 *            Is the day which becomes modified as string
 		 * @return The modified string
 		 */
-		String returnAppearance(WKDateTime.KindOfDay before,
-				WKDateTime.KindOfDay current, WKDateTime.KindOfDay next,
+		String returnAppearance(WKDateTime.KindOfDay before, WKDateTime.KindOfDay current, WKDateTime.KindOfDay next,
 				String dayAsString);
 	}
 
@@ -165,8 +163,8 @@ public class DaysPrinter {
 		if (hideWeekdays) {
 			dayAppearanceModifierList.add(new DayAppearanceModifier() {
 				@Override
-				public String returnAppearance(KindOfDay before,
-						KindOfDay current, KindOfDay next, String dayAsString) {
+				public String returnAppearance(KindOfDay before, KindOfDay current, KindOfDay next,
+						String dayAsString) {
 					if (current == KindOfDay.WEEK) {
 						return "";
 					}
@@ -178,9 +176,8 @@ public class DaysPrinter {
 		dayAppearanceModifierList.add(new DayAppearanceModifier() {
 
 			@Override
-			public String returnAppearance(WKDateTime.KindOfDay before,
-					WKDateTime.KindOfDay current, WKDateTime.KindOfDay next,
-					String dayAsString) {
+			public String returnAppearance(WKDateTime.KindOfDay before, WKDateTime.KindOfDay current,
+					WKDateTime.KindOfDay next, String dayAsString) {
 
 				if (current == KindOfDay.HOLIDAY) {
 					dayAsString = dayAsString + "*";
@@ -195,9 +192,8 @@ public class DaysPrinter {
 		dayAppearanceModifierList.add(new DayAppearanceModifier() {
 
 			@Override
-			public String returnAppearance(WKDateTime.KindOfDay before,
-					WKDateTime.KindOfDay current, WKDateTime.KindOfDay next,
-					String dayAsString) {
+			public String returnAppearance(WKDateTime.KindOfDay before, WKDateTime.KindOfDay current,
+					WKDateTime.KindOfDay next, String dayAsString) {
 
 				String prefix = "";
 				String postfix = "";
@@ -222,30 +218,24 @@ public class DaysPrinter {
 		if (hideWeekendsOnly) {
 			dayAppearanceModifierList.add(new DayAppearanceModifier() {
 				@Override
-				public String returnAppearance(KindOfDay before,
-						KindOfDay current, KindOfDay next, String dayAsString) {
+				public String returnAppearance(KindOfDay before, KindOfDay current, KindOfDay next,
+						String dayAsString) {
 					if (current == KindOfDay.WEEKEND) {
 						int dayOfWeek = current.getDateTime().getDayOfWeek();
 
-						KindOfDay kindOfFr = dayOfWeek == 6 ? before : days
-								.determineKindOf(current.getDateTime()
-										.minusDays(2));
+						KindOfDay kindOfFr = dayOfWeek == 6 ? before
+								: days.determineKindOf(current.getDateTime().minusDays(2));
 
-						KindOfDay kindOfSa = dayOfWeek == 6 ? current : days
-								.determineKindOf(current.getDateTime()
-										.minusDays(1));
+						KindOfDay kindOfSa = dayOfWeek == 6 ? current
+								: days.determineKindOf(current.getDateTime().minusDays(1));
 
-						KindOfDay kindOfSu = dayOfWeek == 7 ? current : days
-								.determineKindOf(current.getDateTime()
-										.plusDays(1));
+						KindOfDay kindOfSu = dayOfWeek == 7 ? current
+								: days.determineKindOf(current.getDateTime().plusDays(1));
 
-						KindOfDay kindOfMo = dayOfWeek == 7 ? next : days
-								.determineKindOf(kindOfSu.getDateTime()
-										.plusDays(1));
+						KindOfDay kindOfMo = dayOfWeek == 7 ? next
+								: days.determineKindOf(kindOfSu.getDateTime().plusDays(1));
 
-						if (kindOfFr == KindOfDay.WEEK
-								&& kindOfMo == KindOfDay.WEEK
-								&& kindOfSa == KindOfDay.WEEKEND
+						if (kindOfFr == KindOfDay.WEEK && kindOfMo == KindOfDay.WEEK && kindOfSa == KindOfDay.WEEKEND
 								&& kindOfSu == KindOfDay.WEEKEND) {
 							return "";
 						}

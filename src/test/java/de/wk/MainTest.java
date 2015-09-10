@@ -35,7 +35,8 @@ public class MainTest {
 
 	@Test
 	public void testWithSpecificData() {
-		User user = new User("Sven", 24, State.BE, 2015).setHolidaysByGivenConfiguration();
+		User user = new User("Sven", 15, State.BE, new WKDateTime(2015, 9, 10), new WKDateTime(2015, 12, 31))
+				.setHolidaysByGivenConfiguration();
 		WKInterval chrismasInterval = new WKInterval(new WKDateTime(2015, 12, 23), new WKDateTime(2015, 12, 31), true);
 		chrismasInterval.setTitle("Christmas holdays");
 		user.getPreferreadHolidayInteralSet().add(chrismasInterval);
