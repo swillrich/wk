@@ -1,87 +1,40 @@
 package de.wk.util;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
- * This class is an implementation of a tree based union find data structure
- * (disjoint set).
+ * Extend this class to implement an union find data structure. It only contains
+ * the three basic operations for an union find data structure inspired by the
+ * original paper of Tarjan
+ * "A linear-time algorithm for a special case of disjoint set union" from 1983.
  * 
  * @param <T>
  *            generic type of elements we want to store
  */
-public class UnionFind<T> {
-
-	private Map<T, T> parent;
+public abstract class UnionFind<T> {
 
 	/**
-	 * This Constructor gets a list of elements (starting universe). Initially,
-	 * every element is its own parent thus it is mapped to itself.
-	 * 
-	 * @param elements
-	 */
-	public UnionFind(List<T> elements) {
-		this.parent = new HashMap<T, T>(elements.size());
-		for (T t : elements) {
-			this.parent.put(t, t);
-		}
-	}
-
-	/**
-	 * 
-	 * @param item
-	 * @return the representative of the element
-	 */
-	public T find(T element) {
-		if (this.parent.get(element) == element) {
-			return element;
-		} else {
-			return find(this.parent.get(element));
-		}
-	}
-
-	/**
-	 * Union two sets in the data structure. TODO: Check for key first in order
-	 * a "member" is provided
-	 * 
-	 * @param set1
-	 *            first set to union
-	 * @param set2
-	 *            second set to union
-	 */
-	public void union(T set1, T set2) {
-		T representative = find(set1);
-		T representative2 = find(set2);
-		parent.put(representative2, representative);
-	}
-
-	/**
-	 * 
+	 * Create a new singleton set {element} whose parent is element. This
+	 * operation is only allowed if element is in no existing set.
+	 *
 	 * @param element
-	 * @return a list of all elements within the set (partition)
 	 */
-	public ArrayList<T> getAllValuesByElement(T element) {
-		ArrayList<T> result = new ArrayList<T>();
-		T representative = find(element);
-		for (Map.Entry<T, T> entry : this.parent.entrySet()) {
-			if (representative == find(entry.getValue())) {
-				result.add(entry.getKey());
-			}
-		}
-		return result;
-	}
+	public abstract void makeSet(T element);
 
 	/**
-	 * Checks whether two elements are in the same set.
-	 * 
+	 * Return the name of the set containing element. The name of the set is
+	 * equal to its parent.
+	 *
+	 * @param element
+	 * @return Parent of set containing element.
+	 */
+	public abstract T find(T element);
+
+	/**
+	 * Create a new set that is the union of the sets containing element1 and
+	 * element2. The name of the new set depends on the strategy of the methods.
+	 * This operation destroys the old sets containing element1 and element2.
+	 *
 	 * @param element1
 	 * @param element2
-	 * @return true if the given elements are in the same set
 	 */
-	public boolean inSameSet(T element1, T element2) {
-		return find(element1) == find(element2) ? true : false;
-	}
-
+	public abstract void union(T element1, T element2);
 }
