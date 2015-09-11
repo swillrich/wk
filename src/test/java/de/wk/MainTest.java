@@ -13,7 +13,6 @@ import de.wk.date.WKDateTime;
 import de.wk.date.holiday.HolidayCalculator;
 import de.wk.date.holiday.HolidayProvider;
 import de.wk.date.holiday.HolidayProvider.State;
-import de.wk.date.holiday.immutable.ChristiHimmelfahrt;
 import de.wk.user.User;
 import de.wk.user.WKInterval;
 

@@ -115,7 +115,7 @@ public class User {
 	 * @return The user object on which the current method is invoked
 	 */
 	public User setHolidaysByGivenConfiguration() {
-		Days days = new HolidayProvider().provideBy(this.scope, this.state);
+		Days days = HolidayProvider.provideBy(this.scope, this.state);
 		this.holidays.addAll(days);
 		return this;
 	}
