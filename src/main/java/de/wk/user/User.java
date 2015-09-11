@@ -59,7 +59,7 @@ public class User {
 		return nonHoliadayIntervals;
 	}
 
-	public IntervalSet getPreferreadHolidayInteralSet() {
+	public IntervalSet getPreferreadHolidayIntervalSet() {
 		return preferreadHolidayInteralSet;
 	}
 

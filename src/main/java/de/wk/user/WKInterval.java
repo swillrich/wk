@@ -77,7 +77,7 @@ public class WKInterval {
 	}
 
 	/**
-	 * @return The Soda Interval
+	 * @return The Joda Interval
 	 */
 	public Interval getInterval() {
 		return interval;

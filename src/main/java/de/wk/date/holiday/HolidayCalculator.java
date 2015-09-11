@@ -55,7 +55,7 @@ public class HolidayCalculator {
 	}
 
 	private void fillPriorityIntervalsWithHolidays() {
-		Iterator<WKInterval> iterator = this.user.getPreferreadHolidayInteralSet().toIterator();
+		Iterator<WKInterval> iterator = this.user.getPreferreadHolidayIntervalSet().toIterator();
 		while (iterator.hasNext()) {
 			Interval interval = iterator.next().getInterval();
 			for (DateTime dateTime = interval.getStart(); (interval.contains(dateTime)
