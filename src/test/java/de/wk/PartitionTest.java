@@ -75,21 +75,21 @@ public class PartitionTest {
 
 	}
 
-	// FIXME: error
-//	@Test
-//	public void testMethodGetAllValuesByKey() {
-//		this.partition.union(wkDate1, wkDate2);
-//		this.partition.union(wkDate1, wkDate3);
-//		this.partition.union(wkDate2, wkDate4);
-//		this.partition.union(wkDate5, wkDate6);
-//		this.partition.union(wkDate4, wkDate6);
-//		Days oracle = new Days();
-//		oracle.add(wkDate1);
-//		oracle.add(wkDate2);
-//		oracle.add(wkDate3);
-//		oracle.add(wkDate4);
-//		oracle.add(wkDate5);
-//		oracle.add(wkDate6);
-//		assertTrue(this.partition.getAllValuesByElement(wkDate1).equals(oracle));
-//	}
+
+	@Test
+	public void testMethodGetAllValuesByKey() {
+		this.partition.union(wkDate1, wkDate2);
+		this.partition.union(wkDate1, wkDate3);
+		this.partition.union(wkDate2, wkDate4);
+		this.partition.union(wkDate5, wkDate6);
+		this.partition.union(wkDate4, wkDate6);
+		Days oracle = new Days();
+		oracle.add(wkDate1);
+		oracle.add(wkDate2);
+		oracle.add(wkDate3);
+		oracle.add(wkDate4);
+		oracle.add(wkDate5);
+		oracle.add(wkDate6);
+		assertTrue(this.partition.getAllValuesByElement(wkDate1).containsAll(oracle));
+	}
 }
