@@ -5,13 +5,14 @@ import java.util.Iterator;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
+import de.wk.Log;
 import de.wk.algorithms.HolidayCalculatorAlgorithm;
 import de.wk.date.WKDateTime.KindOfDay;
 import de.wk.user.User;
 import de.wk.user.WKInterval;
 
 /**
- * This class calculated for a specific user and with a specific algorithm the
+ * This class calculates for a specific user and with a specific algorithm the
  * holidays. The result of the calculation is strongly depending on the chosen
  * algorithm.
  */
@@ -38,20 +39,18 @@ public class HolidayCalculator {
 
 	/**
 	 * By calling this method the algorithm computes the holidays. The
-	 * determined days are getting stored in the user object.<br>
-	 * Note that the first step will be to fill the Intervals of priority (see
-	 * class DateConstraints).
+	 * determined days are getting stored in the user object.
 	 */
 	public void calculate() {
-		System.out.println("Calculation for " + user.getName());
+		Log.out("Calculation for " + user.getName());
 		fillPriorityIntervalsWithHolidays();
-		System.out.println("After filling preferred holiday intervals, " + user.getRemainingHolidays().get()
+		Log.out("After filling preferred holiday intervals, " + user.getRemainingHolidays().get()
 				+ " holiday(s) are remaining");
 		if (!this.algorithm.equals(null)) {
 			algorithm.calculate(this.user);
 		}
 
-		System.out.println("After algorithm run, " + user.getRemainingHolidays().get() + " holiday(s) are remaining");
+		Log.out("After algorithm run, " + user.getRemainingHolidays().get() + " holiday(s) are remaining");
 	}
 
 	private void fillPriorityIntervalsWithHolidays() {

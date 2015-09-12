@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import de.wk.Log;
+
 /**
  * The role of this class is to manage holidays or non-holidays intervals. <br/>
  * The class considers the total number of available holidays with the length of
@@ -46,7 +48,7 @@ public class IntervalSet {
 				totalNumberOfDaysLength = totalNumberOfDaysLength + currentIntervalDaysLengte;
 			}
 			if (totalNumberOfDaysLength + newIntervalDaysLength > numberOfDaysRestriction) {
-				System.out.println("Could not add this interval, because adding"
+				Log.out("Could not add this interval, because adding"
 						+ " would lead to size exceeding. There are " + totalNumberOfDaysLength + " of "
 						+ this.numberOfDaysRestriction + " days claimed, so that his interval with "
 						+ newIntervalDaysLength + " is not allowed to be added.");

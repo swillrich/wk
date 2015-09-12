@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
+import de.wk.Log;
 import de.wk.date.Days;
 import de.wk.date.WKDateTime;
 import de.wk.date.WKDateTime.KindOfDay;
@@ -71,7 +72,7 @@ public class FillGapsAlgorithm implements HolidayCalculatorAlgorithm {
 					tmp.getDayOfMonth());
 			this.holidays.add(newHoliday);
 			this.numberOfHolidays--;
-			System.out.println("Added " + DateTimeFormat.forPattern("dd. MMM yyyy").print(tmp));
+			Log.out("Added " + DateTimeFormat.forPattern("dd. MMM yyyy").print(tmp));
 			return newHoliday;
 		}
 		return null;

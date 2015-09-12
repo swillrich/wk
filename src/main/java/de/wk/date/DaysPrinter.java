@@ -8,6 +8,7 @@ import org.joda.time.Duration;
 import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormat;
 
+import de.wk.Log;
 import de.wk.date.WKDateTime.KindOfDay;
 
 /**
@@ -88,7 +89,7 @@ public class DaysPrinter {
 						columns[i] = "-";
 					}
 				}
-				System.out.println(String.format(format.toString(), (Object[]) columns));
+				Log.out(String.format(format.toString(), (Object[]) columns));
 				columns = null;
 				arrIndex = -1;
 			}
@@ -98,10 +99,10 @@ public class DaysPrinter {
 	}
 
 	private void printLegend() {
-		System.out.println("\n>Legend:");
-		System.out.println(String.format("%-4s%-20s", "[*]", "Holiday"));
-		System.out.println(String.format("%-4s%-20s", "[#]", "Vacation day"));
-		System.out.println(String.format("%-4s%-20s", "[ ]", "non-holiday/-vacation day"));
+		Log.out("\n>Legend:");
+		Log.out(String.format("%-4s%-20s", "[*]", "Holiday"));
+		Log.out(String.format("%-4s%-20s", "[#]", "Vacation day"));
+		Log.out(String.format("%-4s%-20s", "[ ]", "non-holiday/-vacation day"));
 	}
 
 	private void applyModifier(String[] columns, DateTime tmpDT) {
@@ -124,13 +125,13 @@ public class DaysPrinter {
 			columns[i] = String.valueOf(i);
 		}
 		String titleBar = String.format(format.toString(), (Object[]) columns);
-		System.out.println(titleBar);
+		Log.out(titleBar);
 	}
 
 	private void printInformation(DateTime from, DateTime to) {
-		System.out.println("from:\t" + DateTimeFormat.forPattern("dd. MMM yyyy").print(from));
-		System.out.println("to:\t" + DateTimeFormat.forPattern("dd. MMM yyyy").print(to));
-		System.out.println();
+		Log.out("from:\t" + DateTimeFormat.forPattern("dd. MMM yyyy").print(from));
+		Log.out("to:\t" + DateTimeFormat.forPattern("dd. MMM yyyy").print(to));
+		Log.newLine();
 	}
 
 	/**

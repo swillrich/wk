@@ -6,6 +6,7 @@ import java.util.PriorityQueue;
 
 import org.joda.time.Interval;
 
+import de.wk.Log;
 import de.wk.date.Days;
 
 /**
@@ -41,9 +42,9 @@ public class HolidayPriorityQueue extends PriorityQueue<Interval> {
 	 */
 	public void print() {
 		for (Interval h : this) {
-			System.out.println(h.getStart() + " ------------------>  "
+			Log.out(h.getStart() + " ------------------>  "
 					+ h.getEnd());
 		}
-		System.out.println();
+		Log.newLine();
 	}
 }
