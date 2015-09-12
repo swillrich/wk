@@ -12,7 +12,7 @@ import de.wk.user.User;
 import de.wk.user.WKInterval;
 
 /**
- * This class calculates for a specific user and with a specific algorithm the
+ * This class calculates for a specific user and with a specific algorithm
  * holidays. The result of the calculation is strongly depending on the chosen
  * algorithm.
  */
@@ -62,7 +62,7 @@ public class HolidayCalculator {
 					&& this.user.getRemainingHolidays().stillAvailable(); dateTime = dateTime.plusDays(1)) {
 				KindOfDay kindOf = this.user.getHolidays().determineKindOf(dateTime);
 				if (kindOf == KindOfDay.WEEK) {
-					VariableHoliday variableHoliday = new VariableHoliday("must be holiday", dateTime);
+					VariableHoliday variableHoliday = new VariableHoliday("being preferred holiday", dateTime);
 					this.user.getHolidays().add(variableHoliday);
 					this.user.getRemainingHolidays().decrement();
 				}
