@@ -49,6 +49,10 @@ public class WKDateTime implements ReadableDateTime {
 		}
 	}
 
+	public WKDateTime(DateTime jodaDateTime) {
+		dateTime = jodaDateTime;
+	}
+
 	/**
 	 * Creates an instance of WEKDateTime by year, month and day
 	 * 

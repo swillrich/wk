@@ -1,15 +1,21 @@
-package de.wk.user;
+package de.wk.date;
 
+import java.util.Iterator;
+
+import org.joda.time.DateTime;
 import org.joda.time.Interval;
-
-import de.wk.date.WKDateTime;
 
 /**
  * This WKInterval class representing an interval which consist of a start and
- * end date. The type of the interval is either holiday or non-holiday.
+ * end date.
  */
 public class WKInterval {
 	private String title;
+
+	/**
+	 * The interval representing the start and end date.
+	 */
+	private Interval interval;
 
 	/**
 	 * The title of the interval. This information is optionally.
@@ -31,26 +37,6 @@ public class WKInterval {
 	}
 
 	/**
-	 * The interval representing the start and end date.
-	 */
-	private Interval interval;
-
-	/**
-	 * Indicates whether this interval is a holiday or non-holiday interval.
-	 */
-	private boolean isHoliday = true;
-
-	/**
-	 * Indicates whether this interval is a holiday or non-holiday interval.
-	 * 
-	 * @return Is true if the interval is representing a holiday interval. False
-	 *         otherwise.
-	 */
-	public boolean isHoliday() {
-		return isHoliday;
-	}
-
-	/**
 	 * Creates a new interval.
 	 * 
 	 * @param start
@@ -61,7 +47,7 @@ public class WKInterval {
 	 *            Means whether the type of the interval is holiday or
 	 *            non-holiday.
 	 */
-	public WKInterval(WKDateTime start, WKDateTime end, boolean isHoliday) {
+	public WKInterval(WKDateTime start, WKDateTime end) {
 		this.interval = new Interval(start, end);
 	}
 
@@ -72,14 +58,29 @@ public class WKInterval {
 	 *            Means whether the type of the interval is holiday or
 	 *            non-holiday.
 	 */
-	public WKInterval(Interval interval, boolean isHoliday) {
+	public WKInterval(Interval interval) {
 		this.interval = interval;
 	}
 
 	/**
-	 * @return The Soda Interval
+	 * @return The Joda Interval
 	 */
 	public Interval getInterval() {
 		return interval;
+	}
+
+	/**
+	 * Does return the iterator to go through each item (as WKDateTime)
+	 * contained by this interval.
+	 * 
+	 * @return Iterator
+	 */
+	public Iterator<WKDateTime> getIterator() {
+		Days days = new Days();
+		for (DateTime date = this.interval.getStart(); date
+				.compareTo(this.interval.getEnd()) < 1; date = date.plusDays(1)) {
+			days.add(new WKDateTime(date));
+		}
+		return days.iterator();
 	}
 }

@@ -44,23 +44,23 @@ public class User {
 	/**
 	 * The list of intervals the user <b>want to be filled</b> with holidays.
 	 */
-	private IntervalSet preferreadHolidayInteralSet;
+	private IntervalSet<HolidayInterval> holidayIntervalSet;
 	/**
 	 * The list of intervals the user <b>don't want to be filled</b> with
 	 * holidays.
 	 */
-	private IntervalSet nonHoliadayIntervals = new IntervalSet();
+	private IntervalSet<NonHolidayInterval> nonHoliadayIntervals = new IntervalSet<NonHolidayInterval>();
 
 	public int getNumberOfHolidays() {
 		return numberOfHolidays;
 	}
 
-	public IntervalSet getNonHoliadayIntervals() {
+	public IntervalSet<NonHolidayInterval> getNonHoliadayIntervals() {
 		return nonHoliadayIntervals;
 	}
 
-	public IntervalSet getPreferreadHolidayInteralSet() {
-		return preferreadHolidayInteralSet;
+	public IntervalSet<HolidayInterval> getHolidayIntervalSet() {
+		return holidayIntervalSet;
 	}
 
 	/**
@@ -77,7 +77,8 @@ public class User {
 	 * @param end
 	 *            The last date of the scope to be considered
 	 */
-	public User(String name, int numberOfHolidays, State state, WKDateTime start, WKDateTime end) {
+	public User(String name, int numberOfHolidays, State state,
+			WKDateTime start, WKDateTime end) {
 		this.numberOfHolidays = numberOfHolidays;
 		init(name, state, start, end);
 	}
@@ -96,7 +97,8 @@ public class User {
 	 */
 	public User(String name, int numberOfHolidays, State state, int year) {
 		this.numberOfHolidays = numberOfHolidays;
-		init(name, state, new WKDateTime(year, 1, 1), new WKDateTime(year, 12, 31));
+		init(name, state, new WKDateTime(year, 1, 1), new WKDateTime(year, 12,
+				31));
 	}
 
 	private void init(String name, State state, WKDateTime start, WKDateTime end) {
@@ -104,8 +106,9 @@ public class User {
 		this.scope = new Interval(start, end);
 		this.holidays = new Days();
 		this.state = state;
-		this.remainingNumberOfHolidays = new RemainingNumberOfHolidays(numberOfHolidays);
-		preferreadHolidayInteralSet = new IntervalSet(numberOfHolidays);
+		this.remainingNumberOfHolidays = new RemainingNumberOfHolidays(
+				numberOfHolidays);
+		holidayIntervalSet = new IntervalSet<HolidayInterval>(numberOfHolidays);
 	}
 
 	/**
