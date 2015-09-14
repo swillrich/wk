@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.joda.time.Interval;
+
 import de.wk.date.Days;
 import de.wk.date.WKDateTime;
 import de.wk.date.WKInterval;
@@ -12,6 +14,7 @@ import de.wk.date.WKInterval;
 public class Partitions extends UnionFind<WKDateTime> {
 
 	private Map<WKDateTime, WKDateTime> parent;
+	private final Interval scope;
 
 	/**
 	 * This Constructor gets a interval (starting universe). Initially, every
@@ -20,6 +23,7 @@ public class Partitions extends UnionFind<WKDateTime> {
 	 * @param interval
 	 */
 	public Partitions(WKInterval interval) {
+		this.scope = interval.getInterval();
 		this.parent = new HashMap<WKDateTime, WKDateTime>();
 		Iterator<WKDateTime> iterator = interval.getIterator();
 		while (iterator.hasNext()) {
@@ -99,5 +103,9 @@ public class Partitions extends UnionFind<WKDateTime> {
 	 */
 	public boolean inSameSet(WKDateTime element1, WKDateTime element2) {
 		return find(element1) == find(element2) ? true : false;
+	}
+	
+	public Interval getScope(){
+		return this.scope;
 	}
 }
