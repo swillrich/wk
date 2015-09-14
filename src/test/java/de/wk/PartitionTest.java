@@ -22,7 +22,6 @@ public class PartitionTest {
 	WKDateTime wkDate8 = new WKDateTime(2015, 9, 18);
 	WKDateTime wkDate9 = new WKDateTime(2015, 9, 19);
 	WKDateTime wkDate10 = new WKDateTime(2015, 9, 20);
-	
 
 	@Before
 	public void setUp() throws Exception {
@@ -37,21 +36,23 @@ public class PartitionTest {
 		testDays.add(wkDate8);
 		testDays.add(wkDate9);
 		testDays.add(wkDate10);
-		
+
 		this.partition = new Partition(testDays);
 	}
 
 	@Test
 	public void testFindWithSingeElementUnionTrue() {
 		this.partition.union(wkDate1, wkDate2);
-		assertTrue(this.partition.find(wkDate1).equals(this.partition.find(wkDate2)));
+		assertTrue(this.partition.find(wkDate1).equals(
+				this.partition.find(wkDate2)));
 
 	}
 
 	@Test
 	public void testFindWithSingeElementUnionFalse() {
 		this.partition.union(wkDate1, wkDate2);
-		assertFalse(this.partition.find(wkDate1).equals(this.partition.find(wkDate3)));
+		assertFalse(this.partition.find(wkDate1).equals(
+				this.partition.find(wkDate3)));
 
 	}
 
@@ -60,10 +61,14 @@ public class PartitionTest {
 		this.partition.union(wkDate1, wkDate2);
 		this.partition.union(wkDate3, wkDate4);
 		this.partition.union(wkDate1, wkDate3);
-		assertTrue(this.partition.find(wkDate1).equals(this.partition.find(wkDate3)));
-		assertTrue(this.partition.find(wkDate1).equals(this.partition.find(wkDate4)));
-		assertTrue(this.partition.find(wkDate2).equals(this.partition.find(wkDate3)));
-		assertTrue(this.partition.find(wkDate2).equals(this.partition.find(wkDate4)));
+		assertTrue(this.partition.find(wkDate1).equals(
+				this.partition.find(wkDate3)));
+		assertTrue(this.partition.find(wkDate1).equals(
+				this.partition.find(wkDate4)));
+		assertTrue(this.partition.find(wkDate2).equals(
+				this.partition.find(wkDate3)));
+		assertTrue(this.partition.find(wkDate2).equals(
+				this.partition.find(wkDate4)));
 
 	}
 
@@ -74,7 +79,6 @@ public class PartitionTest {
 		assertFalse(this.partition.inSameSet(wkDate1, wkDate3));
 
 	}
-
 
 	@Test
 	public void testMethodGetAllValuesByKey() {
@@ -90,6 +94,14 @@ public class PartitionTest {
 		oracle.add(wkDate4);
 		oracle.add(wkDate5);
 		oracle.add(wkDate6);
-		assertTrue(this.partition.getAllValuesByElement(wkDate1).containsAll(oracle));
+		assertTrue(this.partition.getAllValuesByElement(wkDate1).containsAll(
+				oracle));
+	}
+
+	@Test
+	public void testSearchByEqualDateWithDiffRef() {
+		WKDateTime wkDate3 = new WKDateTime(2015, 9, 13);
+		WKDateTime wkDateTime = this.partition.find(wkDate3);
+		assertTrue(wkDate3.compareTo(wkDateTime) == 0);
 	}
 }

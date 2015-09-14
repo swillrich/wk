@@ -48,7 +48,16 @@ public class Partition extends UnionFind<WKDateTime> {
 		if (this.parent.get(element) == element) {
 			return element;
 		} else {
-			return find(this.parent.get(element));
+			WKDateTime wkDateTime = find(this.parent.get(element));
+			if (wkDateTime == null) {
+				for (WKDateTime eachWkDateTime : this.parent.keySet()) {
+					if (eachWkDateTime.compareTo(element) == 0) {
+						wkDateTime = eachWkDateTime;
+						break;
+					}
+				}
+			}
+			return wkDateTime;
 		}
 	}
 
