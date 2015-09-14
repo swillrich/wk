@@ -4,8 +4,10 @@ import org.joda.time.Interval;
 
 import de.wk.date.Days;
 import de.wk.date.WKDateTime;
+import de.wk.date.WKInterval;
 import de.wk.date.holiday.HolidayProvider;
 import de.wk.date.holiday.HolidayProvider.State;
+import de.wk.util.Partitions;
 
 /**
  * The user class represents one arbitrary user whose holiday partition should
@@ -40,7 +42,7 @@ public class User {
 	/**
 	 * The considered scope in which the calculated holidays could take place.
 	 */
-	private Interval scope;
+	private Partitions scope;
 	/**
 	 * The list of intervals the user <b>want to be filled</b> with holidays.
 	 */
@@ -77,8 +79,7 @@ public class User {
 	 * @param end
 	 *            The last date of the scope to be considered
 	 */
-	public User(String name, int numberOfHolidays, State state,
-			WKDateTime start, WKDateTime end) {
+	public User(String name, int numberOfHolidays, State state, WKDateTime start, WKDateTime end) {
 		this.numberOfHolidays = numberOfHolidays;
 		init(name, state, start, end);
 	}
@@ -97,17 +98,15 @@ public class User {
 	 */
 	public User(String name, int numberOfHolidays, State state, int year) {
 		this.numberOfHolidays = numberOfHolidays;
-		init(name, state, new WKDateTime(year, 1, 1), new WKDateTime(year, 12,
-				31));
+		init(name, state, new WKDateTime(year, 1, 1), new WKDateTime(year, 12, 31));
 	}
 
 	private void init(String name, State state, WKDateTime start, WKDateTime end) {
 		this.name = name;
-		this.scope = new Interval(start, end);
+		this.scope = new Partitions(new WKInterval(new Interval(start, end)));
 		this.holidays = new Days();
 		this.state = state;
-		this.remainingNumberOfHolidays = new RemainingNumberOfHolidays(
-				numberOfHolidays);
+		this.remainingNumberOfHolidays = new RemainingNumberOfHolidays(numberOfHolidays);
 		holidayIntervalSet = new IntervalSet<HolidayInterval>(numberOfHolidays);
 	}
 
@@ -118,7 +117,7 @@ public class User {
 	 * @return The user object on which the current method is invoked
 	 */
 	public User setHolidaysByGivenConfiguration() {
-		Days days = HolidayProvider.provideBy(this.scope, this.state);
+		Days days = HolidayProvider.provideBy(this.scope.getScope(), this.state);
 		this.holidays.addAll(days);
 		return this;
 	}
@@ -128,11 +127,7 @@ public class User {
 	}
 
 	public Interval getScope() {
-		return scope;
-	}
-
-	public void setScope(Interval scope) {
-		this.scope = scope;
+		return scope.getScope();
 	}
 
 	/**

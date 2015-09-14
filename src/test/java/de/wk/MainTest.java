@@ -62,7 +62,8 @@ public class MainTest {
 		WKDateTime currentDate = new WKDateTime();
 		DateTime endDate = new WKDateTime(2016, 1, 1).getJodaDateTime()
 				.minusDays(1);
-		user.setScope(new Interval(currentDate, endDate));
+		
+		User user = new User("Sascha", 24, State.BE, currentDate, new WKDateTime(endDate));
 
 		Days days = HolidayProvider.provideBy(user.getScope(), null);
 		user.getHolidays().clear();
