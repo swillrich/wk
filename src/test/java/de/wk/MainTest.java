@@ -10,7 +10,6 @@ import de.wk.algorithms.FillGapsAlgorithm;
 import de.wk.date.Days;
 import de.wk.date.DaysPrinter;
 import de.wk.date.WKDateTime;
-import de.wk.date.WKInterval;
 import de.wk.date.holiday.HolidayCalculator;
 import de.wk.date.holiday.HolidayProvider;
 import de.wk.date.holiday.HolidayProvider.State;
@@ -24,7 +23,7 @@ public class MainTest {
 
 	@Before
 	public void initSampleData() throws Exception {
-		user = new User("Sacke :-)", 24, State.BE, 2015);
+		user = new User("Sascha", 24, State.BE, 2015);
 
 		WKDateTime time = new WKDateTime(2015, 1, 1);
 		interval = new Interval(time, time.getJodaDateTime().plusYears(1)
@@ -39,7 +38,7 @@ public class MainTest {
 		User user = new User("Sven", 15, State.BE, new WKDateTime(2015, 9, 10),
 				new WKDateTime(2015, 12, 31)).setHolidaysByGivenConfiguration();
 		HolidayInterval chrismasInterval = new HolidayInterval(new WKDateTime(
-				2015, 12, 23), new WKDateTime(2015, 12, 31));
+				2015, 12, 23), new WKDateTime(2015, 12, 31), true);
 		chrismasInterval.setTitle("Christmas holdays");
 		user.getHolidayIntervalSet().add(chrismasInterval);
 
