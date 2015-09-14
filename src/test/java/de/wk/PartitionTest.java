@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import de.wk.date.Days;
 import de.wk.date.WKDateTime;
+import de.wk.date.WKInterval;
 import de.wk.util.Partition;
 
 public class PartitionTest {
@@ -22,26 +23,15 @@ public class PartitionTest {
 	WKDateTime wkDate8 = new WKDateTime(2015, 9, 18);
 	WKDateTime wkDate9 = new WKDateTime(2015, 9, 19);
 	WKDateTime wkDate10 = new WKDateTime(2015, 9, 20);
+	WKInterval wkInterval = new WKInterval(wkDate1, wkDate10);
 
 	@Before
 	public void setUp() throws Exception {
-		Days testDays = new Days();
-		testDays.add(wkDate1);
-		testDays.add(wkDate2);
-		testDays.add(wkDate3);
-		testDays.add(wkDate4);
-		testDays.add(wkDate5);
-		testDays.add(wkDate6);
-		testDays.add(wkDate7);
-		testDays.add(wkDate8);
-		testDays.add(wkDate9);
-		testDays.add(wkDate10);
-
-		this.partition = new Partition(testDays);
+		this.partition = new Partition(wkInterval);
 	}
 
 	@Test
-	public void testFindWithSingeElementUnionTrue() {
+	public void testFindWithSingleElementUnionTrue() {
 		this.partition.union(wkDate1, wkDate2);
 		assertTrue(this.partition.find(wkDate1).equals(
 				this.partition.find(wkDate2)));

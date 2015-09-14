@@ -1,6 +1,7 @@
 package de.wk.date;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.joda.time.DateTime;
 
@@ -42,11 +43,28 @@ public class Days extends ArrayList<WKDateTime> {
 	 */
 	public WKDateTime findByDate(DateTime d) {
 		for (WKDateTime h : this) {
-			if (h.getJodaDateTime().withTimeAtStartOfDay().isEqual(d.withTimeAtStartOfDay())) {
+			if (h.getJodaDateTime().withTimeAtStartOfDay()
+					.isEqual(d.withTimeAtStartOfDay())) {
 				return h;
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public boolean containsAll(Collection<?> c) {
+		for (Object wkDateTime : c) {
+			if (!(wkDateTime instanceof WKDateTime)) {
+				throw new ClassCastException(
+						"The elements being contained in the given collection may only be of the type WKDateTime.");
+			}
+			WKDateTime dateTime = findByDate(((WKDateTime) wkDateTime)
+					.getJodaDateTime());
+			if (dateTime == null) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**

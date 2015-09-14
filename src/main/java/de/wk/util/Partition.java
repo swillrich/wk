@@ -1,33 +1,30 @@
 package de.wk.util;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Map;
 
 import de.wk.date.Days;
 import de.wk.date.WKDateTime;
+import de.wk.date.WKInterval;
 
 public class Partition extends UnionFind<WKDateTime> {
 
 	private Map<WKDateTime, WKDateTime> parent;
 
 	/**
-	 * Default constructor.
-	 */
-	public Partition() {
-		this.parent = new HashMap<WKDateTime, WKDateTime>();
-	}
-
-	/**
-	 * This Constructor gets a list of elements (starting universe). Initially,
-	 * every element is its own parent thus it is mapped to itself.
+	 * This Constructor gets a interval (starting universe). Initially, every
+	 * element is its own parent thus it is mapped to itself.
 	 * 
-	 * @param elements
+	 * @param interval
 	 */
-	public Partition(List<WKDateTime> elements) {
-		this.parent = new HashMap<WKDateTime, WKDateTime>(elements.size());
-		for (WKDateTime element : elements) {
-			makeSet(element);
+	public Partition(WKInterval interval) {
+		this.parent = new HashMap<WKDateTime, WKDateTime>();
+		Iterator<WKDateTime> iterator = interval.getIterator();
+		while (iterator.hasNext()) {
+			WKDateTime next = iterator.next();
+			makeSet(next);
 		}
 	}
 
@@ -52,7 +49,7 @@ public class Partition extends UnionFind<WKDateTime> {
 			if (wkDateTime == null) {
 				for (WKDateTime eachWkDateTime : this.parent.keySet()) {
 					if (eachWkDateTime.compareTo(element) == 0) {
-						wkDateTime = eachWkDateTime;
+						wkDateTime = find(eachWkDateTime);
 						break;
 					}
 				}

@@ -7,8 +7,9 @@ import org.joda.time.Interval;
 
 import de.wk.algorithms.HolidayCalculatorAlgorithm;
 import de.wk.date.WKDateTime.KindOfDay;
+import de.wk.date.WKInterval;
+import de.wk.user.HolidayInterval;
 import de.wk.user.User;
-import de.wk.user.WKInterval;
 
 /**
  * This class calculated for a specific user and with a specific algorithm the
@@ -45,25 +46,33 @@ public class HolidayCalculator {
 	public void calculate() {
 		System.out.println("Calculation for " + user.getName());
 		fillPriorityIntervalsWithHolidays();
-		System.out.println("After filling preferred holiday intervals, " + user.getRemainingHolidays().get()
+		System.out.println("After filling preferred holiday intervals, "
+				+ user.getRemainingHolidays().get()
 				+ " holiday(s) are remaining");
 		if (!this.algorithm.equals(null)) {
 			algorithm.calculate(this.user);
 		}
 
-		System.out.println("After algorithm run, " + user.getRemainingHolidays().get() + " holiday(s) are remaining");
+		System.out.println("After algorithm run, "
+				+ user.getRemainingHolidays().get()
+				+ " holiday(s) are remaining");
 	}
 
 	private void fillPriorityIntervalsWithHolidays() {
-		Iterator<WKInterval> iterator = this.user.getPreferreadHolidayIntervalSet().toIterator();
+		Iterator<HolidayInterval> iterator = this.user.getHolidayIntervalSet()
+				.toIterator();
 		while (iterator.hasNext()) {
 			Interval interval = iterator.next().getInterval();
-			for (DateTime dateTime = interval.getStart(); (interval.contains(dateTime)
-					|| dateTime.compareTo(interval.getEnd()) == 0)
-					&& this.user.getRemainingHolidays().stillAvailable(); dateTime = dateTime.plusDays(1)) {
-				KindOfDay kindOf = this.user.getHolidays().determineKindOf(dateTime);
+			for (DateTime dateTime = interval.getStart(); (interval
+					.contains(dateTime) || dateTime
+					.compareTo(interval.getEnd()) == 0)
+					&& this.user.getRemainingHolidays().stillAvailable(); dateTime = dateTime
+					.plusDays(1)) {
+				KindOfDay kindOf = this.user.getHolidays().determineKindOf(
+						dateTime);
 				if (kindOf == KindOfDay.WEEK) {
-					VariableHoliday variableHoliday = new VariableHoliday("must be holiday", dateTime);
+					VariableHoliday variableHoliday = new VariableHoliday(
+							"must be holiday", dateTime);
 					this.user.getHolidays().add(variableHoliday);
 					this.user.getRemainingHolidays().decrement();
 				}
