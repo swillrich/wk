@@ -9,10 +9,10 @@ import org.junit.Test;
 import de.wk.date.Days;
 import de.wk.date.WKDateTime;
 import de.wk.date.WKInterval;
-import de.wk.util.Partition;
+import de.wk.util.Partitions;
 
 public class PartitionTest {
-	Partition partition;
+	Partitions partition;
 	WKDateTime wkDate1 = new WKDateTime(2015, 9, 11);
 	WKDateTime wkDate2 = new WKDateTime(2015, 9, 12);
 	WKDateTime wkDate3 = new WKDateTime(2015, 9, 13);
@@ -27,7 +27,7 @@ public class PartitionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		this.partition = new Partition(wkInterval);
+		this.partition = new Partitions(wkInterval);
 	}
 
 	@Test

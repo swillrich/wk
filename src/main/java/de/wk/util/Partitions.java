@@ -1,6 +1,6 @@
 package de.wk.util;
 
-import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -9,7 +9,7 @@ import de.wk.date.Days;
 import de.wk.date.WKDateTime;
 import de.wk.date.WKInterval;
 
-public class Partition extends UnionFind<WKDateTime> {
+public class Partitions extends UnionFind<WKDateTime> {
 
 	private Map<WKDateTime, WKDateTime> parent;
 
@@ -19,7 +19,7 @@ public class Partition extends UnionFind<WKDateTime> {
 	 * 
 	 * @param interval
 	 */
-	public Partition(WKInterval interval) {
+	public Partitions(WKInterval interval) {
 		this.parent = new HashMap<WKDateTime, WKDateTime>();
 		Iterator<WKDateTime> iterator = interval.getIterator();
 		while (iterator.hasNext()) {
@@ -86,6 +86,7 @@ public class Partition extends UnionFind<WKDateTime> {
 				result.add(entry.getKey());
 			}
 		}
+		Collections.sort(result);
 		return result;
 	}
 
