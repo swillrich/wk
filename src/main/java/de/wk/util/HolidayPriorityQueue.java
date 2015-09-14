@@ -6,7 +6,6 @@ import java.util.PriorityQueue;
 
 import org.joda.time.Interval;
 
-import de.wk.Log;
 import de.wk.date.Days;
 
 /**
@@ -16,11 +15,7 @@ import de.wk.date.Days;
  */
 @SuppressWarnings("serial")
 public class HolidayPriorityQueue extends PriorityQueue<Interval> {
-	/**
-	 * The priority queue will be initialized by a list of days (which are
-	 * resorted by date), whose Intervals will be calculated. One Interval is
-	 * composed of a arbitrary holiday and the direct next holiday.
-	 */
+
 	public HolidayPriorityQueue(Days days) {
 		super(new Comparator<Interval>() {
 			@Override
@@ -33,18 +28,5 @@ public class HolidayPriorityQueue extends PriorityQueue<Interval> {
 			Interval interval = new Interval(days.get(i), days.get(i + 1));
 			add(interval);
 		}
-	}
-
-	/**
-	 * Prints out all Intervals.<br>
-	 * Because this is a queue, printing out all Intervals leads to a empty
-	 * queue.
-	 */
-	public void print() {
-		for (Interval h : this) {
-			Log.out(h.getStart() + " ------------------>  "
-					+ h.getEnd());
-		}
-		Log.newLine();
 	}
 }
