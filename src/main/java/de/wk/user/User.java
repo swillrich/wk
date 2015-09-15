@@ -103,7 +103,7 @@ public class User {
 
 	private void init(String name, State state, WKDateTime start, WKDateTime end) {
 		this.name = name;
-		this.scope = new Partitions(new WKInterval(new Interval(start, end)));
+		this.scope = new Partitions(new WKInterval(start, end));
 		this.holidays = new Days();
 		this.state = state;
 		this.remainingNumberOfHolidays = new RemainingNumberOfHolidays(numberOfHolidays);
