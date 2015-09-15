@@ -1,4 +1,4 @@
-package de.wk.date.holiday;
+package de.wk.domain.holiday;
 
 import org.joda.time.DateTime;
 

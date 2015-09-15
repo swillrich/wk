@@ -1,4 +1,4 @@
-package de.wk.date.holiday;
+package de.wk.holidaycalculation;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,16 +7,16 @@ import java.util.Iterator;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
-import de.wk.date.Days;
-import de.wk.date.WKDateTime;
-import de.wk.date.holiday.immutable.BussUndBettag;
-import de.wk.date.holiday.immutable.ChristiHimmelfahrt;
-import de.wk.date.holiday.immutable.FixHoliday;
-import de.wk.date.holiday.immutable.Fronleichnam;
-import de.wk.date.holiday.immutable.Karfreitag;
-import de.wk.date.holiday.immutable.Ostermontag;
-import de.wk.date.holiday.immutable.Ostersonntag;
-import de.wk.date.holiday.immutable.Pfingstmontag;
+import de.wk.domain.WKDateTime;
+import de.wk.domain.holiday.Holidays;
+import de.wk.domain.holiday.immutable.BussUndBettag;
+import de.wk.domain.holiday.immutable.ChristiHimmelfahrt;
+import de.wk.domain.holiday.immutable.FixHoliday;
+import de.wk.domain.holiday.immutable.Fronleichnam;
+import de.wk.domain.holiday.immutable.Karfreitag;
+import de.wk.domain.holiday.immutable.Ostermontag;
+import de.wk.domain.holiday.immutable.Ostersonntag;
+import de.wk.domain.holiday.immutable.Pfingstmontag;
 
 /**
  * This class provides all holidays. <br>
@@ -64,8 +64,8 @@ public class HolidayProvider {
 	 * @return A Days (which is a collection) with the holidays being located
 	 *         within the given interval
 	 */
-	public static Days provideBy(Interval interval, State state) {
-		Days days = new Days();
+	public static Holidays provideBy(Interval interval, State state) {
+		Holidays days = new Holidays();
 		DateTime start = interval.getStart();
 		DateTime end = interval.getEnd();
 		for (int year = start.getYear(); year <= end.getYear(); year++) {
@@ -92,7 +92,7 @@ public class HolidayProvider {
 	 * @return A Days (which is a collection) with the holidays being located
 	 *         within the given year
 	 */
-	public static Days provideBy(int year, State state) {
+	public static Holidays provideBy(int year, State state) {
 		WKDateTime wkDateTime = new WKDateTime(year, 1, 1);
 		return provideBy(new Interval(wkDateTime, wkDateTime.getJodaDateTime().plusYears(1).minusDays(1)), state);
 	}
@@ -105,7 +105,7 @@ public class HolidayProvider {
 	 * @param state
 	 *            The state on which the holidays are based on
 	 */
-	private static void initializeByYear(Days days, int year, State state) {
+	private static void initializeByYear(Holidays days, int year, State state) {
 		FixHoliday neujahr = new FixHoliday("Neujahr", year, 1, 1);
 		FixHoliday heiligeDreiKoenige = new FixHoliday("Heilige drei Könige", year, 1, 6);
 		FixHoliday firstCMD = new FixHoliday("Erster Weihnachtstag", year, 12, 25);

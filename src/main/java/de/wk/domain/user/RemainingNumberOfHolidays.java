@@ -1,4 +1,4 @@
-package de.wk.user;
+package de.wk.domain.user;
 
 /**
  * This class handles the incrementation/decrementation of the number of

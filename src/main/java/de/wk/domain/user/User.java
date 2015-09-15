@@ -1,13 +1,13 @@
-package de.wk.user;
+package de.wk.domain.user;
 
 import org.joda.time.Interval;
 
-import de.wk.date.Days;
-import de.wk.date.WKDateTime;
-import de.wk.date.WKInterval;
-import de.wk.date.holiday.HolidayProvider;
-import de.wk.date.holiday.HolidayProvider.State;
-import de.wk.util.Partitions;
+import de.wk.domain.Partitions;
+import de.wk.domain.WKDateTime;
+import de.wk.domain.WKInterval;
+import de.wk.domain.holiday.Holidays;
+import de.wk.holidaycalculation.HolidayProvider;
+import de.wk.holidaycalculation.HolidayProvider.State;
 
 /**
  * The user class represents one arbitrary user whose holiday partition should
@@ -23,7 +23,7 @@ public class User {
 	/**
 	 * All the holidays of the user
 	 */
-	private Days holidays;
+	private Holidays holidays;
 	/**
 	 * The total number of initial available holidays. Not to be confused with
 	 * remainingNumberOfHolidays, which is mutable.
@@ -103,23 +103,13 @@ public class User {
 
 	private void init(String name, State state, WKDateTime start, WKDateTime end) {
 		this.name = name;
-		this.scope = new Partitions(new WKInterval(start, end));
-		this.holidays = new Days();
+		Holidays days = HolidayProvider.provideBy(this.scope.getScope(), this.state);
+		this.holidays.addAll(days);
+		this.scope = new Partitions(new WKInterval(start, end), days);
+		this.holidays = new Holidays();
 		this.state = state;
 		this.remainingNumberOfHolidays = new RemainingNumberOfHolidays(numberOfHolidays);
 		holidayIntervalSet = new IntervalSet<HolidayInterval>(numberOfHolidays);
-	}
-
-	/**
-	 * Calculates the fix holidays for this user. While the calculation is
-	 * processed, the given State is considered.
-	 * 
-	 * @return The user object on which the current method is invoked
-	 */
-	public User setHolidaysByGivenConfiguration() {
-		Days days = HolidayProvider.provideBy(this.scope.getScope(), this.state);
-		this.holidays.addAll(days);
-		return this;
 	}
 
 	public void setName(String name) {
@@ -134,7 +124,7 @@ public class User {
 	 * Returns the several holidays (default is a empty collection, which is
 	 * only filled after holiday calculating)
 	 */
-	public Days getHolidays() {
+	public Holidays getHolidays() {
 		return this.holidays;
 	}
 

@@ -1,4 +1,4 @@
-package de.wk.util;
+package de.wk.holidaycalculation;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -6,7 +6,7 @@ import java.util.PriorityQueue;
 
 import org.joda.time.Interval;
 
-import de.wk.date.Days;
+import de.wk.domain.holiday.Holidays;
 
 /**
  * This priority queue contains all Intervals being between all holidays. The
@@ -16,7 +16,7 @@ import de.wk.date.Days;
 @SuppressWarnings("serial")
 public class HolidayPriorityQueue extends PriorityQueue<Interval> {
 
-	public HolidayPriorityQueue(Days days) {
+	public HolidayPriorityQueue(Holidays days) {
 		super(new Comparator<Interval>() {
 			@Override
 			public int compare(Interval o1, Interval o2) {

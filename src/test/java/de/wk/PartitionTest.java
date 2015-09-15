@@ -6,10 +6,10 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.wk.date.Days;
-import de.wk.date.WKDateTime;
-import de.wk.date.WKInterval;
-import de.wk.util.Partitions;
+import de.wk.domain.Partitions;
+import de.wk.domain.WKDateTime;
+import de.wk.domain.WKInterval;
+import de.wk.domain.holiday.Holidays;
 
 public class PartitionTest {
 	Partitions partition;
@@ -27,7 +27,7 @@ public class PartitionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		this.partition = new Partitions(wkInterval);
+		this.partition = new Partitions(wkInterval, null);
 	}
 
 	@Test
@@ -77,7 +77,7 @@ public class PartitionTest {
 		this.partition.union(wkDate2, wkDate4);
 		this.partition.union(wkDate5, wkDate6);
 		this.partition.union(wkDate4, wkDate6);
-		Days oracle = new Days();
+		Holidays oracle = new Holidays();
 		oracle.add(wkDate1);
 		oracle.add(wkDate2);
 		oracle.add(wkDate3);

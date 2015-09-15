@@ -1,8 +1,8 @@
-package de.wk.date.holiday.immutable;
+package de.wk.domain.holiday.immutable;
 
 import org.joda.time.DateTime;
 
-import de.wk.date.holiday.Holiday;
+import de.wk.domain.holiday.Holiday;
 
 /**
  * The holiday representation of the official holiday "Pfingstmontag"

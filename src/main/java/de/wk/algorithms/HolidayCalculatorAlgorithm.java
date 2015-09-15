@@ -1,6 +1,6 @@
 package de.wk.algorithms;
 
-import de.wk.user.User;
+import de.wk.domain.user.User;
 
 /**
  * A holiday calculator algorithm is used for calculating holidays for a

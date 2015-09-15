@@ -3,11 +3,11 @@ package de.wk.algorithms;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
-import de.wk.date.WKDateTime.KindOfDay;
-import de.wk.date.holiday.VariableHoliday;
-import de.wk.user.RemainingNumberOfHolidays;
-import de.wk.user.User;
-import de.wk.util.HolidayPriorityQueue;
+import de.wk.domain.WKDateTime.KindOfDay;
+import de.wk.domain.holiday.VariableHoliday;
+import de.wk.domain.user.RemainingNumberOfHolidays;
+import de.wk.domain.user.User;
+import de.wk.holidaycalculation.HolidayPriorityQueue;
 
 /**
  * This class represents the algorithm implementation for calculating the

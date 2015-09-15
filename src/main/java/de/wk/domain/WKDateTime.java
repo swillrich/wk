@@ -1,4 +1,4 @@
-package de.wk.date;
+package de.wk.domain;
 
 import java.util.Locale;
 

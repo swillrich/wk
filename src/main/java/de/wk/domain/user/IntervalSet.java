@@ -1,11 +1,11 @@
-package de.wk.user;
+package de.wk.domain.user;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import de.wk.Log;
-import de.wk.date.WKInterval;
+import de.wk.domain.WKInterval;
 
 /**
  * The role of this class is to manage holidays or non-holidays intervals. <br/>

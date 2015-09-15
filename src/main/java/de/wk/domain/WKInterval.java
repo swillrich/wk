@@ -1,9 +1,11 @@
-package de.wk.date;
+package de.wk.domain;
 
 import java.util.Iterator;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
+
+import de.wk.domain.holiday.Holidays;
 
 /**
  * This WKInterval class representing an interval which consist of a start and
@@ -76,7 +78,7 @@ public class WKInterval {
 	 * @return Iterator
 	 */
 	public Iterator<WKDateTime> getIterator() {
-		Days days = new Days();
+		Holidays days = new Holidays();
 		for (DateTime date = this.interval.getStart(); date
 				.compareTo(this.interval.getEnd()) < 1; date = date.plusDays(1)) {
 			days.add(new WKDateTime(date));

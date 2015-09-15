@@ -1,4 +1,4 @@
-package de.wk.date.holiday;
+package de.wk.holidaycalculation;
 
 import java.util.Iterator;
 
@@ -8,9 +8,10 @@ import org.joda.time.Interval;
 import de.wk.Log;
 import de.wk.algorithms.BiggestPartitionAlgorithm;
 import de.wk.algorithms.HolidayCalculatorAlgorithm;
-import de.wk.date.WKDateTime.KindOfDay;
-import de.wk.user.HolidayInterval;
-import de.wk.user.User;
+import de.wk.domain.WKDateTime.KindOfDay;
+import de.wk.domain.holiday.VariableHoliday;
+import de.wk.domain.user.HolidayInterval;
+import de.wk.domain.user.User;
 
 /**
  * This class calculates for a specific user and with a specific algorithm

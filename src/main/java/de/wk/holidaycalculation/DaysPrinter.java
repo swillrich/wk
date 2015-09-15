@@ -1,4 +1,4 @@
-package de.wk.date;
+package de.wk.holidaycalculation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,9 @@ import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormat;
 
 import de.wk.Log;
-import de.wk.date.WKDateTime.KindOfDay;
+import de.wk.domain.WKDateTime;
+import de.wk.domain.WKDateTime.KindOfDay;
+import de.wk.domain.holiday.Holidays;
 
 /**
  * This class prints a given days object (which is a collection). <br>
@@ -20,7 +22,7 @@ import de.wk.date.WKDateTime.KindOfDay;
  */
 public class DaysPrinter {
 
-	private Days days;
+	private Holidays days;
 	private int columnWidth = 6;
 	private List<DayAppearanceModifier> dayAppearanceModifierList = new ArrayList<DayAppearanceModifier>();
 	private boolean hideWeekdays = true;
@@ -30,7 +32,7 @@ public class DaysPrinter {
 	 * @param days
 	 *            The days collection containing all days.
 	 */
-	public DaysPrinter(Days days) {
+	public DaysPrinter(Holidays days) {
 		this.days = days;
 	}
 
@@ -45,7 +47,7 @@ public class DaysPrinter {
 	 *            of holiday partitions. That means, this days which are not
 	 *            part of a holiday partition and which would be appear alone.
 	 */
-	public DaysPrinter(Days holidays, boolean hideWeekdays, boolean hideWeekendsOnly) {
+	public DaysPrinter(Holidays holidays, boolean hideWeekdays, boolean hideWeekendsOnly) {
 		this.days = holidays;
 		this.hideWeekdays = hideWeekdays;
 		this.hideWeekendsOnly = hideWeekendsOnly;

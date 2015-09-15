@@ -1,8 +1,8 @@
-package de.wk.user;
+package de.wk.domain.user;
 
 import org.joda.time.Interval;
 
-import de.wk.date.WKInterval;
+import de.wk.domain.WKInterval;
 
 public class NonHolidayInterval extends WKInterval {
 

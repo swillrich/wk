@@ -1,8 +1,8 @@
-package de.wk.date.holiday;
+package de.wk.domain.holiday;
 
 import org.joda.time.DateTime;
 
-import de.wk.date.WKDateTime;
+import de.wk.domain.WKDateTime;
 
 /**
  * This class is used to represent a (official) holiday and is a WKDateTime.

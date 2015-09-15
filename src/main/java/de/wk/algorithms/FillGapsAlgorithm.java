@@ -6,11 +6,11 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
 import de.wk.Log;
-import de.wk.date.Days;
-import de.wk.date.WKDateTime;
-import de.wk.date.WKDateTime.KindOfDay;
-import de.wk.date.holiday.VariableHoliday;
-import de.wk.user.User;
+import de.wk.domain.WKDateTime;
+import de.wk.domain.WKDateTime.KindOfDay;
+import de.wk.domain.holiday.Holidays;
+import de.wk.domain.holiday.VariableHoliday;
+import de.wk.domain.user.User;
 
 /**
  * This algorithm invoked firstly. He fills the gaps between weekend days and
@@ -21,7 +21,7 @@ import de.wk.user.User;
 public class FillGapsAlgorithm implements HolidayCalculatorAlgorithm {
 
 	private User user;
-	private Days holidays;
+	private Holidays holidays;
 	private int numberOfHolidays;
 
 	@Override

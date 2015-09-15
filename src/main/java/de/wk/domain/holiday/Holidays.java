@@ -1,13 +1,12 @@
-package de.wk.date;
+package de.wk.domain.holiday;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 import org.joda.time.DateTime;
 
-import de.wk.date.WKDateTime.KindOfDay;
-import de.wk.date.holiday.Holiday;
-import de.wk.date.holiday.VariableHoliday;
+import de.wk.domain.WKDateTime;
+import de.wk.domain.WKDateTime.KindOfDay;
 
 /**
  * This class is a WKDateTime ArrayList (and therefore implicit a collection)
@@ -18,7 +17,7 @@ import de.wk.date.holiday.VariableHoliday;
  * whereby the non-holiday is not placed explicitly.
  */
 @SuppressWarnings("serial")
-public class Days extends ArrayList<WKDateTime> {
+public class Holidays extends ArrayList<WKDateTime> {
 
 	@Override
 	public String toString() {
