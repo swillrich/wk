@@ -7,5 +7,5 @@ import de.wk.user.User;
  * specific range/interval with specific parameter given by user.
  */
 public interface HolidayCalculatorAlgorithm {
-	public void calculate(User user);
+	public void calculate(User user) throws Exception;
 }

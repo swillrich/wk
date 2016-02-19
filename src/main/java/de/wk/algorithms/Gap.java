@@ -1,5 +1,6 @@
 package de.wk.algorithms;
 
+import de.wk.date.WKDateTime;
 import de.wk.date.WKInterval;
 
 public class Gap extends WKInterval {
@@ -9,6 +10,10 @@ public class Gap extends WKInterval {
 
 	public Gap(WKInterval interval) {
 		super(interval.getInterval());
+	}
+
+	public Gap(WKDateTime start, WKDateTime end) {
+		super(start, end);
 	}
 
 	public int getWeight() {

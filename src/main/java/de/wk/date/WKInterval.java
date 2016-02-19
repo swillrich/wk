@@ -25,10 +25,10 @@ public class WKInterval {
 	public String getTitle() {
 		return title;
 	}
-	
+
 	public Days getDaysBetween() {
 		Days days = new Days();
-		for (DateTime dt = interval.getStart(); !dt.equals(interval.getEnd()); dt = dt.plusDays(1)) {
+		for (DateTime dt = interval.getStart(); dt.compareTo(interval.getEnd()) <= 0; dt = dt.plusDays(1)) {
 			WKDateTime wkDateTime = new WKDateTime(dt);
 			days.add(wkDateTime);
 		}
@@ -71,6 +71,10 @@ public class WKInterval {
 		this.interval = interval;
 	}
 
+	public WKInterval() {
+
+	}
+
 	/**
 	 * @return The Joda Interval
 	 */
@@ -86,10 +90,18 @@ public class WKInterval {
 	 */
 	public Iterator<WKDateTime> getIterator() {
 		Days days = new Days();
-		for (DateTime date = this.interval.getStart(); date
-				.compareTo(this.interval.getEnd()) < 1; date = date.plusDays(1)) {
+		for (DateTime date = this.interval.getStart(); date.compareTo(this.interval.getEnd()) < 1; date = date
+				.plusDays(1)) {
 			days.add(new WKDateTime(date));
 		}
 		return days.iterator();
+	}
+	
+	public int getSize() {
+		if (interval == null) {
+			return 0;
+		} else {
+			return (int) interval.toDuration().getStandardDays();
+		}
 	}
 }
