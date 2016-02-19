@@ -54,8 +54,9 @@ public class DaysPrinter {
 	/**
 	 * This methods prints the holidays which are located within the given
 	 * interval.
+	 * @throws Exception 
 	 */
-	public void print(Interval interval) {
+	public void print(Interval interval) throws Exception {
 		DateTime from = interval.getStart();
 		DateTime to = interval.getEnd();
 		setModifier();
@@ -105,7 +106,7 @@ public class DaysPrinter {
 		Log.out(String.format("%-4s%-20s", "[ ]", "non-holiday/-vacation day"));
 	}
 
-	private void applyModifier(String[] columns, DateTime tmpDT) {
+	private void applyModifier(String[] columns, DateTime tmpDT) throws Exception {
 		KindOfDay preDay = days.determineKindOf(tmpDT.minusDays(1));
 		KindOfDay postDay = days.determineKindOf(tmpDT.plusDays(1));
 		KindOfDay currentDay = days.determineKindOf(tmpDT);
@@ -152,9 +153,10 @@ public class DaysPrinter {
 		 * @param dayAsString
 		 *            Is the day which becomes modified as string
 		 * @return The modified string
+		 * @throws Exception
 		 */
 		String returnAppearance(WKDateTime.KindOfDay before, WKDateTime.KindOfDay current, WKDateTime.KindOfDay next,
-				String dayAsString);
+				String dayAsString) throws Exception;
 	}
 
 	/**
@@ -166,7 +168,7 @@ public class DaysPrinter {
 				@Override
 				public String returnAppearance(KindOfDay before, KindOfDay current, KindOfDay next,
 						String dayAsString) {
-					if (current == KindOfDay.WEEK) {
+					if (current == KindOfDay.WORKDAY) {
 						return "";
 					}
 					return dayAsString;
@@ -184,7 +186,7 @@ public class DaysPrinter {
 					dayAsString = dayAsString + "*";
 				}
 
-				if (current == KindOfDay.VACATIONDAY) {
+				if (current == KindOfDay.WORKDAY) {
 					dayAsString = dayAsString + "#";
 				}
 				return dayAsString;
@@ -198,9 +200,9 @@ public class DaysPrinter {
 
 				String prefix = "";
 				String postfix = "";
-				if (current != KindOfDay.WEEK) {
-					boolean isPre = before == KindOfDay.WEEK;
-					boolean isPost = next == KindOfDay.WEEK;
+				if (current != KindOfDay.WORKDAY) {
+					boolean isPre = before == KindOfDay.WORKDAY;
+					boolean isPost = next == KindOfDay.WORKDAY;
 
 					if (isPre && isPost) {
 						prefix = "[";
@@ -220,7 +222,7 @@ public class DaysPrinter {
 			dayAppearanceModifierList.add(new DayAppearanceModifier() {
 				@Override
 				public String returnAppearance(KindOfDay before, KindOfDay current, KindOfDay next,
-						String dayAsString) {
+						String dayAsString) throws Exception {
 					if (current == KindOfDay.WEEKEND) {
 						int dayOfWeek = current.getDateTime().getDayOfWeek();
 
@@ -236,7 +238,7 @@ public class DaysPrinter {
 						KindOfDay kindOfMo = dayOfWeek == 7 ? next
 								: days.determineKindOf(kindOfSu.getDateTime().plusDays(1));
 
-						if (kindOfFr == KindOfDay.WEEK && kindOfMo == KindOfDay.WEEK && kindOfSa == KindOfDay.WEEKEND
+						if (kindOfFr == KindOfDay.WORKDAY && kindOfMo == KindOfDay.WORKDAY && kindOfSa == KindOfDay.WEEKEND
 								&& kindOfSu == KindOfDay.WEEKEND) {
 							return "";
 						}

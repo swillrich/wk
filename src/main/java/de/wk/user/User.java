@@ -20,7 +20,7 @@ public class User {
 	/**
 	 * All the holidays of the user
 	 */
-	private Days holidays;
+	private Days days;
 	/**
 	 * The total number of initial available holidays. Not to be confused with
 	 * remainingNumberOfHolidays, which is mutable.
@@ -61,6 +61,10 @@ public class User {
 	public IntervalSet<VacationInterval> getHolidayIntervalSet() {
 		return holidayIntervalSet;
 	}
+	
+	public Days getDays() {
+		return days;
+	}
 
 	/**
 	 * Creates a user instance
@@ -79,10 +83,10 @@ public class User {
 		init(name, state, interval);
 	}
 
-	private void init(String name2, State state2, Interval interval) {
+	private void init(String name, State state, Interval interval) {
 		this.name = name;
 		this.scope = interval;
-		this.holidays = new Days();
+		this.days = new Days(interval);
 		this.state = state;
 		this.remainingNumberOfHolidays = new RemainingNumberOfHolidays(numberOfHolidays);
 		holidayIntervalSet = new IntervalSet<VacationInterval>(numberOfHolidays);
@@ -96,7 +100,7 @@ public class User {
 	 */
 	public User setHolidaysByGivenConfiguration() {
 		Days days = HolidayProvider.provideBy(this.scope, this.state);
-		this.holidays.addAll(days);
+		this.days.addAll(days);
 		return this;
 	}
 
@@ -117,7 +121,7 @@ public class User {
 	 * only filled after holiday calculating)
 	 */
 	public Days getHolidays() {
-		return this.holidays;
+		return this.days;
 	}
 
 	/**

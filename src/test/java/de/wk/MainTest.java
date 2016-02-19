@@ -4,11 +4,8 @@ import org.joda.time.Interval;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.wk.algorithms.StillNamelessAlgorithm;
 import de.wk.date.Days;
-import de.wk.date.DaysPrinter;
 import de.wk.date.WKDateTime;
-import de.wk.date.holiday.HolidayCalculator;
 import de.wk.date.holiday.HolidayProvider;
 import de.wk.date.holiday.HolidayProvider.State;
 import de.wk.user.User;
@@ -25,15 +22,19 @@ public class MainTest {
 		user = new User("Sascha", 24, State.BE, interval);
 
 		Days holidays = HolidayProvider.provideBy(interval, null);
-		user.getHolidays().addAll(holidays);
+		user.getHolidays().mergeDays(holidays);
+		
+		String string = user.getDays().toString();
+
+		System.out.println(string);
 	}
 
 	@Test
-	public void testWithSpecificData() {
-		HolidayCalculator calculator = new HolidayCalculator(user);
-		calculator.setAlgorithm(new StillNamelessAlgorithm());
-		calculator.calculate();
-		new DaysPrinter(user.getHolidays()).print(user.getScope());
+	public void testWithSpecificData() throws Exception {
+		// HolidayCalculator calculator = new HolidayCalculator(user);
+		// calculator.setAlgorithm(new StillNamelessAlgorithm());
+		// calculator.calculate();
+		// new DaysPrinter(user.getHolidays()).print(user.getScope());
 	}
 
 }

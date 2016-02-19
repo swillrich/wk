@@ -40,8 +40,9 @@ public class HolidayCalculator {
 	/**
 	 * By calling this method the algorithm computes the holidays. The
 	 * determined days are getting stored in the user object.
+	 * @throws Exception 
 	 */
-	public void calculate() {
+	public void calculate() throws Exception {
 		Log.out("Calculation for " + user.getName());
 		fillPriorityIntervalsWithHolidays();
 		Log.out("After filling preferred holiday intervals, "
@@ -54,7 +55,7 @@ public class HolidayCalculator {
 				+ " holiday(s) are remaining");
 	}
 
-	private void fillPriorityIntervalsWithHolidays() {
+	private void fillPriorityIntervalsWithHolidays() throws Exception {
 		Iterator<VacationInterval> iterator = this.user.getHolidayIntervalSet()
 				.toIterator();
 		while (iterator.hasNext()) {
@@ -66,8 +67,8 @@ public class HolidayCalculator {
 					.plusDays(1)) {
 				KindOfDay kindOf = this.user.getHolidays().determineKindOf(
 						dateTime);
-				if (kindOf == KindOfDay.WEEK) {
-					VariableHoliday variableHoliday = new VariableHoliday(
+				if (kindOf == KindOfDay.WORKDAY) {
+					VacationDay variableHoliday = new VacationDay(
 							"being preferred holiday", dateTime);
 					this.user.getHolidays().add(variableHoliday);
 					this.user.getRemainingHolidays().decrement();

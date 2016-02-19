@@ -13,26 +13,6 @@ import de.wk.date.WKDateTime;
  */
 @SuppressWarnings("rawtypes")
 public abstract class Holiday<T extends Holiday> extends WKDateTime {
-	private String name;
-
-	/**
-	 * Instantiates a arbitrary holiday by means of knowing the year, month and
-	 * the precise day.
-	 * 
-	 * @param name
-	 *            the name of the holiday
-	 * @param year
-	 *            the year, in which the holiday occurs
-	 * @param month
-	 *            the month, in which the holiday occurs
-	 * @param day
-	 *            the specific day, on that the holiday occurs
-	 */
-	public Holiday(String name, int year, int month, int day) {
-		this.dateTime = new DateTime(year, month, day, 0, 0, 0);
-		this.name = name;
-	}
-
 	/**
 	 * Instantiates a specific holiday through a WKDateTime object.
 	 * 
@@ -43,7 +23,7 @@ public abstract class Holiday<T extends Holiday> extends WKDateTime {
 	 */
 	public Holiday(String name, T holiday) {
 		this.dateTime = dependsOn(holiday);
-		this.name = name;
+		setName(name);
 	}
 
 	/**
@@ -57,20 +37,12 @@ public abstract class Holiday<T extends Holiday> extends WKDateTime {
 	 */
 	public Holiday(T holiday) {
 		this.dateTime = dependsOn(holiday);
-		this.name = this.getClass().getSimpleName();
+		setName(this.getClass().getSimpleName());
 	}
 
-	/**
-	 * Instantiates a specific holiday through a DateTime object.
-	 * 
-	 * @param name
-	 *            The name of the holiday
-	 * @param dateTime
-	 *            The specific date the holiday occurs
-	 */
-	public Holiday(String name, DateTime dateTime) {
-		this.dateTime = dateTime;
-		this.name = name;
+
+	public Holiday(String name, int year, int month, int day) {
+		super(name, year, month, day);
 	}
 
 	/**
@@ -78,13 +50,6 @@ public abstract class Holiday<T extends Holiday> extends WKDateTime {
 	 */
 	public DateTime getDate() {
 		return dateTime;
-	}
-
-	/**
-	 * Returns the name of this holiday object
-	 */
-	public String getName() {
-		return name;
 	}
 
 	public abstract DateTime dependsOn(T day);

@@ -15,7 +15,7 @@ import de.wk.user.User;
  *
  */
 public class Main {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		WKDateTime time = new WKDateTime(2015, 1, 1);
 		Interval interval = new Interval(time, time.getJodaDateTime()
 				.plusYears(1).minusDays(1));

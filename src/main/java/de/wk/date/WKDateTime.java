@@ -20,7 +20,7 @@ import org.joda.time.format.DateTimeFormatter;
  * provided by Joda.
  */
 public class WKDateTime implements ReadableDateTime {
-
+	String name;
 	protected DateTime dateTime = null;
 
 	/**
@@ -29,7 +29,7 @@ public class WKDateTime implements ReadableDateTime {
 	 * day or a holiday.
 	 */
 	public static enum KindOfDay {
-		WEEKEND, WEEK, HOLIDAY, VACATIONDAY;
+		WEEKEND, HOLIDAY, WORKDAY, VACATIONDAY;
 		private DateTime dateTime;
 
 		/**
@@ -51,6 +51,55 @@ public class WKDateTime implements ReadableDateTime {
 
 	public WKDateTime(DateTime jodaDateTime) {
 		dateTime = jodaDateTime;
+	}
+	
+
+	/**
+	 * Instantiates a specific holiday through a DateTime object.
+	 * 
+	 * @param name
+	 *            The name of the holiday
+	 * @param dateTime
+	 *            The specific date the holiday occurs
+	 */
+	public WKDateTime(String name, DateTime dateTime) {
+		this.dateTime = dateTime;
+		setName(name);
+	}
+	
+	
+	/**
+	 * Instantiates a arbitrary holiday by means of knowing the year, month and
+	 * the precise day.
+	 * 
+	 * @param name
+	 *            the name of the holiday
+	 * @param year
+	 *            the year, in which the holiday occurs
+	 * @param month
+	 *            the month, in which the holiday occurs
+	 * @param day
+	 *            the specific day, on that the holiday occurs
+	 */
+	public WKDateTime(String name, int year, int month, int day) {
+		this.dateTime = new DateTime(year, month, day, 0, 0, 0);
+		setName(name);
+	}
+
+	public DateTime getDateTime() {
+		return dateTime;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setDateTime(DateTime dateTime) {
+		this.dateTime = dateTime;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
@@ -230,8 +279,7 @@ public class WKDateTime implements ReadableDateTime {
 	}
 
 	@Override
-	public String toString(String pattern, Locale locale)
-			throws IllegalArgumentException {
+	public String toString(String pattern, Locale locale) throws IllegalArgumentException {
 		return dateTime.toString(pattern, locale);
 	}
 

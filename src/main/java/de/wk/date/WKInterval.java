@@ -25,6 +25,15 @@ public class WKInterval {
 	public String getTitle() {
 		return title;
 	}
+	
+	public Days getDaysBetween() {
+		Days days = new Days();
+		for (DateTime dt = interval.getStart(); !dt.equals(interval.getEnd()); dt = dt.plusDays(1)) {
+			WKDateTime wkDateTime = new WKDateTime(dt);
+			days.add(wkDateTime);
+		}
+		return days;
+	}
 
 	/**
 	 * Sets the title of the interval.
