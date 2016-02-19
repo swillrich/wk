@@ -8,7 +8,7 @@ import org.joda.time.Interval;
 import de.wk.Log;
 import de.wk.algorithms.HolidayCalculatorAlgorithm;
 import de.wk.date.WKDateTime.KindOfDay;
-import de.wk.user.HolidayInterval;
+import de.wk.user.VacationInterval;
 import de.wk.user.User;
 
 /**
@@ -55,7 +55,7 @@ public class HolidayCalculator {
 	}
 
 	private void fillPriorityIntervalsWithHolidays() {
-		Iterator<HolidayInterval> iterator = this.user.getHolidayIntervalSet()
+		Iterator<VacationInterval> iterator = this.user.getHolidayIntervalSet()
 				.toIterator();
 		while (iterator.hasNext()) {
 			Interval interval = iterator.next().getInterval();

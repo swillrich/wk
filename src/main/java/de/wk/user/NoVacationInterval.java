@@ -4,9 +4,9 @@ import org.joda.time.Interval;
 
 import de.wk.date.WKInterval;
 
-public class NonHolidayInterval extends WKInterval {
+public class NoVacationInterval extends WKInterval {
 
-	public NonHolidayInterval(Interval interval) {
+	public NoVacationInterval(Interval interval) {
 		super(interval);
 	}
 

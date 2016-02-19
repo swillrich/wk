@@ -3,7 +3,6 @@ package de.wk.user;
 import org.joda.time.Interval;
 
 import de.wk.date.Days;
-import de.wk.date.WKDateTime;
 import de.wk.date.holiday.HolidayProvider;
 import de.wk.date.holiday.HolidayProvider.State;
 
@@ -44,22 +43,22 @@ public class User {
 	/**
 	 * The list of intervals the user <b>want to be filled</b> with holidays.
 	 */
-	private IntervalSet<HolidayInterval> holidayIntervalSet;
+	private IntervalSet<VacationInterval> holidayIntervalSet = new IntervalSet<>();
 	/**
 	 * The list of intervals the user <b>don't want to be filled</b> with
 	 * holidays.
 	 */
-	private IntervalSet<NonHolidayInterval> nonHoliadayIntervals = new IntervalSet<NonHolidayInterval>();
+	private IntervalSet<NoVacationInterval> nonHoliadayIntervals = new IntervalSet<NoVacationInterval>();
 
 	public int getNumberOfHolidays() {
 		return numberOfHolidays;
 	}
 
-	public IntervalSet<NonHolidayInterval> getNonHoliadayIntervals() {
+	public IntervalSet<NoVacationInterval> getNonHoliadayIntervals() {
 		return nonHoliadayIntervals;
 	}
 
-	public IntervalSet<HolidayInterval> getHolidayIntervalSet() {
+	public IntervalSet<VacationInterval> getHolidayIntervalSet() {
 		return holidayIntervalSet;
 	}
 
@@ -72,43 +71,21 @@ public class User {
 	 *            The number of available holidays of the user
 	 * @param state
 	 *            The state, in which the user is located
-	 * @param start
-	 *            The first date of the scope to be considered
-	 * @param end
-	 *            The last date of the scope to be considered
+	 * @param interval
+	 *            The interval to be considered
 	 */
-	public User(String name, int numberOfHolidays, State state,
-			WKDateTime start, WKDateTime end) {
+	public User(String name, int numberOfHolidays, State state, Interval interval) {
 		this.numberOfHolidays = numberOfHolidays;
-		init(name, state, start, end);
+		init(name, state, interval);
 	}
 
-	/**
-	 * Creates a user instance
-	 * 
-	 * @param name
-	 *            The name of the user
-	 * @param numberOfHolidays
-	 *            The number of available holidays of the user
-	 * @param state
-	 *            The state, in which the user is located
-	 * @param year
-	 *            The year to be considered
-	 */
-	public User(String name, int numberOfHolidays, State state, int year) {
-		this.numberOfHolidays = numberOfHolidays;
-		init(name, state, new WKDateTime(year, 1, 1), new WKDateTime(year, 12,
-				31));
-	}
-
-	private void init(String name, State state, WKDateTime start, WKDateTime end) {
+	private void init(String name2, State state2, Interval interval) {
 		this.name = name;
-		this.scope = new Interval(start, end);
+		this.scope = interval;
 		this.holidays = new Days();
 		this.state = state;
-		this.remainingNumberOfHolidays = new RemainingNumberOfHolidays(
-				numberOfHolidays);
-		holidayIntervalSet = new IntervalSet<HolidayInterval>(numberOfHolidays);
+		this.remainingNumberOfHolidays = new RemainingNumberOfHolidays(numberOfHolidays);
+		holidayIntervalSet = new IntervalSet<VacationInterval>(numberOfHolidays);
 	}
 
 	/**

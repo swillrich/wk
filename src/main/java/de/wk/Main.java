@@ -2,7 +2,6 @@ package de.wk;
 
 import org.joda.time.Interval;
 
-import de.wk.algorithms.FillGapsAlgorithm;
 import de.wk.date.Days;
 import de.wk.date.DaysPrinter;
 import de.wk.date.WKDateTime;
@@ -17,17 +16,17 @@ import de.wk.user.User;
  */
 public class Main {
 	public static void main(String[] args) {
-		User sascha = new User("Sascha :-)", 24, State.BE, 2015);
-
 		WKDateTime time = new WKDateTime(2015, 1, 1);
 		Interval interval = new Interval(time, time.getJodaDateTime()
 				.plusYears(1).minusDays(1));
+		
+		User sascha = new User("Sven :-)", 24, State.BE, interval);
 
 		Days holidays = HolidayProvider.provideBy(2015, null);
 		sascha.getHolidays().addAll(holidays);
 
 		HolidayCalculator calculator = new HolidayCalculator(sascha);
-		calculator.setAlgorithm(new FillGapsAlgorithm());
+		calculator.setAlgorithm(null);
 		calculator.calculate();
 
 		new DaysPrinter(sascha.getHolidays(), true, true).print(interval);
