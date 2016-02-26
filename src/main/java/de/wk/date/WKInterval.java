@@ -96,12 +96,27 @@ public class WKInterval {
 		}
 		return days.iterator();
 	}
-	
+
+	/**
+	 * Get the size of an interval. Here a null interval is meant as the
+	 * previous WKInterval of a gap, if this gap is the first within the given
+	 * scope (same for the next WKInterval of the last gap within the given
+	 * scope). For these two cases we set the size of the interval to 0 although
+	 * an interval cannot have a length 0 practically.
+	 * 
+	 * We have to increment the number of days within an interval, because of
+	 * the way intervals are created internally. The start of the interval is
+	 * the begin of the first day. Also, the end of the interval is the begin of
+	 * the last day. For more information see
+	 * {@link org.joda.time.Interval#Interval(org.joda.time.ReadableInstant, org.joda.time.ReadableInstant)}
+	 * 
+	 * @return The length of the interval.
+	 */
 	public int getSize() {
 		if (interval == null) {
 			return 0;
 		} else {
-			return (int) interval.toDuration().getStandardDays();
+			return (int) interval.toDuration().getStandardDays() + 1;
 		}
 	}
 }

@@ -1,7 +1,6 @@
 package de.wk.algorithms;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import de.wk.date.Days;
@@ -88,15 +87,15 @@ public class StillNamelessAlgorithm implements HolidayCalculatorAlgorithm {
 		// 	actual length of the interval/gap
 		// See following output for the sake of clarity.
 		
-		// for (Gap gap : this.gaps) {
-		// System.out.println(gap.getPrevInterval().getDaysBetween().toString()
-		// + "(" + gap.getPrevInterval().getSize() +")");
-		// System.out.println(gap.getDaysBetween().toString() + "(" +
-		// gap.getSize() + ")");
-		// System.out.println(gap.getNextInterval().getDaysBetween().toString()
-		// + "(" + gap.getNextInterval().getSize() +")");
-		// System.out.println("####################");
-		// }
+		 for (Gap gap : this.gaps) {
+		 System.out.println(gap.getPrevInterval().getDaysBetween().toString()
+		 + "(" + gap.getPrevInterval().getSize() +")");
+		 System.out.println(gap.getDaysBetween().toString() + "(" +
+		 gap.getSize() + ")");
+		 System.out.println(gap.getNextInterval().getDaysBetween().toString()
+		 + "(" + gap.getNextInterval().getSize() +")");
+		 System.out.println("####################");
+		 }
 	}
 
 	private void initializeIntervals(Days days) throws Exception {
@@ -113,10 +112,10 @@ public class StillNamelessAlgorithm implements HolidayCalculatorAlgorithm {
 				dateTime = days.get(i);
 				if (!isWorkDay) {
 					Gap gap = new Gap(start, dateTime);
-					gaps.add(gap);
 					if (partition.size() > 0) {
 						gap.setPrevInterval(partition.get(partition.size() - 1));
 					}
+					gaps.add(gap);
 				} else {
 					WKInterval wkInterval = new WKInterval(start, dateTime);
 					if (gaps.size() > 0) {
