@@ -4,7 +4,7 @@ import org.joda.time.Interval;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.wk.algorithms.StillNamelessAlgorithm;
+import de.wk.algorithms.DPSolve01KPAlgorithm;
 import de.wk.date.Days;
 import de.wk.date.WKDateTime;
 import de.wk.date.holiday.HolidayCalculator;
@@ -30,7 +30,7 @@ public class MainTest {
 	@Test
 	public void testWithSpecificData() throws Exception {
 		HolidayCalculator calculator = new HolidayCalculator(user);
-		calculator.setAlgorithm(new StillNamelessAlgorithm());
+		calculator.setAlgorithm(new DPSolve01KPAlgorithm());
 		calculator.calculate();
 //		new DaysPrinter(user.getHolidays()).print(user.getScope());
 	}

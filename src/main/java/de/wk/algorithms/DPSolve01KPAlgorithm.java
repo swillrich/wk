@@ -9,14 +9,10 @@ import de.wk.date.WKDateTime.KindOfDay;
 import de.wk.date.WKInterval;
 import de.wk.user.User;
 
-public class StillNamelessAlgorithm implements HolidayCalculatorAlgorithm {
+public class DPSolve01KPAlgorithm implements HolidayCalculatorAlgorithm {
 
 	private List<Gap> gaps = new ArrayList<Gap>();
 	private List<WKInterval> partition = new ArrayList<WKInterval>();
-	int[] value;
-	int[] weight;
-	private int numberOfItems = 0;
-	private int maxWeight = 0;
 
 	@Override
 	public void calculate(User user) throws Exception {
@@ -24,23 +20,48 @@ public class StillNamelessAlgorithm implements HolidayCalculatorAlgorithm {
 		initializeIntervals(user.getDays());
 		// calculate the value of every gap within the scope
 		calculateValue();
-		
-		this.numberOfItems = gaps.size();
-		this.maxWeight = user.getNumberOfHolidays();
+
+		// solve the problem as 0-1 knapsack problem by means of Dynamic
+		// Programming approach
+		solveByDynamicProgrammingAsKnapsackProblem(user);
+
+		// FIXME: Normal weekends and weekdays are not overwritten by holidays
+		// FIXME: Result of getSize of an interval/gap does not correspond to
+		// actual length of the interval/gap
+		// See following output for the sake of clarity.
+
+		for (Gap gap : this.gaps) {
+			System.out.println(
+					gap.getPrevInterval().getDaysBetween().toString() + "(" + gap.getPrevInterval().getSize() + ")");
+			System.out.println(gap.getDaysBetween().toString() + "(" + gap.getSize() + ")");
+			System.out.println(
+					gap.getNextInterval().getDaysBetween().toString() + "(" + gap.getNextInterval().getSize() + ")");
+			System.out.println("####################");
+		}
+	}
+
+	private void solveByDynamicProgrammingAsKnapsackProblem(User user) {
+		int[] value;
+		int[] weight;
+		int numberOfItems = 0;
+		int maxWeight = 0;
+
+		numberOfItems = gaps.size();
+		maxWeight = user.getNumberOfHolidays();
 
 		value = new int[numberOfItems + 1];
 		weight = new int[numberOfItems + 1];
 
 		// initialize value and weight list
 		for (int i = 0; i < numberOfItems; i++) {
-			this.value[i] = gaps.get(i).getValue();
-			this.weight[i] = gaps.get(i).getSize();
+			value[i] = gaps.get(i).getValue();
+			weight[i] = gaps.get(i).getSize();
 		}
 
 		// max profit of packing items 1..numberOfItems with weight limit
 		// maxWeight
 		int[][] optimum = new int[numberOfItems + 1][maxWeight + 1];
-		
+
 		// does opt solution to pack items 1..numberOfItems with weight limit
 		// maxWeight include item numberOfItems?
 		boolean[][] isIncluded = new boolean[numberOfItems + 1][maxWeight + 1];
@@ -75,27 +96,12 @@ public class StillNamelessAlgorithm implements HolidayCalculatorAlgorithm {
 		}
 
 		// print results
-		System.out.println("Gap" + "\t" + "Value" + "\t" + "Weight" + "\t" + "Take?");
-		for (int n = 1; n <= numberOfItems; n++) {
-			System.out.println(n + "\t" + value[n] + "\t" + weight[n] + "\t" + take[n]);
-		}
-
-		// System.out.println(user.getDays().toString());
-
-		// FIXME: Normal weekends and weekdays are not overwritten by holidays
-		// FIXME: Result of getSize of an interval/gap does not correspond to
-		// 	actual length of the interval/gap
-		// See following output for the sake of clarity.
-		
-		 for (Gap gap : this.gaps) {
-		 System.out.println(gap.getPrevInterval().getDaysBetween().toString()
-		 + "(" + gap.getPrevInterval().getSize() +")");
-		 System.out.println(gap.getDaysBetween().toString() + "(" +
-		 gap.getSize() + ")");
-		 System.out.println(gap.getNextInterval().getDaysBetween().toString()
-		 + "(" + gap.getNextInterval().getSize() +")");
-		 System.out.println("####################");
-		 }
+		// System.out.println("Gap" + "\t" + "Value" + "\t" + "Weight" + "\t" +
+		// "Take?");
+		// for (int n = 1; n <= numberOfItems; n++) {
+		// System.out.println(n + "\t" + value[n] + "\t" + weight[n] + "\t" +
+		// take[n]);
+		// }
 	}
 
 	private void initializeIntervals(Days days) throws Exception {
