@@ -1,21 +1,30 @@
 package de.wk.date;
 
-import java.util.Iterator;
-
+import org.joda.time.Chronology;
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.joda.time.Interval;
+import org.joda.time.MutableInterval;
+import org.joda.time.Period;
+import org.joda.time.PeriodType;
+import org.joda.time.ReadableInstant;
+import org.joda.time.ReadableInterval;
+
+import de.wk.algorithms.Gap;
+import de.wk.date.WKDateTime.KindOfDay;
 
 /**
  * This WKInterval class representing an interval which consist of a start and
  * end date.
  */
-public class WKInterval {
+public class WKInterval implements ReadableInterval {
 	private String title;
 
 	/**
 	 * The interval representing the start and end date.
 	 */
 	private Interval interval;
+	private Days days = new Days();
 
 	/**
 	 * The title of the interval. This information is optionally.
@@ -26,13 +35,11 @@ public class WKInterval {
 		return title;
 	}
 
-	public Days getDaysBetween() {
-		Days days = new Days();
+	public void initializeDays() {
 		for (DateTime dt = interval.getStart(); dt.compareTo(interval.getEnd()) <= 0; dt = dt.plusDays(1)) {
 			WKDateTime wkDateTime = new WKDateTime(dt);
 			days.add(wkDateTime);
 		}
-		return days;
 	}
 
 	/**
@@ -58,6 +65,13 @@ public class WKInterval {
 	 */
 	public WKInterval(WKDateTime start, WKDateTime end) {
 		this.interval = new Interval(start, end);
+		initializeDays();
+		try {
+			days.replaceDay(end);
+			days.replaceDay(start);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -69,10 +83,7 @@ public class WKInterval {
 	 */
 	public WKInterval(Interval interval) {
 		this.interval = interval;
-	}
-
-	public WKInterval() {
-
+		initializeDays();
 	}
 
 	/**
@@ -80,21 +91,6 @@ public class WKInterval {
 	 */
 	public Interval getInterval() {
 		return interval;
-	}
-
-	/**
-	 * Does return the iterator to go through each item (as WKDateTime)
-	 * contained by this interval.
-	 * 
-	 * @return Iterator
-	 */
-	public Iterator<WKDateTime> getIterator() {
-		Days days = new Days();
-		for (DateTime date = this.interval.getStart(); date.compareTo(this.interval.getEnd()) < 1; date = date
-				.plusDays(1)) {
-			days.add(new WKDateTime(date));
-		}
-		return days.iterator();
 	}
 
 	/**
@@ -118,5 +114,108 @@ public class WKInterval {
 		} else {
 			return (int) interval.toDuration().getStandardDays() + 1;
 		}
+	}
+
+	@Override
+	public String toString() {
+		try {
+			WKDateTime first = days.get(0);
+			KindOfDay kindOf = days.determineKindOf(first.getDateTime());
+			return String.format("%-20s%-20s%-4s%-10s%-15s%n", (this instanceof Gap ? "GAP" : "PART").concat(" starts with"),
+					first.toString(), "as", kindOf.name(), "with " + days.size() + " days");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public Chronology getChronology() {
+		return this.interval.getChronology();
+	}
+
+	@Override
+	public long getStartMillis() {
+		return this.interval.getStartMillis();
+	}
+
+	@Override
+	public DateTime getStart() {
+		return this.interval.getStart();
+	}
+
+	@Override
+	public long getEndMillis() {
+		return this.interval.getEndMillis();
+	}
+
+	@Override
+	public DateTime getEnd() {
+		return this.interval.getEnd();
+	}
+
+	@Override
+	public boolean contains(ReadableInstant instant) {
+		return this.interval.contains(instant);
+	}
+
+	@Override
+	public boolean contains(ReadableInterval interval) {
+		return this.interval.contains(interval);
+	}
+
+	@Override
+	public boolean overlaps(ReadableInterval interval) {
+		return this.interval.overlaps(interval);
+	}
+
+	@Override
+	public boolean isAfter(ReadableInstant instant) {
+		return this.interval.isAfter(instant);
+	}
+
+	@Override
+	public boolean isAfter(ReadableInterval interval) {
+		return this.interval.isAfter(interval);
+	}
+
+	@Override
+	public boolean isBefore(ReadableInstant instant) {
+		return this.interval.isBefore(instant);
+	}
+
+	@Override
+	public boolean isBefore(ReadableInterval interval) {
+		return this.interval.isBefore(interval);
+	}
+
+	@Override
+	public Interval toInterval() {
+		return this.interval.toInterval();
+	}
+
+	@Override
+	public MutableInterval toMutableInterval() {
+		return this.interval.toMutableInterval();
+	}
+
+	@Override
+	public Duration toDuration() {
+		return this.interval.toDuration();
+	}
+
+	@Override
+	public long toDurationMillis() {
+		return this.interval.toDurationMillis();
+	}
+
+	@Override
+	public Period toPeriod() {
+		return this.interval.toPeriod();
+	}
+
+	@Override
+	public Period toPeriod(PeriodType type) {
+		return this.interval.toPeriod(type);
 	}
 }

@@ -13,6 +13,7 @@ public class DPSolve01KPAlgorithm implements HolidayCalculatorAlgorithm {
 
 	private List<Gap> gaps = new ArrayList<Gap>();
 	private List<WKInterval> partition = new ArrayList<WKInterval>();
+	public boolean verbose = true;
 
 	@Override
 	public void calculate(User user) throws Exception {
@@ -24,20 +25,6 @@ public class DPSolve01KPAlgorithm implements HolidayCalculatorAlgorithm {
 		// solve the problem as 0-1 knapsack problem by means of Dynamic
 		// Programming approach
 		solveByDynamicProgrammingAsKnapsackProblem(user);
-
-		// FIXME: Normal weekends and weekdays are not overwritten by holidays
-		// FIXME: Result of getSize of an interval/gap does not correspond to
-		// actual length of the interval/gap
-		// See following output for the sake of clarity.
-
-		for (Gap gap : this.gaps) {
-			System.out.println(
-					gap.getPrevInterval().getDaysBetween().toString() + "(" + gap.getPrevInterval().getSize() + ")");
-			System.out.println(gap.getDaysBetween().toString() + "(" + gap.getSize() + ")");
-			System.out.println(
-					gap.getNextInterval().getDaysBetween().toString() + "(" + gap.getNextInterval().getSize() + ")");
-			System.out.println("####################");
-		}
 	}
 
 	private void solveByDynamicProgrammingAsKnapsackProblem(User user) {
@@ -96,12 +83,12 @@ public class DPSolve01KPAlgorithm implements HolidayCalculatorAlgorithm {
 		}
 
 		// print results
-		// System.out.println("Gap" + "\t" + "Value" + "\t" + "Weight" + "\t" +
-		// "Take?");
-		// for (int n = 1; n <= numberOfItems; n++) {
-		// System.out.println(n + "\t" + value[n] + "\t" + weight[n] + "\t" +
-		// take[n]);
-		// }
+		if (verbose) {
+			System.out.println("Gap" + "\t" + "Value" + "\t" + "Weight" + "\t" + "Take?");
+			for (int n = 1; n <= numberOfItems; n++) {
+				System.out.println(n + "\t" + value[n] + "\t" + weight[n] + "\t" + take[n]);
+			}
+		}
 	}
 
 	private void initializeIntervals(Days days) throws Exception {
@@ -133,6 +120,22 @@ public class DPSolve01KPAlgorithm implements HolidayCalculatorAlgorithm {
 			}
 		}
 
+		if (verbose) {
+			for (int i = 0; i < this.gaps.size(); i++) {
+				Gap gap = this.gaps.get(i);
+				List<WKInterval> l = new ArrayList<WKInterval>();
+				if (gap.getPrevInterval() != null) {
+					l.add(gap.getPrevInterval());
+				}
+				l.add(gap);
+				if (gap.getNextInterval() != null && i + 1 == this.gaps.size()) {
+					l.add(gap.getNextInterval());
+				}
+				for (WKInterval wki : l) {
+					System.out.println(wki.toString());
+				}
+			}
+		}
 	}
 
 	private void calculateValue() {
