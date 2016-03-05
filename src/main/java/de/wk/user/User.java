@@ -117,14 +117,6 @@ public class User {
 	}
 
 	/**
-	 * Returns the several holidays (default is a empty collection, which is
-	 * only filled after holiday calculating)
-	 */
-	public Days getHolidays() {
-		return this.days;
-	}
-
-	/**
 	 * Returns the name of the user
 	 */
 	public String getName() {

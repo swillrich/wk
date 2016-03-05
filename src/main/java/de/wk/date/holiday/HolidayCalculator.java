@@ -65,12 +65,12 @@ public class HolidayCalculator {
 					.compareTo(interval.getEnd()) == 0)
 					&& this.user.getRemainingHolidays().stillAvailable(); dateTime = dateTime
 					.plusDays(1)) {
-				KindOfDay kindOf = this.user.getHolidays().determineKindOf(
+				KindOfDay kindOf = this.user.getDays().determineKindOf(
 						dateTime);
 				if (kindOf == KindOfDay.WORKDAY) {
 					VacationDay variableHoliday = new VacationDay(
 							"being preferred holiday", dateTime);
-					this.user.getHolidays().add(variableHoliday);
+					this.user.getDays().add(variableHoliday);
 					this.user.getRemainingHolidays().decrement();
 				}
 			}

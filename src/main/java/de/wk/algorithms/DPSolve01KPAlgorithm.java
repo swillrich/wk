@@ -91,6 +91,10 @@ public class DPSolve01KPAlgorithm implements HolidayCalculatorAlgorithm {
 		}
 	}
 
+	/**
+	 * initializes gaps and non-gaps (the letter one means partitions being
+	 * filled by days being non-holidays, especially working days).
+	 */
 	private void initializeIntervals(Days days) throws Exception {
 		WKDateTime start = null;
 		boolean isWorkDay = false;

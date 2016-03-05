@@ -23,12 +23,12 @@ public class Main {
 		User sascha = new User("Sven :-)", 24, State.BE, interval);
 
 		Days holidays = HolidayProvider.provideBy(2015, null);
-		sascha.getHolidays().addAll(holidays);
+		sascha.getDays().addAll(holidays);
 
 		HolidayCalculator calculator = new HolidayCalculator(sascha);
 		calculator.setAlgorithm(null);
 		calculator.calculate();
 
-		new DaysPrinter(sascha.getHolidays(), true, true).print(interval);
+		new DaysPrinter(sascha.getDays(), true, true).print(interval);
 	}
 }

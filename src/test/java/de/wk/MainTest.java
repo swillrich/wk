@@ -25,7 +25,7 @@ public class MainTest {
 		user = new User("Sascha", 24, State.BE, interval);
 
 		Days holidays = HolidayProvider.provideBy(interval, null);
-		user.getHolidays().mergeDays(holidays);
+		user.getDays().mergeDays(holidays);
 	}
 
 	@Test
@@ -33,7 +33,7 @@ public class MainTest {
 		HolidayCalculator calculator = new HolidayCalculator(user);
 		calculator.setAlgorithm(new DPSolve01KPAlgorithm());
 		calculator.calculate();
-//		new DaysPrinter(user.getHolidays()).print(user.getScope());
+		new DaysPrinter(user.getDays()).print(user.getScope());
 	}
 
 }

@@ -59,7 +59,7 @@ public class Days extends ArrayList<WKDateTime> {
 				return h;
 			}
 		}
-		throw new Exception("The given day is not contained.");
+		throw new Exception("The given day " + d.toString() + " is not contained.");
 	}
 
 	@Override
@@ -86,22 +86,27 @@ public class Days extends ArrayList<WKDateTime> {
 	 *            The DateTime object which contains the date this method is
 	 *            searching for.
 	 * @return The kind of the day
-	 * @throws Exception
 	 */
-	public KindOfDay determineKindOf(DateTime dateTime) throws Exception {
-		WKDateTime day = findByDate(dateTime);
+	public KindOfDay determineKindOf(DateTime dateTime) {
+		WKDateTime day = null;
+		try {
+			day = findByDate(dateTime);
+		} catch (Exception e) {
+		}
 		if (day != null) {
 			if (day instanceof Holiday<?>) {
 				return KindOfDay.HOLIDAY;
 			} else if (day instanceof VacationDay) {
 				return KindOfDay.VACATIONDAY;
-			} else if (day.getDayOfWeek() == 6 || day.getDayOfWeek() == 7) {
+			}
+		} else {
+			if (dateTime.getDayOfWeek() == 6 || dateTime.getDayOfWeek() == 7) {
 				return KindOfDay.WEEKEND;
 			} else {
 				return KindOfDay.WORKDAY;
 			}
 		}
-		throw new Exception("Not contained by this object.");
+		return null;
 	}
 
 	/**
