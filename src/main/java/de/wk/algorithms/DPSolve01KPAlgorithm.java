@@ -121,19 +121,27 @@ public class DPSolve01KPAlgorithm implements HolidayCalculatorAlgorithm {
 		}
 
 		if (verbose) {
-			for (int i = 0; i < this.gaps.size(); i++) {
-				Gap gap = this.gaps.get(i);
-				List<WKInterval> l = new ArrayList<WKInterval>();
-				if (gap.getPrevInterval() != null) {
-					l.add(gap.getPrevInterval());
-				}
-				l.add(gap);
-				if (gap.getNextInterval() != null && i + 1 == this.gaps.size()) {
-					l.add(gap.getNextInterval());
-				}
-				for (WKInterval wki : l) {
-					System.out.println(wki.toString());
-				}
+			printGaps();
+		}
+	}
+
+	/**
+	 * Prints out all gaps including all preceding and proceeding intervals
+	 * being non-gaps.
+	 */
+	private void printGaps() {
+		for (int i = 0; i < this.gaps.size(); i++) {
+			Gap gap = this.gaps.get(i);
+			List<WKInterval> l = new ArrayList<WKInterval>();
+			if (gap.getPrevInterval() != null) {
+				l.add(gap.getPrevInterval());
+			}
+			l.add(gap);
+			if (gap.getNextInterval() != null && i + 1 == this.gaps.size()) {
+				l.add(gap.getNextInterval());
+			}
+			for (WKInterval wki : l) {
+				System.out.println(wki.toString());
 			}
 		}
 	}

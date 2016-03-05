@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import de.wk.algorithms.DPSolve01KPAlgorithm;
 import de.wk.date.Days;
+import de.wk.date.DaysPrinter;
 import de.wk.date.WKDateTime;
 import de.wk.date.holiday.HolidayCalculator;
 import de.wk.date.holiday.HolidayProvider;
