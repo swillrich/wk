@@ -24,10 +24,10 @@ public class DPSolve01KPAlgorithm implements HolidayCalculatorAlgorithm {
 
 		// solve the problem as 0-1 knapsack problem by means of Dynamic
 		// Programming approach
-		solveByDynamicProgrammingAsKnapsackProblem(user);
+		boolean[] take = solveByDynamicProgrammingAsKnapsackProblem(user);
 	}
 
-	private void solveByDynamicProgrammingAsKnapsackProblem(User user) {
+	private boolean[] solveByDynamicProgrammingAsKnapsackProblem(User user) {
 		int[] value;
 		int[] weight;
 		int numberOfItems = 0;
@@ -89,6 +89,8 @@ public class DPSolve01KPAlgorithm implements HolidayCalculatorAlgorithm {
 				System.out.println(n + "\t" + value[n] + "\t" + weight[n] + "\t" + take[n]);
 			}
 		}
+
+		return take;
 	}
 
 	/**

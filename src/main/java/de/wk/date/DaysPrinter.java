@@ -190,7 +190,7 @@ public class DaysPrinter {
 				}
 
 				if (current == KindOfDay.WORKDAY) {
-					dayAsString = dayAsString + "#";
+					dayAsString = dayAsString + "";
 				}
 				if (dayAsString.length() == 1) {
 					return "";
