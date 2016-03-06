@@ -88,25 +88,21 @@ public class Days extends ArrayList<WKDateTime> {
 	 * @return The kind of the day
 	 */
 	public KindOfDay determineKindOf(DateTime dateTime) {
-		WKDateTime day = null;
 		try {
-			day = findByDate(dateTime);
-		} catch (Exception e) {
-		}
-		if (day != null) {
+			WKDateTime day = findByDate(dateTime);
 			if (day instanceof Holiday<?>) {
 				return KindOfDay.HOLIDAY;
 			} else if (day instanceof VacationDay) {
 				return KindOfDay.VACATIONDAY;
 			}
-		} else {
-			if (dateTime.getDayOfWeek() == 6 || dateTime.getDayOfWeek() == 7) {
-				return KindOfDay.WEEKEND;
-			} else {
-				return KindOfDay.WORKDAY;
-			}
+		} catch (Exception e) {
+			// not needed
 		}
-		return null;
+		if (dateTime.getDayOfWeek() == 6 || dateTime.getDayOfWeek() == 7) {
+			return KindOfDay.WEEKEND;
+		} else {
+			return KindOfDay.WORKDAY;
+		}
 	}
 
 	/**

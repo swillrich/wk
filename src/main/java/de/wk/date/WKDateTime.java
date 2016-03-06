@@ -30,23 +30,6 @@ public class WKDateTime implements ReadableDateTime {
 	 */
 	public static enum KindOfDay {
 		WEEKEND, HOLIDAY, WORKDAY, VACATIONDAY;
-		private DateTime dateTime;
-
-		/**
-		 * A KindOfDay instance can hold a specific date
-		 * 
-		 * @param dateTime
-		 *            The date on on which this instance is based upon.
-		 * @return the instance on which the operation is invoked
-		 */
-		public KindOfDay setDateTime(DateTime dateTime) {
-			this.dateTime = dateTime;
-			return this;
-		}
-
-		public DateTime getDateTime() {
-			return dateTime;
-		}
 	}
 
 	public WKDateTime(DateTime jodaDateTime) {

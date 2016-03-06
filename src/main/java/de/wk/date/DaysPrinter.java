@@ -54,7 +54,8 @@ public class DaysPrinter {
 	/**
 	 * This methods prints the holidays which are located within the given
 	 * interval.
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
 	public void print(Interval interval) throws Exception {
 		DateTime from = interval.getStart();
@@ -112,7 +113,7 @@ public class DaysPrinter {
 		KindOfDay currentDay = days.determineKindOf(tmpDT);
 
 		for (DayAppearanceModifier modifier : dayAppearanceModifierList) {
-			columns[tmpDT.getDayOfMonth()] = modifier.returnAppearance(preDay, currentDay, postDay,
+			columns[tmpDT.getDayOfMonth()] = modifier.returnAppearance(tmpDT, preDay, currentDay, postDay,
 					columns[tmpDT.getDayOfMonth()]);
 		}
 	}
@@ -144,6 +145,8 @@ public class DaysPrinter {
 		/**
 		 * Returns the modified string.
 		 * 
+		 * @param tmpDT
+		 *            the view being under consideration
 		 * @param before
 		 *            Is the day before the day which becomes modified
 		 * @param current
@@ -155,18 +158,18 @@ public class DaysPrinter {
 		 * @return The modified string
 		 * @throws Exception
 		 */
-		String returnAppearance(WKDateTime.KindOfDay before, WKDateTime.KindOfDay current, WKDateTime.KindOfDay next,
-				String dayAsString) throws Exception;
+		String returnAppearance(DateTime tmpDT, WKDateTime.KindOfDay before, WKDateTime.KindOfDay current,
+				WKDateTime.KindOfDay next, String dayAsString) throws Exception;
 	}
 
 	/**
-	 * This method adds these modifiers which should be apply.
+	 * This method adds those modifiers which should be apply.
 	 */
 	private void setModifier() {
 		if (hideWeekdays) {
 			dayAppearanceModifierList.add(new DayAppearanceModifier() {
 				@Override
-				public String returnAppearance(KindOfDay before, KindOfDay current, KindOfDay next,
+				public String returnAppearance(DateTime tmpDT, KindOfDay before, KindOfDay current, KindOfDay next,
 						String dayAsString) {
 					if (current == KindOfDay.WORKDAY) {
 						return "";
@@ -179,8 +182,8 @@ public class DaysPrinter {
 		dayAppearanceModifierList.add(new DayAppearanceModifier() {
 
 			@Override
-			public String returnAppearance(WKDateTime.KindOfDay before, WKDateTime.KindOfDay current,
-					WKDateTime.KindOfDay next, String dayAsString) {
+			public String returnAppearance(DateTime tmpDT, KindOfDay before, KindOfDay current, KindOfDay next,
+					String dayAsString) {
 
 				if (current == KindOfDay.HOLIDAY) {
 					dayAsString = dayAsString + "*";
@@ -189,20 +192,24 @@ public class DaysPrinter {
 				if (current == KindOfDay.WORKDAY) {
 					dayAsString = dayAsString + "#";
 				}
-				return dayAsString;
+				if (dayAsString.length() == 1) {
+					return "";
+				} else {
+					return dayAsString;
+				}
 			}
 		});
 		dayAppearanceModifierList.add(new DayAppearanceModifier() {
 
 			@Override
-			public String returnAppearance(WKDateTime.KindOfDay before, WKDateTime.KindOfDay current,
-					WKDateTime.KindOfDay next, String dayAsString) {
+			public String returnAppearance(DateTime tmpDT, KindOfDay before, KindOfDay current, KindOfDay after,
+					String dayAsString) {
 
 				String prefix = "";
 				String postfix = "";
 				if (current != KindOfDay.WORKDAY) {
 					boolean isPre = before == KindOfDay.WORKDAY;
-					boolean isPost = next == KindOfDay.WORKDAY;
+					boolean isPost = after == KindOfDay.WORKDAY;
 
 					if (isPre && isPost) {
 						prefix = "[";
@@ -221,25 +228,21 @@ public class DaysPrinter {
 		if (hideWeekendsOnly) {
 			dayAppearanceModifierList.add(new DayAppearanceModifier() {
 				@Override
-				public String returnAppearance(KindOfDay before, KindOfDay current, KindOfDay next,
+				public String returnAppearance(DateTime tmpDT, KindOfDay before, KindOfDay current, KindOfDay next,
 						String dayAsString) throws Exception {
 					if (current == KindOfDay.WEEKEND) {
-						int dayOfWeek = current.getDateTime().getDayOfWeek();
+						int dayOfWeek = tmpDT.getDayOfWeek();
 
-						KindOfDay kindOfFr = dayOfWeek == 6 ? before
-								: days.determineKindOf(current.getDateTime().minusDays(2));
+						KindOfDay kindOfFr = dayOfWeek == 6 ? before : days.determineKindOf(tmpDT.minusDays(2));
 
-						KindOfDay kindOfSa = dayOfWeek == 6 ? current
-								: days.determineKindOf(current.getDateTime().minusDays(1));
+						KindOfDay kindOfSa = dayOfWeek == 6 ? current : days.determineKindOf(tmpDT.minusDays(1));
 
-						KindOfDay kindOfSu = dayOfWeek == 7 ? current
-								: days.determineKindOf(current.getDateTime().plusDays(1));
+						KindOfDay kindOfSu = dayOfWeek == 7 ? current : days.determineKindOf(tmpDT.plusDays(1));
 
-						KindOfDay kindOfMo = dayOfWeek == 7 ? next
-								: days.determineKindOf(kindOfSu.getDateTime().plusDays(1));
+						KindOfDay kindOfMo = dayOfWeek == 7 ? next : days.determineKindOf(tmpDT.plusDays(2));
 
-						if (kindOfFr == KindOfDay.WORKDAY && kindOfMo == KindOfDay.WORKDAY && kindOfSa == KindOfDay.WEEKEND
-								&& kindOfSu == KindOfDay.WEEKEND) {
+						if (kindOfFr == KindOfDay.WORKDAY && kindOfMo == KindOfDay.WORKDAY
+								&& kindOfSa == KindOfDay.WEEKEND && kindOfSu == KindOfDay.WEEKEND) {
 							return "";
 						}
 					}
