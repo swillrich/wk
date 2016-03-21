@@ -86,7 +86,9 @@ public class Gaps extends ArrayList<Gap> {
 	private void calculateValue() {
 		int newValue;
 		for (Gap gap : this) {
-			newValue = gap.getSize() + gap.getPrevInterval().getSize() + gap.getNextInterval().getSize();
+			int prevSize = gap.getPrevInterval() == null ? 0 : gap.getPrevInterval().getSize();
+			int nextSize = gap.getNextInterval() == null ? 0 : gap.getNextInterval().getSize();
+			newValue = gap.getSize() + prevSize + nextSize;
 			gap.setValue(newValue);
 		}
 	}

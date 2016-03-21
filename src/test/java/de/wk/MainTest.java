@@ -20,10 +20,10 @@ public class MainTest {
 
 	@Before
 	public void initSampleData() throws Exception {
-		WKDateTime startTime = new WKDateTime(2016, 1, 1);
-		Interval interval = new Interval(startTime, startTime.getJodaDateTime().plusYears(1).minusDays(1));
+		WKDateTime startTime = new WKDateTime(2016, 3, 21);
+		Interval interval = new Interval(startTime, new WKDateTime(2017, 1, 1));
 
-		user = new User("Sascha", 24, State.BE, interval);
+		user = new User("Sven", 19, State.BE, interval);
 
 		Days holidays = HolidayProvider.provideBy(interval, null);
 		user.getDays().mergeDays(holidays);
