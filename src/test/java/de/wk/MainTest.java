@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.wk.algorithms.DPSolve01KPAlgorithm;
+import de.wk.algorithms.FillWithRemainingHolidaysAlgorithm;
 import de.wk.date.Days;
 import de.wk.date.DaysPrinter;
 import de.wk.date.WKDateTime;
@@ -31,9 +32,11 @@ public class MainTest {
 	@Test
 	public void testWithSpecificData() throws Exception {
 		HolidayCalculator calculator = new HolidayCalculator(user);
-		calculator.setAlgorithm(new DPSolve01KPAlgorithm());
+		calculator.addAlgorithm(new DPSolve01KPAlgorithm());
+		calculator.addAlgorithm(new FillWithRemainingHolidaysAlgorithm());
 		calculator.calculate();
 		new DaysPrinter(user.getDays()).print(user.getScope());
+		System.out.println("Number of remaining holidays: " + user.getRemainingHolidays().get());
 	}
 
 }

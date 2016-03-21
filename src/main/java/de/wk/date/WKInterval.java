@@ -128,6 +128,10 @@ public class WKInterval implements ReadableInterval {
 			return null;
 		}
 	}
+	
+	public Days getDays() {
+		return days;
+	}
 
 	@Override
 	public Chronology getChronology() {

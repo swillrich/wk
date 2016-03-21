@@ -26,7 +26,7 @@ public class Main {
 		sascha.getDays().addAll(holidays);
 
 		HolidayCalculator calculator = new HolidayCalculator(sascha);
-		calculator.setAlgorithm(null);
+		calculator.addAlgorithm(null);
 		calculator.calculate();
 
 		new DaysPrinter(sascha.getDays(), true, true).print(interval);

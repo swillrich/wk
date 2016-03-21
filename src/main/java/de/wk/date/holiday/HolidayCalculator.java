@@ -1,6 +1,8 @@
 package de.wk.date.holiday;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -8,8 +10,8 @@ import org.joda.time.Interval;
 import de.wk.Log;
 import de.wk.algorithms.HolidayCalculatorAlgorithm;
 import de.wk.date.WKDateTime.KindOfDay;
-import de.wk.user.VacationInterval;
 import de.wk.user.User;
+import de.wk.user.VacationInterval;
 
 /**
  * This class calculates for a specific user and with a specific algorithm
@@ -19,61 +21,35 @@ import de.wk.user.User;
 public class HolidayCalculator {
 
 	private User user;
-	private HolidayCalculatorAlgorithm algorithm;
+	private List<HolidayCalculatorAlgorithm> algorithms;
 
 	/**
 	 * The user whose holidays should be calculated
 	 */
 	public HolidayCalculator(User user) {
 		this.user = user;
-		this.algorithm = null;
+		this.algorithms = new ArrayList<HolidayCalculatorAlgorithm>();
 	}
 
 	/**
 	 * @param algorithm
 	 *            The algorithm which should apply
 	 */
-	public void setAlgorithm(HolidayCalculatorAlgorithm algorithm) {
-		this.algorithm = algorithm;
+	public void addAlgorithm(HolidayCalculatorAlgorithm algorithm) {
+		this.algorithms.add(algorithm);
 	}
 
 	/**
 	 * By calling this method the algorithm computes the holidays. The
 	 * determined days are getting stored in the user object.
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
 	public void calculate() throws Exception {
 		Log.out("Calculation for " + user.getName());
-		fillPriorityIntervalsWithHolidays();
-		Log.out("After filling preferred holiday intervals, "
-				+ user.getRemainingHolidays().get()
-				+ " holiday(s) are remaining");
-		if (!this.algorithm.equals(null)) {
-			algorithm.calculate(this.user);
+		for (HolidayCalculatorAlgorithm alg : this.algorithms) {
+			alg.calculate(this.user);
 		}
-		Log.out("After algorithm run, " + user.getRemainingHolidays().get()
-				+ " holiday(s) are remaining");
-	}
-
-	private void fillPriorityIntervalsWithHolidays() throws Exception {
-		Iterator<VacationInterval> iterator = this.user.getHolidayIntervalSet()
-				.toIterator();
-		while (iterator.hasNext()) {
-			Interval interval = iterator.next().getInterval();
-			for (DateTime dateTime = interval.getStart(); (interval
-					.contains(dateTime) || dateTime
-					.compareTo(interval.getEnd()) == 0)
-					&& this.user.getRemainingHolidays().stillAvailable(); dateTime = dateTime
-					.plusDays(1)) {
-				KindOfDay kindOf = this.user.getDays().determineKindOf(
-						dateTime);
-				if (kindOf == KindOfDay.WORKDAY) {
-					VacationDay variableHoliday = new VacationDay(
-							"being preferred holiday", dateTime);
-					this.user.getDays().add(variableHoliday);
-					this.user.getRemainingHolidays().decrement();
-				}
-			}
-		}
+		Log.out("After algorithms run, " + user.getRemainingHolidays().get() + " holiday(s) are remaining");
 	}
 }

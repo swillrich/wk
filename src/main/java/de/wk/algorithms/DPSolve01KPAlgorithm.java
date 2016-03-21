@@ -1,30 +1,38 @@
 package de.wk.algorithms;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import de.wk.date.Days;
 import de.wk.date.WKDateTime;
-import de.wk.date.WKDateTime.KindOfDay;
-import de.wk.date.WKInterval;
+import de.wk.date.holiday.Holiday;
+import de.wk.date.holiday.VacationDay;
 import de.wk.user.User;
 
 public class DPSolve01KPAlgorithm implements HolidayCalculatorAlgorithm {
 
-	private List<Gap> gaps = new ArrayList<Gap>();
-	private List<WKInterval> partition = new ArrayList<WKInterval>();
-	public boolean verbose = true;
+	private boolean verbose = true;
+	private Gaps gaps = null;
 
 	@Override
 	public void calculate(User user) throws Exception {
-		// calculate all intervals and gaps available within the given scope
-		initializeIntervals(user.getDays());
-		// calculate the value of every gap within the scope
-		calculateValue();
+		gaps = new Gaps(user.getDays(), false);
 
 		// solve the problem as 0-1 knapsack problem by means of Dynamic
 		// Programming approach
 		boolean[] take = solveByDynamicProgrammingAsKnapsackProblem(user);
+
+		replaceDays(user, take);
+	}
+
+	private void replaceDays(User user, boolean[] take) throws Exception {
+		for (int i = 0; i < gaps.size(); i++) {
+			if (take[i]) {
+				Gap gap = gaps.get(i);
+				for (WKDateTime wkDateTime : gap.getDays()) {
+					if (!(wkDateTime instanceof Holiday)) {
+						VacationDay vacationDay = new VacationDay("calculated vacation day", wkDateTime.getDateTime());
+						user.getDays().replaceDay(vacationDay);
+					}
+				}
+			}
+		}
 	}
 
 	private boolean[] solveByDynamicProgrammingAsKnapsackProblem(User user) {
@@ -91,73 +99,6 @@ public class DPSolve01KPAlgorithm implements HolidayCalculatorAlgorithm {
 		}
 
 		return take;
-	}
-
-	/**
-	 * initializes gaps and non-gaps (the letter one means partitions being
-	 * filled by days being non-holidays, especially working days).
-	 */
-	private void initializeIntervals(Days days) throws Exception {
-		WKDateTime start = null;
-		boolean isWorkDay = false;
-		for (int i = 0; i < days.size(); i++) {
-			WKDateTime dateTime = days.get(i);
-			isWorkDay = i + 1 < days.size() ? days.determineKindOf(days.get(i + 1).getDateTime()) == KindOfDay.WORKDAY
-					: !isWorkDay;
-			if (start == null) {
-				start = dateTime;
-			}
-			if (isWorkDay != (days.determineKindOf(start.getDateTime()) == KindOfDay.WORKDAY)) {
-				dateTime = days.get(i);
-				if (!isWorkDay) {
-					Gap gap = new Gap(start, dateTime);
-					if (partition.size() > 0) {
-						gap.setPrevInterval(partition.get(partition.size() - 1));
-					}
-					gaps.add(gap);
-				} else {
-					WKInterval wkInterval = new WKInterval(start, dateTime);
-					if (gaps.size() > 0) {
-						gaps.get(gaps.size() - 1).setNextInterval(wkInterval);
-					}
-					partition.add(wkInterval);
-				}
-				start = null;
-			}
-		}
-
-		if (verbose) {
-			printGaps();
-		}
-	}
-
-	/**
-	 * Prints out all gaps including all preceding and proceeding intervals
-	 * being non-gaps.
-	 */
-	private void printGaps() {
-		for (int i = 0; i < this.gaps.size(); i++) {
-			Gap gap = this.gaps.get(i);
-			List<WKInterval> l = new ArrayList<WKInterval>();
-			if (gap.getPrevInterval() != null) {
-				l.add(gap.getPrevInterval());
-			}
-			l.add(gap);
-			if (gap.getNextInterval() != null && i + 1 == this.gaps.size()) {
-				l.add(gap.getNextInterval());
-			}
-			for (WKInterval wki : l) {
-				System.out.println(wki.toString());
-			}
-		}
-	}
-
-	private void calculateValue() {
-		int newValue;
-		for (Gap gap : this.gaps) {
-			newValue = gap.getSize() + gap.getPrevInterval().getSize() + gap.getNextInterval().getSize();
-			gap.setValue(newValue);
-		}
 	}
 
 }
